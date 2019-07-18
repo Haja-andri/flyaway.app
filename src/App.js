@@ -12,6 +12,7 @@ function App() {
   const [isSubmitted, setSubmit] = useState(false);
   const [airportQuery, setAirportQuery] = useState('');
   const [airportResult, setAirportResult] = useState([]);
+  const [airportSelecttion, setAirportSelection] = useState('');
 
   const onSubmit = (event) => {
     event.preventDefault();
@@ -20,7 +21,15 @@ function App() {
 
   const onAirportQuery = (event) => {
     event.preventDefault();
-    setAirportQuery(event.target.value);
+    const typedValue = event.target.value;
+    setAirportSelection(typedValue)
+    setAirportQuery(typedValue);
+  }
+
+  const onSelect = (event) => {
+    event.preventDefault();
+    setAirportSelection(event.target.innerText);
+    setAirportQuery('');
   }
   
   useEffect(
@@ -71,15 +80,15 @@ function App() {
                     <input 
                       typpe="text"
                       placeholder="Bordeaux"
-                      value={airportQuery}
+                      value={airportSelecttion}
                       onChange={onAirportQuery}
                     />
-                    <div className="results">
+                    <div id="results">
                       {
                         airportResult && 
                         airportResult.map(airport =>(
                           <ul className="countries">
-                            <li className="country-item">{airport}</li>
+                            <li onClick={onSelect} className="country-item">{airport}</li>
                           </ul>
                         ))
                       }
