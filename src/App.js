@@ -66,7 +66,7 @@ function App() {
         <div className="header-content">
             <div className="search-form">
                 <form autocomplete="off" className="header-form">
-                <h1>Travel inspirations <br/> based on your budget</h1>
+                <h1>Travel inspirations, <br/> on your budget</h1>
                     <label>FROM</label>
                     <input 
                       typpe="text"
@@ -74,10 +74,13 @@ function App() {
                       value={airportQuery}
                       onChange={onAirportQuery}
                     />
-                    <div id="results">
+                    <div className="results">
                       {
-                        airportResult && airportResult.map(airport =>(
-                          <li>{airport}</li>
+                        airportResult && 
+                        airportResult.map(airport =>(
+                          <ul className="countries">
+                            <li className="country-item">{airport}</li>
+                          </ul>
                         ))
                       }
                     </div>
