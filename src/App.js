@@ -12,7 +12,7 @@ function App() {
   const [isSubmitted, setSubmit] = useState(false);
   const [airportQuery, setAirportQuery] = useState('');
   const [airportResult, setAirportResult] = useState([]);
-  const [airportSelecttion, setAirportSelection] = useState('');
+  const [airportSelection, setAirportSelection] = useState('');
 
   const onSubmit = (event) => {
     event.preventDefault();
@@ -22,13 +22,19 @@ function App() {
   const onAirportQuery = (event) => {
     event.preventDefault();
     const typedValue = event.target.value;
-    setAirportSelection(typedValue)
+    setAirportSelection({
+      display: typedValue,
+      cityCode: event.target.id,
+    })
     setAirportQuery(typedValue);
   }
 
   const onSelect = (event) => {
     event.preventDefault();
-    setAirportSelection(event.target.innerText);
+    setAirportSelection({
+      display: event.target.innerText,
+      cityCode: event.target.id,
+    });
     setAirportQuery('');
   }
   
@@ -62,7 +68,7 @@ function App() {
   useEffect(
     () => {
       const pullFlights = async () => {
-        const result = await fetchDestinations();
+        const result = await fetchDestinations(airportSelection.cityCode);
         setDestinations(result.data); // update the state with received data
       };
       if(isSubmitted){
@@ -84,7 +90,8 @@ function App() {
                     <input 
                       typpe="text"
                       placeholder="Bordeaux"
-                      value={airportSelecttion}
+                      id={airportSelection.cityCode}
+                      value={airportSelection.display}
                       onChange={onAirportQuery}
                     />
                     <div id="results">

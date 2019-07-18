@@ -1,5 +1,5 @@
 import { axiosWithAuth } from '../AxiosHub/axiosAttachData'
-export const fetchDestinations = () => {
+export const fetchDestinations = (cityCode) => {
     return getDummyFlights();
     // return axiosWithAuth().get(`https://test.api.amadeus.com/v1/reference-data/locations?subType=AIRPORT,CITY&keyword=${query}&page[limit]=5`)
     // .then(airport => {
