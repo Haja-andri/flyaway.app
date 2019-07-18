@@ -1,6 +1,13 @@
 import { axiosWithAuth } from '../AxiosHub/axiosAttachData'
 export const fetchDestinations = () => {
     return getDummyFlights();
+    // return axiosWithAuth().get(`https://test.api.amadeus.com/v1/reference-data/locations?subType=AIRPORT,CITY&keyword=${query}&page[limit]=5`)
+    // .then(airport => {
+    //   return airport.data;
+    // })
+    // .catch(error => {
+    //   console.log(error);
+    // });
 }
 
 export const fetchAirportList = (query) => {

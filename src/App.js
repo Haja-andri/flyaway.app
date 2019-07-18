@@ -39,7 +39,12 @@ function App() {
         if(result){
           let airportName = [];
           result.data.forEach(airport => {
-            airportName.push(airport.address.cityName + ' (' + airport.address.countryCode + ')')
+            airportName.push(
+                {
+                  listDisplay: `${airport.address.cityName}  (${airport.address.cityCode})`,
+                  cityCode: airport.address.cityCode,
+                }
+              )
           });
           setAirportResult(airportName);  
         }
@@ -50,7 +55,6 @@ function App() {
       if(airportQuery === ''){
         setAirportResult([]);
       }
-
     },
     [airportQuery] // second argument that define when to trigger useEffect again after the initial mount 
   );
@@ -88,7 +92,7 @@ function App() {
                         airportResult && 
                         airportResult.map(airport =>(
                           <ul className="countries">
-                            <li onClick={onSelect} className="country-item">{airport}</li>
+                            <li onClick={onSelect} id={airport.cityCode} className="country-item">{airport.listDisplay}</li>
                           </ul>
                         ))
                       }
