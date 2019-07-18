@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export function axiosWithAuth (name, password, email) {
 
-    const token = 'Bearer Q7WTFulx3gd15JzkMGyvfcX9adot';
+    const token = 'Bearer PCA20FxRDJcbaCJva3Au9sliQ9pR';
     const instance = axios.create({
       headers: {
         Authorization: token,

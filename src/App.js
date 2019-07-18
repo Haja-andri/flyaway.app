@@ -12,7 +12,7 @@ function App() {
   const [isSubmitted, setSubmit] = useState(false);
   const [airportQuery, setAirportQuery] = useState('');
   const [airportResult, setAirportResult] = useState([]);
-  const [airportSelection, setAirportSelection] = useState('');
+  const [airportSelection, setAirportSelection] = useState({});
 
   const onSubmit = (event) => {
     event.preventDefault();
@@ -24,7 +24,6 @@ function App() {
     const typedValue = event.target.value;
     setAirportSelection({
       display: typedValue,
-      cityCode: event.target.id,
     })
     setAirportQuery(typedValue);
   }
@@ -49,6 +48,7 @@ function App() {
                 {
                   listDisplay: `${airport.address.cityName}  (${airport.address.cityCode})`,
                   cityCode: airport.address.cityCode,
+                  iataCode: airport.iataCode,
                 }
               )
           });
@@ -75,7 +75,7 @@ function App() {
         pullFlights();
         setSubmit(false);
       }
-    },[isSubmitted]
+    },[isSubmitted, airportSelection]
   );
 
   return (
@@ -84,25 +84,24 @@ function App() {
         <NavBar />
         <div className="header-content">
             <div className="search-form">
-                <form autocomplete="off" className="header-form">
+                <form autoComplete="off" className="header-form">
                 <h1>Travel inspirations, <br/> on your budget</h1>
                     <label>FROM</label>
                     <input 
                       typpe="text"
                       placeholder="Bordeaux"
-                      id={airportSelection.cityCode}
                       value={airportSelection.display}
                       onChange={onAirportQuery}
                     />
-                    <div id="results">
+                    <div id="results">                          
+                    <ul className="countries">
                       {
                         airportResult && 
                         airportResult.map(airport =>(
-                          <ul className="countries">
                             <li onClick={onSelect} id={airport.cityCode} className="country-item">{airport.listDisplay}</li>
-                          </ul>
                         ))
                       }
+                      </ul>
                     </div>
                     <label>BUDGET</label>
                     <input typpe="text" className="half"></input>
