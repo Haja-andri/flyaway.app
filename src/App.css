@@ -46,12 +46,11 @@ button:focus {
 form {
 	background-color: #FFFFFF;
 	display: flex;
-	align-items: center;
-	justify-content: center;
+	align-items: left;
 	flex-direction: column;
-	padding: 0 50px;
+	padding: 30px;
 	height: 100%;
-	text-align: center;
+	text-align: left;
 }
 
 input, textarea {
@@ -65,6 +64,10 @@ input, textarea {
 	border: 1px solid #eceaea;
 }
 
+input.half{
+	width: 50%;
+}
+
 input:focus {
 	outline: none;
 	border-bottom: 1px solid lightpink;
@@ -73,6 +76,7 @@ input:focus {
 label {
 	font-weight: bold;
 	font-size: 12px;
+	letter-spacing: 0.1em;
 }
 
 .hide {
