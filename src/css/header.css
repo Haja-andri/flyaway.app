@@ -5,7 +5,6 @@ header.content {
     background-image: url("https://source.unsplash.com/Ycds6emp7BA/1600x900"); /* rFKBUwLg_WQ */
     background-size: cover;
     min-height: 100vh;
-    border: 5px solid white;
 }
 
 nav {
@@ -27,7 +26,6 @@ nav.dark a {
 
 .header-content {
     display: flex;
-    padding-top: 5%;
     justify-content: flex-start;
 }
 

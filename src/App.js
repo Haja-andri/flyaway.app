@@ -66,7 +66,7 @@ function App() {
         <div className="header-content">
             <div className="search-form">
                 <form autocomplete="off" className="header-form">
-                <h1>Travel inspirations <br/>in your budget</h1>
+                <h1>Travel inspirations <br/> based on your budget</h1>
                     <label>FROM</label>
                     <input 
                       typpe="text"
