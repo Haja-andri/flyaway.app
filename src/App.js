@@ -12,7 +12,7 @@ function App() {
   const [isSubmitted, setSubmit] = useState(false);
   const [airportQuery, setAirportQuery] = useState('');
   const [airportResult, setAirportResult] = useState([]);
-  const [airportSelection, setAirportSelection] = useState({});
+  const [airportSelection, setAirportSelection] = useState({ display: '', cityCode: ''});
 
   const onSubmit = (event) => {
     event.preventDefault();
@@ -43,14 +43,17 @@ function App() {
         const result = await fetchAirportList(airportQuery);
         if(result){
           let airportName = [];
+          let previousAirportCode = ''
           result.data.forEach(airport => {
-            airportName.push(
+            if(previousAirportCode !== airport.address.cityCode){
+              airportName.push(
                 {
                   listDisplay: `${airport.address.cityName}  (${airport.address.cityCode})`,
                   cityCode: airport.address.cityCode,
-                  iataCode: airport.iataCode,
                 }
               )
+              previousAirportCode = airport.address.cityCode;
+            }
           });
           setAirportResult(airportName);  
         }
@@ -98,7 +101,7 @@ function App() {
                       {
                         airportResult && 
                         airportResult.map(airport =>(
-                            <li onClick={onSelect} id={airport.cityCode} className="country-item">{airport.listDisplay}</li>
+                            <li key={airport.cityCode} onClick={onSelect} id={airport.cityCode} className="country-item">{airport.listDisplay}</li>
                         ))
                       }
                       </ul>

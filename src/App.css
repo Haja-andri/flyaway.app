@@ -36,6 +36,7 @@ button{
 	margin-top: 20px;
 	width: 70%;
 	margin: 0 auto;
+	margin-top: 15px;
 }
 
 button:active {
