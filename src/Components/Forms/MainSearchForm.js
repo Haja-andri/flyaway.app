@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { fetchAirportList } from '../../Actions/fetchData';
+import { fetchAirportList, fetchDestinations } from '../../Actions/fetchData';
 
 
 export default function (props) {
@@ -8,10 +8,18 @@ export default function (props) {
   const [airportQuery, setAirportQuery] = useState('');
   const [airportResult, setAirportResult] = useState([]);
   const [airportSelection, setAirportSelection] = useState({ display: '', cityCode: ''});
+  const [isLoading, setIsLoading] = useState(false);
+
 
   const onSubmit = async (event, submitAirport) => {
+    setIsLoading(true);
     event.preventDefault();
-    props.submitAirport(airportSelection.cityCode);
+    // props.submitAirport(airportSelection.cityCode);
+        const result = await fetchDestinations(airportSelection.cityCode);
+      if(result){
+        setIsLoading(false);
+        props.reRenderWithFlights(result.data);
+      }
   }
 
   const onAirportQuery = (event) => {
@@ -88,7 +96,7 @@ export default function (props) {
             <button onClick={onSubmit}>
               
             {
-              props.isLoading ? (
+              isLoading ? (
                 <div>Loading ...</div>
               ) 
               : (
