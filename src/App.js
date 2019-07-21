@@ -12,6 +12,7 @@ function App() {
   const [currentMode, setCurrentMode] = useState('search')
   const [selectedAirport, setSelectedAirport] = useState('');
   const [flightList, setFlightList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   function submitAirport(aiportCityCode) {
     setSelectedAirport(aiportCityCode)
@@ -21,8 +22,10 @@ function App() {
   useEffect(
     () => {
       const pullFlights = async () => {
+        setIsLoading(true);
         const result = await fetchDestinations(selectedAirport);
         setFlightList(result.data); // update the state with received data
+        setIsLoading(false);
       };
       if(isSubmitted && currentMode === 'search'){
         pullFlights();
@@ -35,12 +38,16 @@ function App() {
   return (
     <div>
         <section className={currentMode}>
-        <NavBar />
+        <NavBar currentMode={currentMode} />
         {
-          currentMode === 'search' && <LandingSearch submitAirport={submitAirport}/>
-        }
-        {
-          currentMode === 'select' && <FlightSelection flightList={flightList}/>
+          isLoading ? (
+            <div>Loading ...</div>
+          ) 
+          : (
+            currentMode === 'search' 
+            ? <LandingSearch submitAirport={submitAirport}/> 
+            : <FlightSelection submitAirport={submitAirport} flightList={flightList}/>
+          )
         }
       </section>
     </div>
