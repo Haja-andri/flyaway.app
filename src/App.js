@@ -1,125 +1,47 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { fetchDestinations, fetchAirportList } from './Actions/fetchData';
+import { fetchDestinations } from './Actions/fetchData';
 import NavBar from './Components/NavBar';
 import './App.css';
 import './css/header.css';
-
+import LandingHeader from './Components/LandingHeader';
 
 function App() {
-  // state that will store and give access to destinations
-  const [destinations, setDestinations] = useState([]);
   const [isSubmitted, setSubmit] = useState(false);
-  const [airportQuery, setAirportQuery] = useState('');
-  const [airportResult, setAirportResult] = useState([]);
-  const [airportSelection, setAirportSelection] = useState({ display: '', cityCode: ''});
+  const [currentMode, setCurrentMode] = useState('search')
+  const [selectedAirport, setSelectedAirport] = useState('');
+  const [destinations, setDestinations] = useState([]);
 
-  const onSubmit = (event) => {
-    event.preventDefault();
+  function submitAirport(aiportCityCode) {
+    setSelectedAirport(aiportCityCode)
     setSubmit(true);
   }
-
-  const onAirportQuery = (event) => {
-    event.preventDefault();
-    const typedValue = event.target.value;
-    setAirportSelection({
-      display: typedValue,
-    })
-    setAirportQuery(typedValue);
-  }
-
-  const onSelect = (event) => {
-    event.preventDefault();
-    setAirportSelection({
-      display: event.target.innerText,
-      cityCode: event.target.id,
-    });
-    setAirportQuery('');
-  }
-  
-  useEffect(
-    () => { // first argument is a call back to to be executed each time the components is mounted
-      const pullAirports = async (airportQuery) => {
-        const result = await fetchAirportList(airportQuery);
-        if(result){
-          let airportName = [];
-          let previousAirportCode = ''
-          result.data.forEach(airport => {
-            if(previousAirportCode !== airport.address.cityCode){
-              airportName.push(
-                {
-                  listDisplay: `${airport.address.cityName}  (${airport.address.cityCode})`,
-                  cityCode: airport.address.cityCode,
-                }
-              )
-              previousAirportCode = airport.address.cityCode;
-            }
-          });
-          setAirportResult(airportName);  
-        }
-      };
-      if(airportQuery){
-        pullAirports(airportQuery);
-      }
-      if(airportQuery === ''){
-        setAirportResult([]);
-      }
-    },
-    [airportQuery] // second argument that define when to trigger useEffect again after the initial mount 
-  );
 
   useEffect(
     () => {
       const pullFlights = async () => {
-        const result = await fetchDestinations(airportSelection.cityCode);
+        const result = await fetchDestinations(selectedAirport);
         setDestinations(result.data); // update the state with received data
       };
-      if(isSubmitted){
+      if(isSubmitted && currentMode === 'search'){
         pullFlights();
-        setSubmit(false);
+        setCurrentMode('select');
       }
-    },[isSubmitted, airportSelection]
-  );
+    },[isSubmitted, selectedAirport, currentMode]
+  ); 
+
 
   return (
     <div>
         <header className="content">
         <NavBar />
-        <div className="header-content">
-            <div className="search-form">
-                <form autoComplete="off" className="header-form">
-                <h1>Travel inspirations, <br/> on your budget</h1>
-                    <label>FROM</label>
-                    <input 
-                      typpe="text"
-                      placeholder="Bordeaux"
-                      value={airportSelection.display}
-                      onChange={onAirportQuery}
-                    />
-                    <div id="results">                          
-                    <ul className="countries">
-                      {
-                        airportResult && 
-                        airportResult.map(airport =>(
-                            <li key={airport.cityCode} onClick={onSelect} id={airport.cityCode} className="country-item">{airport.listDisplay}</li>
-                        ))
-                      }
-                      </ul>
-                    </div>
-                    <label>BUDGET</label>
-                    <input typpe="text" className="half"></input>
-                    <button onClick={onSubmit}>Inspire me</button>
-                </form>
-            </div>
-            <div className="showcase">
-            </div>
-        </div>
-        </header>
+        <LandingHeader submitAirport={submitAirport}/>
+      </header>
       <div className="result">
         {
           destinations.map( 
             destination => (
-              <div>
+              <div key={destination.origin + destination.destination}>
                 <span>From {destination.origin}</span>
                 <span> to {destination.destination}</span>
                 <span> Departure {destination.departureDate}</span>
