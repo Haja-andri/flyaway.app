@@ -92,6 +92,6 @@ export default function LandingHeader(props) {
         </div>
         <div className="showcase">
         </div>
-    </div>
+        </div>
     );
 }

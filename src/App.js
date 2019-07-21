@@ -4,13 +4,14 @@ import { fetchDestinations } from './Actions/fetchData';
 import NavBar from './Components/NavBar';
 import './App.css';
 import './css/header.css';
-import LandingHeader from './Components/LandingHeader';
+import LandingSearch from './Components/LandingSearch';
+import FlightSelection from './Components/flightSelection'
 
 function App() {
   const [isSubmitted, setSubmit] = useState(false);
   const [currentMode, setCurrentMode] = useState('search')
   const [selectedAirport, setSelectedAirport] = useState('');
-  const [destinations, setDestinations] = useState([]);
+  const [flightList, setFlightList] = useState([]);
 
   function submitAirport(aiportCityCode) {
     setSelectedAirport(aiportCityCode)
@@ -21,7 +22,7 @@ function App() {
     () => {
       const pullFlights = async () => {
         const result = await fetchDestinations(selectedAirport);
-        setDestinations(result.data); // update the state with received data
+        setFlightList(result.data); // update the state with received data
       };
       if(isSubmitted && currentMode === 'search'){
         pullFlights();
@@ -33,25 +34,15 @@ function App() {
 
   return (
     <div>
-        <header className="content">
+        <section className={currentMode}>
         <NavBar />
-        <LandingHeader submitAirport={submitAirport}/>
-      </header>
-      <div className="result">
         {
-          destinations.map( 
-            destination => (
-              <div key={destination.origin + destination.destination}>
-                <span>From {destination.origin}</span>
-                <span> to {destination.destination}</span>
-                <span> Departure {destination.departureDate}</span>
-                <span> Return {destination.returnDate}</span>
-                <span> Price {destination.price.total}</span>
-              </div>
-            )
-          )
+          currentMode === 'search' && <LandingSearch submitAirport={submitAirport}/>
         }
-      </div>
+        {
+          currentMode === 'select' && <FlightSelection flightList={flightList}/>
+        }
+      </section>
     </div>
   );
 }

@@ -1,10 +1,14 @@
-header.content {
+section.search, section.select {
     display: flex;
     flex-direction: column;
     width: 100%;
     background-image: url("https://source.unsplash.com/Ycds6emp7BA/1600x900"); /* rFKBUwLg_WQ */
     background-size: cover;
     min-height: 100vh;
+}
+
+section.select {
+    background-image: linear-gradient(to right bottom, #FF5454, #FE8A4D, #FDD64D);
 }
 
 nav {
@@ -31,6 +35,7 @@ nav.dark a {
 
 .search-form {
     margin-left: 20px;
+    min-width: 350px;
 }
 
 .header-form {
