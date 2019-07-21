@@ -1,7 +1,13 @@
 import React from 'react';
+import MainSearchForm from './Forms/MainSearchForm'
 
 export default function flightSelection(props){
     return(
+      <>
+      <div className="search-form">
+      <MainSearchForm submitAirport={props.submitAirport} isLoading={props.isLoading}/>
+    </div>
+
         <div className="result">
         {
           props.flightList.map( 
@@ -17,5 +23,6 @@ export default function flightSelection(props){
           )
         }
       </div>
+      </>
     );
 }

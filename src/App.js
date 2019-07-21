@@ -40,14 +40,9 @@ function App() {
         <section className={currentMode}>
         <NavBar currentMode={currentMode} />
         {
-          isLoading ? (
-            <div>Loading ...</div>
-          ) 
-          : (
             currentMode === 'search' 
-            ? <LandingSearch submitAirport={submitAirport}/> 
-            : <FlightSelection submitAirport={submitAirport} flightList={flightList}/>
-          )
+            ? <LandingSearch submitAirport={submitAirport} isLoading={isLoading} /> 
+            : <FlightSelection submitAirport={submitAirport} flightList={flightList} isLoading={isLoading} />
         }
       </section>
     </div>
