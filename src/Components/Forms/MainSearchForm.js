@@ -83,8 +83,10 @@ export default function (props) {
   );
 
     return(
-        <form autoComplete="off" className="header-form">
-        <h1>Travel inspirations, <br/> on your budget</h1>
+        <form autoComplete="off" className={`header-form ${props.mode}`}>
+          {
+            props.mode === 'search' && <h1>Travel inspirations, <br/> on your budget</h1>
+          }          
             <label>FROM</label>
             <span className="error">{errorMessage}</span>
             <input 

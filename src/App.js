@@ -7,7 +7,7 @@ import LandingSearch from './Components/LandingSearch';
 import FlightSelection from './Components/flightSelection'
 
 function App() {
-  const [currentMode, setCurrentMode] = useState('search')
+  const [currentMode, setCurrentMode] = useState('select')
   const [flightList, setFlightList] = useState([]);
 
   function reRenderWithFlights(flightList) {

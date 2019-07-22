@@ -8,7 +8,7 @@ section.search, section.select {
 }
 
 section.select {
-    background-image: linear-gradient(to right bottom, #FF5454, #FE8A4D, #FDD64D);
+    background-image: linear-gradient(to right bottom, whitesmoke,cornsilk);
 }
 
 nav {
@@ -43,6 +43,10 @@ nav.dark a {
     color: #666666;
     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
     0 10px 10px rgba(0,0,0,0.22);
+}
+
+.header-form.select{
+border: 1px solid red;
 }
 
 .header-form h2{
