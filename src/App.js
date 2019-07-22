@@ -22,8 +22,8 @@ function App() {
         <NavBar currentMode={currentMode} />
         {
             currentMode === 'search' 
-            ? <LandingSearch reRenderWithFlights={reRenderWithFlights} /> 
-            : <FlightSelection flightList={flightList}/>
+            ? <LandingSearch reRenderWithFlights={reRenderWithFlights} currentMode={currentMode} /> 
+            : <FlightSelection flightList={flightList} currentMode={currentMode}/>
         }
       </section>
     </div>

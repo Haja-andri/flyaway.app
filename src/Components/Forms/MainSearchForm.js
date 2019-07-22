@@ -15,7 +15,7 @@ export default function (props) {
   const onSubmit = async (event) => {
     event.preventDefault();
     if(!airportSelection.cityCode) {
-      setErrorMessage('Please enter a city or an airport');
+      setErrorMessage('From where are you flying?');
       return;
     }
     setIsLoading(true);
@@ -83,42 +83,50 @@ export default function (props) {
   );
 
     return(
-        <form autoComplete="off" className={`header-form ${props.mode}`}>
+        <form autoComplete="off" className={`header-form ${props.currentMode}`}>
           {
-            props.mode === 'search' && <h1>Travel inspirations, <br/> on your budget</h1>
-          }          
-            <label>FROM</label>
-            <span className="error">{errorMessage}</span>
-            <input 
-              typpe="text"
-              placeholder="City, Airport"
-              value={airportSelection.display}
-              onChange={onAirportQuery}
-              onFocus={updatePlaceHoler}
-              onBlur={updatePlaceHoler}
-            />
-            <div id="results">                          
-            <ul className="countries">
-              {
-                airportResult && 
-                airportResult.map(airport =>(
-                    <li key={airport.cityCode} onClick={onSelect} id={airport.cityCode} className="country-item">{airport.listDisplay}</li>
-                ))
-              }
-              </ul>
-            </div>
-            <label>BUDGET</label>
-            <input typpe="text" className="half"></input>
-            <button onClick={onSubmit}>
-            {
-              isLoading ? (
-                <div className="lds-dual-ring"></div>
-              ) 
-              : (
-                <div>Inspire me</div>
-              )
-            }
-            </button>
+            props.currentMode === 'search' && <h1>Travel inspirations, <br/> on your budget</h1>
+          }        
+            <div className={`search-form-element-container ${props.currentMode}`}>
+              <div className={`search-form-element ${props.currentMode}`}>
+                  <label>FROM</label>
+                  <span className="error">{errorMessage}</span>
+                  <input 
+                  typpe="text"
+                  placeholder="City, Airport"
+                  value={airportSelection.display}
+                  onChange={onAirportQuery}
+                  onFocus={updatePlaceHoler}
+                  onBlur={updatePlaceHoler}
+                />
+                <div id="results">                          
+                <ul className="countries">
+                  {
+                    airportResult && 
+                    airportResult.map(airport =>(
+                        <li key={airport.cityCode} onClick={onSelect} id={airport.cityCode} className="country-item">{airport.listDisplay}</li>
+                    ))
+                  }
+                  </ul>
+                </div>
+              </div>
+              <div className={`search-form-element ${props.currentMode}`}>
+                <label>BUDGET</label>
+                <input typpe="text"></input>
+              </div>
+              <div className={`search-form-element ${props.currentMode} centered`}>
+                <button onClick={onSubmit}>
+                {
+                  isLoading ? (
+                    <div className="lds-dual-ring"></div>
+                  ) 
+                  : (
+                    <div>Inspire me</div>
+                  )
+                }
+                </button>              
+              </div>
+            </div>  
         </form>
     );
 }
