@@ -109,6 +109,11 @@ ul.countries {
 .country-item:hover {
     color: salmon;
 }
+span.error{
+	margin-top: 5px;
+	color: #FF4B2B;
+	font-size: .7rem;
+}
 
 /* Loading */
 .lds-dual-ring {

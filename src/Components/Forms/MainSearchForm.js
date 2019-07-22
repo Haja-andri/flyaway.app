@@ -9,11 +9,15 @@ export default function (props) {
   const [airportResult, setAirportResult] = useState([]);
   const [airportSelection, setAirportSelection] = useState({ display: '', cityCode: ''});
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    if(!airportSelection.cityCode) return;
+    if(!airportSelection.cityCode) {
+      setErrorMessage('Please enter a city or an airport');
+      return;
+    }
     setIsLoading(true);
     const result = await fetchDestinations(airportSelection.cityCode);
       if(result){
@@ -26,6 +30,7 @@ export default function (props) {
     event.target.placeholder ? 
     event.target.placeholder = '' : 
     event.target.placeholder = 'City, Airport';
+    setErrorMessage('');
   }
 
   const onAirportQuery = (event) => {
@@ -81,6 +86,7 @@ export default function (props) {
         <form autoComplete="off" className="header-form">
         <h1>Travel inspirations, <br/> on your budget</h1>
             <label>FROM</label>
+            <span className="error">{errorMessage}</span>
             <input 
               typpe="text"
               placeholder="City, Airport"
