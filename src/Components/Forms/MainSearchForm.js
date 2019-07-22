@@ -11,15 +11,21 @@ export default function (props) {
   const [isLoading, setIsLoading] = useState(false);
 
 
-  const onSubmit = async (event, submitAirport) => {
-    setIsLoading(true);
+  const onSubmit = async (event) => {
     event.preventDefault();
-    // props.submitAirport(airportSelection.cityCode);
-        const result = await fetchDestinations(airportSelection.cityCode);
+    if(!airportSelection.cityCode) return;
+    setIsLoading(true);
+    const result = await fetchDestinations(airportSelection.cityCode);
       if(result){
         setIsLoading(false);
         props.reRenderWithFlights(result.data);
       }
+  }
+
+  const updatePlaceHoler = (event) => {
+    event.target.placeholder ? 
+    event.target.placeholder = '' : 
+    event.target.placeholder = 'City, Airport';
   }
 
   const onAirportQuery = (event) => {
@@ -77,9 +83,11 @@ export default function (props) {
             <label>FROM</label>
             <input 
               typpe="text"
-              placeholder="Bordeaux"
+              placeholder="City, Airport"
               value={airportSelection.display}
               onChange={onAirportQuery}
+              onFocus={updatePlaceHoler}
+              onBlur={updatePlaceHoler}
             />
             <div id="results">                          
             <ul className="countries">
@@ -94,19 +102,15 @@ export default function (props) {
             <label>BUDGET</label>
             <input typpe="text" className="half"></input>
             <button onClick={onSubmit}>
-              
             {
               isLoading ? (
-                <div>Loading ...</div>
+                <div className="lds-dual-ring"></div>
               ) 
               : (
                 <div>Inspire me</div>
               )
             }
-              
-              
-              
-              </button>
+            </button>
         </form>
     );
 }
