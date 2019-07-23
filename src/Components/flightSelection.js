@@ -1,10 +1,25 @@
 import React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import MainSearchForm from './Forms/MainSearchForm';
+import { fetchGoogleMapApi } from '../Actions/fetchData';
 
 export default function FlightSelection(props){
-
-  const [mapLoading, setMapLoading] = useState(false);
+  const [mapLoading, setMapLoading] = useState(true);
+  useEffect(
+    async ()=>{
+      await fetchGoogleMapApi()
+      .then(flithgMap =>{
+        // The location of Uluru
+        var uluru = {lat: -25.344, lng: 131.036};
+        // The map, centered at Uluru
+        const map = new flithgMap.Map(
+            document.getElementById('map'), {zoom: 4, center: uluru});
+        // The marker, positioned at Uluru
+        const marker = new flithgMap.Marker({position: uluru, map: map});
+      });
+      setMapLoading(false);
+    },[]
+  );
 
     return(
       <>
@@ -42,7 +57,11 @@ export default function FlightSelection(props){
         }
         </div>
         <div className="result-map-container">
-        <div id="map"></div>
+        <div id="map">
+          {
+            mapLoading && <span>Loading map</span>
+          }
+        </div>
         </div>
       </div>
       </>
