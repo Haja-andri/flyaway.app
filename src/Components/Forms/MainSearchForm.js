@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { fetchAirportList, fetchDestinations } from '../../Actions/fetchData';
 
 
-export default function (props) {
+export default function MainSearchForm(props) {
   const [airportQuery, setAirportQuery] = useState('');
   const [airportResult, setAirportResult] = useState([]);
   const [airportSelection, setAirportSelection] = useState({ display: '', cityCode: ''});

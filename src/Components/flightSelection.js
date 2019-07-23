@@ -1,11 +1,10 @@
 import React from 'react';
+import { useState } from 'react';
+import MainSearchForm from './Forms/MainSearchForm';
 
+export default function FlightSelection(props){
 
-import MainSearchForm from './Forms/MainSearchForm'
-
-export default function flightSelection(props){
-
-  
+  const [mapLoading, setMapLoading] = useState(false);
 
     return(
       <>

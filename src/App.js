@@ -4,7 +4,7 @@ import NavBar from './Components/NavBar';
 import './App.css';
 import './css/header.css';
 import LandingSearch from './Components/LandingSearch';
-import FlightSelection from './Components/flightSelection'
+import FlightSelection from './Components/FlightSelection'
 
 function App() {
   const [currentMode, setCurrentMode] = useState('search')
