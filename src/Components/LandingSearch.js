@@ -6,7 +6,10 @@ export default function LandingHeader(props) {
     return(
         <div className="header-content">
         <div className="search-form-container">
-          <MainSearchForm submitAirport={props.submitAirport} reRenderWithFlights={props.reRenderWithFlights} currentMode={props.currentMode}/>
+          <MainSearchForm 
+            submitAirport={props.submitAirport} 
+            reRenderWithFlights={props.reRenderWithFlights} 
+            currentMode={props.currentMode}/>
         </div>
         <div className="showcase">
         </div>

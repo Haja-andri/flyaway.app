@@ -4,14 +4,14 @@ import { fetchAirportList, fetchDestinations } from '../../Actions/fetchData';
 
 
 export default function (props) {
-      // state that will store and give access to destinations
   const [airportQuery, setAirportQuery] = useState('');
   const [airportResult, setAirportResult] = useState([]);
   const [airportSelection, setAirportSelection] = useState({ display: '', cityCode: ''});
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-
+  // called on form submitted
+  // async since we fetch the data from remote
   const onSubmit = async (event) => {
     event.preventDefault();
     if(!airportSelection.cityCode) {
@@ -26,6 +26,7 @@ export default function (props) {
       }
   }
 
+  // clear or set-up field placeholder to guide the user
   const updatePlaceHoler = (event) => {
     event.target.placeholder ? 
     event.target.placeholder = '' : 
@@ -33,6 +34,8 @@ export default function (props) {
     setErrorMessage('');
   }
 
+  // while user is typing we fetch matching city
+  // and/or airport for autocompletion
   const onAirportQuery = (event) => {
     event.preventDefault();
     const typedValue = event.target.value;
@@ -42,10 +45,11 @@ export default function (props) {
     setAirportQuery(typedValue);
   }
 
+  // an airport and/or city has been selected from autocompletion list
   const onSelect = (event) => {
     event.preventDefault();
     setAirportSelection({
-      display: event.target.innerText,
+      display: event.target.innerText, 
       cityCode: event.target.id,
     });
     setAirportQuery('');
@@ -75,6 +79,7 @@ export default function (props) {
       if(airportQuery){
         pullAirports(airportQuery);
       }
+      // reset the autocompletion if query input field is empty
       if(airportQuery === ''){
         setAirportResult([]);
       }

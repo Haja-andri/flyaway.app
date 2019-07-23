@@ -7,21 +7,37 @@ export default function flightSelection(props){
       <div className="search-form">
         <MainSearchForm submitAirport={props.submitAirport} currentMode={props.currentMode}/>
       </div>
-
-        <div className="result">
+      <div className="search-result-container">
+        <div className="result-list-container">
         {
           props.flightList.map( 
             flight => (
-              <div key={flight.origin + flight.destination}>
-                <span>From {flight.origin}</span>
-                <span> to {flight.destination}</span>
-                <span> Departure {flight.departureDate}</span>
-                <span> Return {flight.returnDate}</span>
-                <span> Price {flight.price.total}</span>
+              <div 
+              key={flight.origin + flight.destination}
+              className="flight-item"
+              >
+                <h3>From {flight.origin} to {flight.destination}</h3>
+                <div className="flight-details">
+                
+                  <div>
+                    <span>Flying on </span>
+                    <div>{flight.departureDate}</div>
+                  </div>
+                  <div>
+                    <span>Returngin on </span>
+                    <div>{flight.returnDate}</div>
+                  </div>
+                  <div> Price {flight.price.total}</div>
+                </div>
+                
               </div>
             )
           )
         }
+        </div>
+        <div className="result-map-container">
+
+        </div>
       </div>
       </>
     );

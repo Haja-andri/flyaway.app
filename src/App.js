@@ -7,14 +7,15 @@ import LandingSearch from './Components/LandingSearch';
 import FlightSelection from './Components/flightSelection'
 
 function App() {
-  const [currentMode, setCurrentMode] = useState('select')
+  const [currentMode, setCurrentMode] = useState('search')
   const [flightList, setFlightList] = useState([]);
 
+  //callback function to re-render when receiving the 
+  // list from the child-component (search form)
   function reRenderWithFlights(flightList) {
     setFlightList(flightList);
     setCurrentMode('select');
   }
-
   
   return (
     <div>

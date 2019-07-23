@@ -129,7 +129,7 @@ label {
 }
 
 .hide {
-  display: none;
+	display: none;
 }
 
 /* auto complete box */
@@ -161,11 +161,11 @@ span.error{
 	margin-left: 10px;
 }
 
-/* Loading */
+/* Loading indicator*/
 .lds-dual-ring {
 	display: inline-block;
-  }
-  .lds-dual-ring:after {
+}
+.lds-dual-ring:after {
 	content: " ";
 	display: block;
 	width: 11.5px;
@@ -175,13 +175,43 @@ span.error{
 	border: 5px solid #fff;
 	border-color: #fff transparent #fff transparent;
 	animation: lds-dual-ring 1.5s linear infinite;
-  }
-  @keyframes lds-dual-ring {
+}
+
+@keyframes lds-dual-ring {
 	0% {
-	  transform: rotate(0deg);
+		transform: rotate(0deg);
 	}
 	100% {
-	  transform: rotate(360deg);
+		transform: rotate(360deg);
 	}
-  }
-  
+}
+
+/* Result contents */
+.search-result-container{
+	display: flex;
+	border: 1px solid red;
+	width: 95%;
+	margin: 0 auto;
+}
+
+.result-list-container{
+	border: 1px solid blue;
+	width: 40%;
+}
+
+.result-map-container{
+	border: 1px solid green;
+	width: 60%;
+}
+
+.flight-item{
+	border: 1px solid grey;
+	margin: 10px;
+	padding: 5px;
+	background-color: white;
+}
+
+.flight-details{
+	display: flex;
+	justify-content: space-around;
+}
