@@ -61,17 +61,13 @@ export default function (props) {
         const result = await fetchAirportList(airportQuery);
         if(result){
           let airportName = [];
-          let previousAirportCode = '';
           result.data.forEach(airport => {
-            if(previousAirportCode !== airport.address.cityCode){
               airportName.push(
                 {
                   listDisplay: `${airport.address.cityName}  (${airport.address.cityCode})`,
                   cityCode: airport.address.cityCode,
                 }
               )
-              previousAirportCode = airport.address.cityCode;
-            }
           });
           setAirportResult(airportName);  
         }

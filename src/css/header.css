@@ -8,7 +8,7 @@ section.search, section.select {
 }
 
 section.select {
-    background-image: linear-gradient(to right bottom, whitesmoke,cornsilk);
+    background-image: linear-gradient(to right bottom, whitesmoke,whitesmoke);
 }
 
 nav {
@@ -16,6 +16,7 @@ nav {
     display: flex;
     justify-content: flex-end;
     padding: 20px;
+ 
 }
 
 nav a {
