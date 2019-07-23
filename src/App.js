@@ -8,12 +8,12 @@ import FlightSelection from './Components/flightSelection'
 
 function App() {
   const [currentMode, setCurrentMode] = useState('search')
-  const [flightList, setFlightList] = useState([]);
+  const [destinations, setDestinations] = useState([]);
 
   //callback function to re-render when receiving the 
   // list from the child-component (search form)
-  function reRenderWithFlights(flightList) {
-    setFlightList(flightList);
+  function reRenderWithFlights(destinations) {
+    setDestinations(destinations);
     setCurrentMode('select');
   }
   
@@ -24,7 +24,7 @@ function App() {
         {
             currentMode === 'search' 
             ? <LandingSearch reRenderWithFlights={reRenderWithFlights} currentMode={currentMode} /> 
-            : <FlightSelection flightList={flightList} currentMode={currentMode}/>
+            : <FlightSelection destinations={destinations} currentMode={currentMode}/>
         }
       </section>
     </div>

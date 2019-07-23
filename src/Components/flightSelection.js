@@ -1,7 +1,9 @@
 import React from 'react';
+
 import MainSearchForm from './Forms/MainSearchForm'
 
 export default function flightSelection(props){
+
     return(
       <>
       <div className="search-form">
@@ -10,24 +12,25 @@ export default function flightSelection(props){
       <div className="search-result-container">
         <div className="result-list-container">
         {
-          props.flightList.map( 
+          props.destinations.data.map( 
             flight => (
               <div 
               key={flight.origin + flight.destination}
               className="flight-item"
               >
-                <h3>From {flight.origin} to {flight.destination}</h3>
+                <h4>{props.destinations.dictionaries.locations[flight.destination].detailedName}</h4>
                 <div className="flight-details">
                 
                   <div>
-                    <span>Flying on </span>
-                    <div>{flight.departureDate}</div>
+                    <label>Flying on </label>
+                    <div className="date">{flight.departureDate}</div>
                   </div>
                   <div>
-                    <span>Returngin on </span>
-                    <div>{flight.returnDate}</div>
+                    <label>Returngin on </label>
+                    <div className="date">{flight.returnDate}</div>
                   </div>
-                  <div> Price {flight.price.total}</div>
+                  <span className="large-display">{flight.price.total} &euro;</span>
+                  
                 </div>
                 
               </div>

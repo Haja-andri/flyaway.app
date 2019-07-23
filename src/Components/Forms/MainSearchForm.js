@@ -19,10 +19,10 @@ export default function (props) {
       return;
     }
     setIsLoading(true);
-    const result = await fetchDestinations(airportSelection.cityCode);
-      if(result){
+    const destinations = await fetchDestinations(airportSelection.cityCode);
+      if(destinations){
         setIsLoading(false);
-        props.reRenderWithFlights(result.data);
+        props.reRenderWithFlights(destinations);
       }
   }
 

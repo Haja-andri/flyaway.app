@@ -10,7 +10,7 @@ export const fetchDestinations = (cityCode) => {
 }
 
 export const fetchAirportList = (query) => {
-    return axiosWithAuth().get(`https://test.api.amadeus.com/v1/reference-data/locations?subType=AIRPORT,CITY&keyword=${query}&page[limit]=5`)
+    return axiosWithAuth().get(`https://test.api.amadeus.com/v1/reference-data/locations?subType=CITY&keyword=${query}&page[limit]=5`)
     .then(airport => {
       return airport.data;
     })
