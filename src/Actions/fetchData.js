@@ -22,6 +22,7 @@ export const fetchAirportList = (query) => {
 export const fetchGoogleMapApi = () =>{
   fetch('https://maps.googleapis.com/maps/api/js?key=AIzaSyAHzxtVBJkcrbmLNwX7Jv6OFhHMs4qBK4A')
   .then(map => {
+    debugger
     return map;
   })
   .catch(error => {
@@ -29,3 +30,22 @@ export const fetchGoogleMapApi = () =>{
     console.log(error);
   });
 }
+
+  // const [mapLoading, setMapLoading] = useState(true);
+  // useEffect(
+  //    ()=> {
+  //         async function getGoogleMapApi(){
+  //           fetchGoogleMapApi()
+  //           .then(flithgMap => {
+  //           // The location of Uluru
+  //           var uluru = {lat: -25.344, lng: 131.036};
+  //           // The map, centered at Uluru
+  //           const map = new flithgMap.Map(
+  //               document.getElementById('map'), {zoom: 4, center: uluru});
+  //           // The marker, positioned at Uluru
+  //           const marker = new flithgMap.Marker({position: uluru, map: map});  
+  //         });
+  //       }
+  //       getGoogleMapApi();
+  //       setMapLoading(false);
+  //     },[]);
