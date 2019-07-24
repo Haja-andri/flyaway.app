@@ -1,61 +1,12 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import GoogleMapReact from 'google-map-react';
 import MainSearchForm from './Forms/MainSearchForm';
 
 export default function FlightSelection(props){
 
-  const [map, setMap] = useState({});
-  // first we get the <div> that will receive the map
-  const mapContainer = document.getElementById('map');
-
-  const mapSetup = () =>{
-      // create a new map passing in the container and 
-      // default parameters
-      new window.google.maps.Map(mapContainer,{
-        zoom:16,
-        center: {
-          lat: 43.642567,
-          lng: -79.387054
-        },
-        desableDefaultUI: true,
-      })
-  }
-
-const intialiseMap = () =>{
-    setMap(mapSetup);
-    createMarker();
-}
-
-const createMarker = () =>{
-  new window.google.maps.Marker({
-    position: {lat: 43.642567, lng: -79.387054},
-    map: map
-  })
-}
-
-  useEffect(
-    ()=> {
-        const googleMapScript = document.createElement('script');
-        debugger
-        googleMapScript.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyAHzxtVBJkcrbmLNwX7Jv6OFhHMs4qBK4A`;
-        window.document.body.appendChild(googleMapScript)
-        googleMapScript.addEventListener('load', {
-          intialiseMap
-        }
-        );
-    }//,[]
-  );
-
-//   async function loadMapObject(){
-//     const map = document.getElementById('map');
-//     setTimeout(()=>{
-//       map.innerHTML = '<span>Map loaded </span>';
-//     }, 5000)
-//   }
-//   loadMapObject();
-//   setLoadingMap(false);
-// },[loadingMap]
-
+  const [defaultCenter, setDefaultCenter] = useState({ lat: 59.95, lng: 30.33 });
+  const [defaultZoom, setDefaultZoom] = useState(11);
 
   return(
     <>
@@ -92,10 +43,15 @@ const createMarker = () =>{
         )
       }
       </div>
-      <div className="result-map-container">
-      <div id="map">
-        <span>Loading map</span>
-      </div>
+      <div className="result-map">
+        <div className="map-container">
+        <GoogleMapReact
+            bootstrapURLKeys={{ key: 'AIzaSyAHzxtVBJkcrbmLNwX7Jv6OFhHMs4qBK4A' }}
+            defaultCenter={defaultCenter}
+            defaultZoom={defaultZoom}
+          >
+        </GoogleMapReact>
+        </div>
       </div>
     </div>
     </>

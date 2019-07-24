@@ -201,9 +201,18 @@ span.error{
 	width: 40%;
 }
 
-.result-map-container{
+.result-map{
 	background-color: cornsilk;
 	width: 60%;
+	border: 1px solid #eee;
+	border-top-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+
+.map-container{
+	margin-top: 10px;
+	width: 100%;
+	height: 90vh;
 	border: 1px solid #eee;
 	border-top-left-radius: 5px;
 	border-bottom-right-radius: 5px;
