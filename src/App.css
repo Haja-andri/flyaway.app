@@ -137,13 +137,19 @@ label {
 
 /* auto complete box */
 #results{ 
-	box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
-	border-radius: 5px;
+	position: relative;
+	padding: 0;
+	margin: 0;
 }
 ul.countries {
+	position: absolute;
+	background-color: cornsilk;
+	z-index: 10;
 	padding: 0;
 	margin: 0;
 	list-style-type: none;
+	box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+	border-radius: 5px;
 }
 
 .country-item {
@@ -209,6 +215,9 @@ span.error{
 }
 
 .map-container{
+	position: -webkit-sticky; /* Safari */
+	position: sticky;
+	top: 0;
 	width: 100%;
 	height: 90vh;
 	border: 1px solid #666666;
