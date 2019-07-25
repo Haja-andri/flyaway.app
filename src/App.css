@@ -204,9 +204,6 @@ span.error{
 .result-map{
 	background-color: cornsilk;
 	width: 60%;
-	border: 1px solid #eee;
-	border-top-left-radius: 5px;
-	border-bottom-right-radius: 5px;
 }
 
 .map-container{
@@ -214,8 +211,7 @@ span.error{
 	width: 100%;
 	height: 90vh;
 	border: 1px solid #eee;
-	border-top-left-radius: 5px;
-	border-bottom-right-radius: 5px;
+	border-radius: 5px;
 }
 
 .flight-item{

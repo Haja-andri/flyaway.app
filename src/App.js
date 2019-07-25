@@ -24,7 +24,7 @@ function App() {
         {
             currentMode === 'search' 
             ? <LandingSearch reRenderWithFlights={reRenderWithFlights} currentMode={currentMode} /> 
-            : <FlightSelection destinations={destinations} currentMode={currentMode}/>
+            : <FlightSelection destinations={destinations} reRenderWithFlights={reRenderWithFlights} currentMode={currentMode}/>
         }
       </section>
     </div>

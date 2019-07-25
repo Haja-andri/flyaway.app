@@ -11,7 +11,11 @@ export default function FlightSelection(props){
   return(
     <>
     <div className="search-form">
-      <MainSearchForm submitAirport={props.submitAirport} currentMode={props.currentMode}/>
+      <MainSearchForm 
+        submitAirport={props.submitAirport} 
+        currentMode={props.currentMode}
+        reRenderWithFlights={props.reRenderWithFlights}
+        />
     </div>
     <div className="search-result-container">
       <div className="result-list-container">
