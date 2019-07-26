@@ -22,7 +22,7 @@ export default function MainSearchForm(props) {
     const destinations = await fetchDestinations(airportSelection.cityCode);
       if(destinations){
         setIsLoading(false);
-        props.reRenderWithFlights(destinations);
+        props.reRenderWithFlights(destinations, airportSelection.display);
       }
   }
 

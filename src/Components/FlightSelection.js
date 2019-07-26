@@ -53,6 +53,7 @@ export default function FlightSelection(props){
             key={flight.origin + flight.destination}
             className="flight-item"
             >
+              <h4>From {props.origin}</h4>
               <h3>{props.destinations.dictionaries.locations[flight.destination].detailedName}</h3>
               <div className="flight-details">
               
