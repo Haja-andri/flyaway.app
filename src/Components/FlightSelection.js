@@ -1,12 +1,38 @@
 import React from 'react';
-import { useState } from 'react';
-import GoogleMapReact from 'google-map-react';
+import { useState, useEffect } from 'react';
+// function that loads google map api
+import { loadGoogleMapApi } from '../Actions/fetchData';
 import MainSearchForm from './Forms/MainSearchForm';
 
 export default function FlightSelection(props){
-
   const [defaultCenter, setDefaultCenter] = useState({ lat: 59.95, lng: 30.33 });
   const [defaultZoom, setDefaultZoom] = useState(11);
+  const [mapInstance, setMapInstance] = useState({});
+  const [mapLoaded, setMapLoaded] = useState(false);
+
+  useEffect( ()=>{
+      if(!mapLoaded){
+        loadMap();
+      } 
+    },[mapLoaded]
+  );
+
+  const loadMap = () =>{
+    const mapPromise =  loadGoogleMapApi();
+    Promise.all([
+      mapPromise
+    ])
+    .then(value =>{
+      const googleMap = (value[0].maps.Map);
+      setMapInstance(new googleMap(document.getElementById('map'), {
+        zoom:defaultZoom,
+        scrollwheel:false,
+        center: defaultCenter
+      }));
+      setMapLoaded(true);  
+    }); 
+  }
+  
 
   return(
     <>
@@ -48,13 +74,7 @@ export default function FlightSelection(props){
       }
       </div>
       <div className="result-map">
-        <div className="map-container">
-        <GoogleMapReact
-            bootstrapURLKeys={{ key: 'AIzaSyAHzxtVBJkcrbmLNwX7Jv6OFhHMs4qBK4A' }}
-            defaultCenter={defaultCenter}
-            defaultZoom={defaultZoom}
-          >
-        </GoogleMapReact>
+        <div id="map" className="map-container">
         </div>
       </div>
     </div>
