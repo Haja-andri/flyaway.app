@@ -6,9 +6,11 @@ import MainSearchForm from './Forms/MainSearchForm';
 
 export default function FlightSelection(props){
   const [defaultCenter, setDefaultCenter] = useState({ lat: 59.95, lng: 30.33 });
-  const [defaultZoom, setDefaultZoom] = useState(11);
+  const [defaultZoom, setDefaultZoom] = useState(4);
   const [mapInstance, setMapInstance] = useState({});
   const [mapLoaded, setMapLoaded] = useState(false);
+  //const [geocoderInstance, setGeocoderInstance] = useState({});
+  const [googleMap, setGoogleMap] = useState({});
 
   useEffect( ()=>{
       if(!mapLoaded){
@@ -23,14 +25,34 @@ export default function FlightSelection(props){
       mapPromise
     ])
     .then(value =>{
-      const googleMap = (value[0].maps.Map);
-      setMapInstance(new googleMap(document.getElementById('map'), {
+      const googleMap = (value[0].maps);
+      const currentMapInstance = new googleMap.Map(document.getElementById('map'), {
         zoom:defaultZoom,
         scrollwheel:false,
         center: defaultCenter
-      }));
-      setMapLoaded(true);  
+      })
+      setMapInstance(currentMapInstance);
+      setMapLoaded(true); 
+      const geocoderInstance = new googleMap.Geocoder();
+      // setGeocoderInstance(coderInstance); 
+      setGoogleMap(googleMap); // make it globaly accessible to the page
+      geocodeAddress(geocoderInstance, currentMapInstance, googleMap);
     }); 
+  }
+
+  const geocodeAddress = (geocoderInstance, currentMapInstance, googleMap) => {
+    const address = props.origin;
+    geocoderInstance.geocode({'address': address}, (results, status) =>{
+      if (status === 'OK') {
+        currentMapInstance.setCenter(results[0].geometry.location);
+        new googleMap.Marker({
+          map: currentMapInstance,
+          position: results[0].geometry.location
+        });
+      } else {
+        alert('Geocode was not successful for the following reason: ' + status);
+      }
+    });
   }
   
 
@@ -53,7 +75,6 @@ export default function FlightSelection(props){
             key={flight.origin + flight.destination}
             className="flight-item"
             >
-              <h4>From {props.origin}</h4>
               <h3>{props.destinations.dictionaries.locations[flight.destination].detailedName}</h3>
               <div className="flight-details">
               

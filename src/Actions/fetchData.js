@@ -40,7 +40,8 @@ export const loadGoogleMapApi = () => {
       }
 
       const script = document.createElement('script');
-      const API_KEY = process.env.GOOGLE_API_KEY || 'AIzaSyAHzxtVBJkcrbmLNwX7Jv6OFhHMs4qBK4A';
+      //const API_KEY = process.env.GOOGLE_API_KEY || 'AIzaSyAHzxtVBJkcrbmLNwX7Jv6OFhHMs4qBK4A';
+      const API_KEY = process.env.GOOGLE_API_KEY || 'AIzaSyDzSwGw3uenE5Hn_kISq948u5kRfH8E8OI';
       script.async = true;
       script.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}&callback=initGoogleMapPromise`;
       document.body.appendChild(script);    
