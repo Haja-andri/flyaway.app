@@ -63,6 +63,7 @@ export default function FlightSelection(props){
         submitAirport={props.submitAirport} 
         currentMode={props.currentMode}
         reRenderWithFlights={props.reRenderWithFlights}
+        currentOrigin = {props.origin}
         />
     </div>
     <div className="search-result-container">

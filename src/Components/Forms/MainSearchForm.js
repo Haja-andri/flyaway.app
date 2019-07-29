@@ -6,7 +6,10 @@ import { fetchAirportList, fetchDestinations } from '../../Actions/fetchData';
 export default function MainSearchForm(props) {
   const [airportQuery, setAirportQuery] = useState('');
   const [airportResult, setAirportResult] = useState([]);
-  const [airportSelection, setAirportSelection] = useState({ display: '', cityCode: ''});
+  const [airportSelection, setAirportSelection] = useState({ 
+    display: props.currentOrigin || '', 
+    cityCode: ''
+  });
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
