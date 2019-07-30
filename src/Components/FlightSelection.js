@@ -8,7 +8,7 @@ export default function FlightSelection(props){
   const [defaultCenter, setDefaultCenter] = useState({ lat: 59.95, lng: 30.33 });
   const [defaultZoom, setDefaultZoom] = useState(4);
   const [mapLoaded, setMapLoaded] = useState(false);
-  const [googleMap, setGoogleMap] = useState({});
+  const [googleMap, setGoogleMap] = useState(null);
 
   useEffect( ()=>{
       if(!mapLoaded){
@@ -17,6 +17,19 @@ export default function FlightSelection(props){
     },[ mapLoaded ]
   );
 
+  useEffect( ()=>{
+    if(googleMap){
+      const currentMapInstance = new googleMap.Map(document.getElementById('map'), {
+        zoom:defaultZoom,
+        scrollwheel:false,
+        center: defaultCenter
+      });
+      geocodeAddress(new googleMap.Geocoder(), currentMapInstance, googleMap);  
+    }
+  },[ props.origin ]
+);
+
+  
   const loadMap = () =>{
     const mapPromise =  loadGoogleMapApi();
     Promise.all([
