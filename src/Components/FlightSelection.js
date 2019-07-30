@@ -7,16 +7,14 @@ import MainSearchForm from './Forms/MainSearchForm';
 export default function FlightSelection(props){
   const [defaultCenter, setDefaultCenter] = useState({ lat: 59.95, lng: 30.33 });
   const [defaultZoom, setDefaultZoom] = useState(4);
-  const [mapInstance, setMapInstance] = useState({});
   const [mapLoaded, setMapLoaded] = useState(false);
-  //const [geocoderInstance, setGeocoderInstance] = useState({});
   const [googleMap, setGoogleMap] = useState({});
 
   useEffect( ()=>{
       if(!mapLoaded){
         loadMap();
-      } 
-    },[mapLoaded]
+      }  
+    },[ mapLoaded ]
   );
 
   const loadMap = () =>{
@@ -30,12 +28,10 @@ export default function FlightSelection(props){
         zoom:defaultZoom,
         scrollwheel:false,
         center: defaultCenter
-      })
-      setMapInstance(currentMapInstance);
+      });
+      setGoogleMap(googleMap); // make it globaly accessible to the page
       setMapLoaded(true); 
       const geocoderInstance = new googleMap.Geocoder();
-      // setGeocoderInstance(coderInstance); 
-      setGoogleMap(googleMap); // make it globaly accessible to the page
       geocodeAddress(geocoderInstance, currentMapInstance, googleMap);
     }); 
   }
@@ -97,7 +93,9 @@ export default function FlightSelection(props){
       }
       </div>
       <div className="result-map">
-        <div id="map" className="map-container">
+        <div className="map-container">
+        <div id="map" >
+        </div>
         </div>
       </div>
     </div>
