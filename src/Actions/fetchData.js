@@ -13,11 +13,10 @@ export const fetchDestinations = (cityCode) => {
 export const fetchAirportList =  (query) => {
     return axiosWithAuth().get(`https://test.api.amadeus.com/v1/reference-data/locations?subType=CITY&keyword=${query}&page[limit]=5`)
     .then(airport => {
-      debugger
       return airport.data;
     })
     .catch(async (error) => {
-      if(error.status = '401'){
+      if(error.message.includes('401')){
         await getSessionToken()
           console.log('back with session token');
       }

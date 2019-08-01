@@ -5,8 +5,8 @@ import { loadGoogleMapApi } from '../Actions/fetchData';
 import MainSearchForm from './Forms/MainSearchForm';
 
 export default function FlightSelection(props){
-  const [defaultCenter, setDefaultCenter] = useState({ lat: 59.95, lng: 30.33 });
-  const [defaultZoom, setDefaultZoom] = useState(4);
+  const [defaultCenter] = useState({ lat: 59.95, lng: 30.33 });
+  const [defaultZoom] = useState(4);
   const [mapLoaded, setMapLoaded] = useState(false);
   const [googleMap, setGoogleMap] = useState(null);
 
@@ -14,7 +14,7 @@ export default function FlightSelection(props){
       if(!mapLoaded){
         loadMap();
       }  
-    },[ mapLoaded ]
+    }
   );
 
   useEffect( ()=>{
@@ -26,7 +26,7 @@ export default function FlightSelection(props){
       });
       geocodeAddress(new googleMap.Geocoder(), currentMapInstance, googleMap);  
     }
-  },[ props.origin ]
+  },[props.origin]
 );
 
   
