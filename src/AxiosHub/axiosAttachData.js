@@ -7,7 +7,8 @@ export function axiosWithAuth () {
       const bearerTimeStamp = localStorage.getItem('bearer-time-stamp');
       const tokenLifespan = localStorage.getItem('token_lifespan');
       // if there is a token stored locally && still valid
-      if(bearer && bearerTimeStamp + tokenLifespan > Date.now()){
+      const expiryTime = parseInt(bearerTimeStamp) + parseInt(tokenLifespan);
+      if(bearer && expiryTime > Date.now()){
         const instance = axios.create({
           headers: {
             Authorization: `Bearer ${bearer}`,
