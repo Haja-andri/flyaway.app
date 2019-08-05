@@ -3,8 +3,11 @@ import axios from 'axios';
 export function axiosWithAuth () {
     // check in the local storage if there is a token
     return new Promise( (resolve, reject) =>{
-      if(localStorage.getItem('bearer')){
-        const bearer = localStorage.getItem('bearer');
+      const bearer = localStorage.getItem('bearer');
+      const bearerTimeStamp = localStorage.getItem('bearer-time-stamp');
+      const tokenLifespan = localStorage.getItem('token_lifespan');
+      // if there is a token stored locally && still valid
+      if(bearer && bearerTimeStamp + tokenLifespan > Date.now()){
         const instance = axios.create({
           headers: {
             Authorization: `Bearer ${bearer}`,
@@ -20,11 +23,15 @@ export function axiosWithAuth () {
         axios.post('https://test.api.amadeus.com/v1/security/oauth2/token', params)
         .then((result) => {
           const token = result.data.access_token;
+          const token_lifespan = result.data.expires_in;
           const instance = axios.create({
             headers: {
               Authorization: `Bearer ${token}`,
             },
           });
+          localStorage.setItem('bearer', token);
+          localStorage.setItem('bearer-time-stamp', Date.now());
+          localStorage.setItem('token_lifespan', token_lifespan * 1000);
           resolve(instance);
         })
         .catch((err) => {
