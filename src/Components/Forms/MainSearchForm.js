@@ -62,7 +62,6 @@ export default function MainSearchForm(props) {
     () => { // first argument is a call back to to be executed each time the components is mounted
       const pullAirports = async (airportQuery) => {
         try {
-
           fetchAirportList(airportQuery)
           .then(result =>{
             if(result){
@@ -78,7 +77,6 @@ export default function MainSearchForm(props) {
               setAirportResult(airportName);  
             }                        
           });
-
         } catch (error) {
           console.log('error loading airport list ')
         }
