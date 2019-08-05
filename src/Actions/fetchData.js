@@ -11,16 +11,24 @@ export const fetchDestinations = (cityCode) => {
 }
 
 export const fetchAirportList =  (query) => {
-    return axiosWithAuth().get(`https://test.api.amadeus.com/v1/reference-data/locations?subType=CITY&keyword=${query}&page[limit]=5`)
-    .then(airport => {
-      return airport.data;
-    })
-    .catch(async (error) => {
-      if(error.message.includes('401')){
-        await getSessionToken()
-          console.log('back with session token');
-      }
-    });
+    return new Promise((resolve, reject) =>{
+      const paramedAxios = axiosWithAuth();
+      Promise.all([
+        paramedAxios
+      ])
+      .then(axiosInstance => {
+        const axiosWithAuth = axiosInstance[0];
+        axiosWithAuth.get(`https://test.api.amadeus.com/v1/reference-data/locations?subType=CITY&keyword=${query}&page[limit]=5`)
+        .then(airport => {
+          resolve(airport.data);
+        })
+        .catch(async (error) => {
+          reject(error)
+        });
+      }) 
+    }
+
+    );
 }
 
 // loading the google map API for the component to use
@@ -41,7 +49,6 @@ export const loadGoogleMapApi = () => {
           resolve(window.google);
           delete window.initGoogleMapPromise;
       }
-
       const script = document.createElement('script');
       const API_KEY = process.env.GOOGLE_API_KEY;
       script.async = true;
@@ -50,8 +57,3 @@ export const loadGoogleMapApi = () => {
     }
   );
 }
-
-function getSessionToken(){
-  console.log('getting session token');
-  return;
-} 

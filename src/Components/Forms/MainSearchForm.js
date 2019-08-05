@@ -61,19 +61,28 @@ export default function MainSearchForm(props) {
   useEffect(
     () => { // first argument is a call back to to be executed each time the components is mounted
       const pullAirports = async (airportQuery) => {
-        const result = await fetchAirportList(airportQuery);
-        if(result){
-          let airportName = [];
-          result.data.forEach(airport => {
-              airportName.push(
-                {
-                  listDisplay: `${airport.address.cityName}  (${airport.address.cityCode})`,
-                  cityCode: airport.address.cityCode,
-                }
-              )
+        try {
+
+          fetchAirportList(airportQuery)
+          .then(result =>{
+            if(result){
+              let airportName = [];
+              result.data.forEach(airport => {
+                  airportName.push(
+                    {
+                      listDisplay: `${airport.address.cityName}  (${airport.address.cityCode})`,
+                      cityCode: airport.address.cityCode,
+                    }
+                  )
+              });
+              setAirportResult(airportName);  
+            }                        
           });
-          setAirportResult(airportName);  
+
+        } catch (error) {
+          console.log('error loading airport list ')
         }
+
       };
       if(airportQuery){
         pullAirports(airportQuery);
