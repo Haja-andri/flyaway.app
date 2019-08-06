@@ -51,10 +51,9 @@ export default function MainSearchForm(props) {
   // an airport and/or city has been selected from autocompletion list
   const onSelect = (event) => {
     event.preventDefault();
-    console.log(event.target)
     setAirportSelection({
-      display: event.target.innerText, 
-      cityCode: event.target.id,
+      display: event.currentTarget.innerText, 
+      cityCode: event.currentTarget.id,
     });
     setAirportQuery('');
   }
@@ -70,7 +69,6 @@ export default function MainSearchForm(props) {
               result.data.forEach(airport => {
                   airportName.push(
                     {
-                      //listDisplay: `${airport.address.cityName}  (${airport.address.countryName})`,
                       listDisplay: {
                         cityName: airport.address.cityName,
                         countryName: airport.address.countryName
@@ -114,16 +112,17 @@ export default function MainSearchForm(props) {
                   onFocus={updatePlaceHoler}
                   onBlur={updatePlaceHoler}
                 />
-                <div id="results" onClick={onSelect} >                          
+                <div id="results">                          
                 <ul className="countries">
                   {
                     airportResult && 
                     airportResult.map(airport =>(
                       <li 
                           key={airport.cityCode}
+                          onClick={onSelect} 
                           id={airport.cityCode} 
                           className="country-item"
-                        > <span>{airport.listDisplay.cityName}</span>
+                        > {airport.listDisplay.cityName}
                         <span className="small-set">({airport.listDisplay.countryName})</span>
                       </li>
                     ))

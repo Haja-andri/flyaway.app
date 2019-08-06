@@ -166,7 +166,7 @@ span.error{
 	font-size: .7rem;
 	margin-left: 10px;
 }
-span.small-set{
+span.small-set, input span.small-set{
 	font-size: .7rem;
 	margin-left: .3rem;
 }
