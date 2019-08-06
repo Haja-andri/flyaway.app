@@ -65,7 +65,6 @@ button{
 	letter-spacing: 1px;
 	text-transform: uppercase;
 	transition: transform 80ms ease-in;
-	margin-top: 20px;
 	width: 70%;
 	margin: 0 auto;
 	margin-top: 15px;
@@ -99,9 +98,12 @@ form {
 
 .search-form-element.centered{
 	text-align: center;
-	width: 350px;
 }
 
+.search-form-element.select.centered{
+	margin-top: 10px;
+	width: 350px;
+}
 
 input, textarea {
 	background-color: #eee;

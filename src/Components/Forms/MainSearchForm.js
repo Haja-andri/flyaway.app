@@ -48,11 +48,11 @@ export default function MainSearchForm(props) {
     setAirportQuery(typedValue);
   }
 
-  // an airport and/or city has been selected from autocompletion list
+  // an airport and/or city has been selected from autocompletion list 
   const onSelect = (event) => {
     event.preventDefault();
     setAirportSelection({
-      display: event.currentTarget.innerText, 
+      display: event.currentTarget.innerText, // event.target.parentElement should work as well
       cityCode: event.currentTarget.id,
     });
     setAirportQuery('');
