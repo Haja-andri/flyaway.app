@@ -51,6 +51,7 @@ export default function MainSearchForm(props) {
   // an airport and/or city has been selected from autocompletion list
   const onSelect = (event) => {
     event.preventDefault();
+    console.log(event.target)
     setAirportSelection({
       display: event.target.innerText, 
       cityCode: event.target.id,
@@ -113,18 +114,17 @@ export default function MainSearchForm(props) {
                   onFocus={updatePlaceHoler}
                   onBlur={updatePlaceHoler}
                 />
-                <div id="results">                          
+                <div id="results" onClick={onSelect} >                          
                 <ul className="countries">
                   {
                     airportResult && 
                     airportResult.map(airport =>(
                       <li 
-                          key={airport.cityCode} 
-                          onClick={onSelect} 
+                          key={airport.cityCode}
                           id={airport.cityCode} 
                           className="country-item"
-                        > {airport.listDisplay.cityName}  
-                        ({airport.listDisplay.countryName})
+                        > <span>{airport.listDisplay.cityName}</span>
+                        <span className="small-set">({airport.listDisplay.countryName})</span>
                       </li>
                     ))
                   }
