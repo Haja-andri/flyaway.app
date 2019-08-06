@@ -59,7 +59,7 @@ export const loadGoogleMapApi = () => {
           delete window.initGoogleMapPromise;
       }
       const script = document.createElement('script');
-      const API_KEY = process.env.GOOGLE_API_KEY;
+      const API_KEY = process.env.REACT_APP_GOOGLE_API_KEY;
       script.async = true;
       script.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}&callback=initGoogleMapPromise`;
       document.body.appendChild(script);    

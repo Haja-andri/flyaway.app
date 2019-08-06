@@ -84,7 +84,6 @@ export default function MainSearchForm(props) {
         } catch (error) {
           console.log('error loading airport list ')
         }
-
       };
       if(airportQuery){
         pullAirports(airportQuery);
@@ -119,7 +118,14 @@ export default function MainSearchForm(props) {
                   {
                     airportResult && 
                     airportResult.map(airport =>(
-                        <li key={airport.cityCode} onClick={onSelect} id={airport.cityCode} className="country-item">{airport.listDisplay.cityName} <span className="small-set">({airport.listDisplay.countryName})</span></li>
+                      <li 
+                          key={airport.cityCode} 
+                          onClick={onSelect} 
+                          id={airport.cityCode} 
+                          className="country-item"
+                        > {airport.listDisplay.cityName}  
+                        ({airport.listDisplay.countryName})
+                      </li>
                     ))
                   }
                   </ul>

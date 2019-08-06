@@ -153,8 +153,6 @@ ul.countries {
 }
 
 .country-item {
-    display: flex;
-    align-items: center;
 	padding: 3px;
 	margin: 0.5rem;
 	font-size: .9rem;

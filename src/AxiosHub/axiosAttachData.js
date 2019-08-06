@@ -6,7 +6,7 @@ export function axiosWithAuth () {
       const bearer = localStorage.getItem('bearer');
       const bearerTimeStamp = localStorage.getItem('bearer-time-stamp');
       const tokenLifespan = localStorage.getItem('token_lifespan');
-      // if there is a token stored locally && still valid
+      // if there is a token stored locally && it is still valid
       const expiryTime = parseInt(bearerTimeStamp) + parseInt(tokenLifespan);
       if(bearer && expiryTime > Date.now()){
         const instance = axios.create({
@@ -18,9 +18,9 @@ export function axiosWithAuth () {
       }
       else {
         const params = new URLSearchParams();
-        params.append('grant_type', 'client_credentials');
-        params.append('client_id', 'qeq6JLAhTYLQPnzDuyb7oXvFXYnIjUNz');
-        params.append('client_secret', 'FPqLFzv4RcbKVeMN');
+        params.append('grant_type', process.env.REACT_APP_AMA_GRANT_TYPE);
+        params.append('client_id', process.env.REACT_APP_AMA_CLIENT_ID);
+        params.append('client_secret', process.env.REACT_APP_AMA_CLIENT_SECRET);
         axios.post('https://test.api.amadeus.com/v1/security/oauth2/token', params)
         .then((result) => {
           const token = result.data.access_token;
