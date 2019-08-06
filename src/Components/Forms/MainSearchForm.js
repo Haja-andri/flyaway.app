@@ -69,7 +69,11 @@ export default function MainSearchForm(props) {
               result.data.forEach(airport => {
                   airportName.push(
                     {
-                      listDisplay: `${airport.address.cityName}  (${airport.address.cityCode})`,
+                      //listDisplay: `${airport.address.cityName}  (${airport.address.countryName})`,
+                      listDisplay: {
+                        cityName: airport.address.cityName,
+                        countryName: airport.address.countryName
+                      },
                       cityCode: airport.address.cityCode,
                     }
                   )
@@ -115,7 +119,7 @@ export default function MainSearchForm(props) {
                   {
                     airportResult && 
                     airportResult.map(airport =>(
-                        <li key={airport.cityCode} onClick={onSelect} id={airport.cityCode} className="country-item">{airport.listDisplay}</li>
+                        <li key={airport.cityCode} onClick={onSelect} id={airport.cityCode} className="country-item">{airport.listDisplay.cityName} <span className="small-set">({airport.listDisplay.countryName})</span></li>
                     ))
                   }
                   </ul>

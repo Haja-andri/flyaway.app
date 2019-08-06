@@ -154,7 +154,6 @@ ul.countries {
 
 .country-item {
     display: flex;
-    justify-content: space-between;
     align-items: center;
 	padding: 3px;
 	margin: 0.5rem;
@@ -168,6 +167,10 @@ span.error{
 	color: #FF4B2B;
 	font-size: .7rem;
 	margin-left: 10px;
+}
+span.small-set{
+	font-size: .7rem;
+	margin-left: .3rem;
 }
 
 /* Loading indicator*/
