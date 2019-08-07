@@ -24,7 +24,6 @@ a {
 /* Search Form */
 .search-form-container {
 	margin: 20px;
-	min-width: 350px;
 }
 
 /* Media screen for main form */
@@ -54,12 +53,6 @@ a {
 
 .header-form h1{
     text-align: left;    
-}
-
-.header-form input {
-    background-color: white;
-	border-top-left-radius: 5px;
-	border-bottom-right-radius: 5px;
 }
 
 button{
@@ -114,7 +107,7 @@ form {
 }
 
 input, textarea {
-	background-color: #eee;
+	background-color: white;
 	color: #999999;
 	font-size: 16px;
 	padding: 12px 15px;
@@ -122,6 +115,8 @@ input, textarea {
 	margin-top: 5px;
 	width: 100%;
 	border: 1px solid #eceaea;
+	border-top-left-radius: 5px;
+	border-bottom-right-radius: 5px;
 }
 
 input.half{
@@ -216,11 +211,13 @@ span.small-set, input span.small-set{
 
 .result-list-container{
 	background-color: cornsilk;
+	border-top-left-radius: 5px;
 	width: 40%;
 }
 
 .result-map{
 	background-color: cornsilk;
+	border-top-right-radius: 5px;
 	width: 60%;
 	padding: 10px;
 }
@@ -241,7 +238,7 @@ span.small-set, input span.small-set{
 .flight-item{
 	margin: 10px;
 	padding: 10px;
-	min-width: 350px;
+	min-width: 290px;
 	background-color: white;
 	border-top-left-radius: 5px;
 	border-bottom-right-radius: 5px;
@@ -249,12 +246,44 @@ span.small-set, input span.small-set{
 }
 
 .flight-item:hover {
-	box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+	border: 1px solid cadetblue;
 }
 
 .flight-details{
 	display: flex;
 	justify-content: space-around;
+}
+
+/* Media screen for search result page */
+@media only screen and (max-width: 750px){
+	.result-map{
+		display: none;
+	}	
+	.result-list-container{
+		width: 100%;
+	}
+	.flight-item{
+		margin: 4px;
+	}
+	.search-form-element-container.select{
+		flex-direction: column;
+	}
+	form > div > div > label {
+		display: none;
+	}
+	.search-form-element.select.centered{
+		width: 100%;
+		margin-top: 0px;
+	}
+	.result-list-container{
+		border-top-right-radius: 5px;
+	}
+	input, textarea {
+		margin-bottom: 0px;
+		/*hack for safari on mobile*/
+		-webkit-appearance: none;
+		border-radius: 0;
+	}
 }
 
 .large-display{

@@ -130,19 +130,16 @@ export default function MainSearchForm(props) {
                   </ul>
                 </div>
               </div>
-              <div className={`search-form-element ${props.currentMode}`}>
+              {/* <div className={`search-form-element ${props.currentMode}`}>
                 <label>BUDGET</label>
                 <input typpe="text"></input>
-              </div>
+              </div> */}
               <div className={`search-form-element ${props.currentMode} centered`}>
                 <button onClick={onSubmit}>
                 {
-                  isLoading ? (
-                    <div className="lds-dual-ring"></div>
-                  ) 
-                  : (
-                    <div>Inspire me</div>
-                  )
+                  isLoading 
+                  ? (<div className="lds-dual-ring"></div>) 
+                  : (<div>Go fly</div>)
                 }
                 </button>              
               </div>
