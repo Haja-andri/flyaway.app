@@ -102,7 +102,7 @@ export default function MainSearchForm(props) {
           }        
             <div className={`search-form-element-container ${props.currentMode}`}>
               <div className={`search-form-element ${props.currentMode}`}>
-                  <label>FROM</label>
+                  <label>FLYING FROM</label>
                   <span className="error">{errorMessage}</span>
                   <input 
                   className="from"
