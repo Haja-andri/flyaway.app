@@ -85,16 +85,17 @@ export default function FlightSelection(props){
             key={flight.origin + flight.destination}
             className="flight-item"
             >
-              <h3>{props.destinations.dictionaries.locations[flight.destination].detailedName}</h3>
+              <div className="destination-name"><h3>{props.destinations.dictionaries.locations[flight.destination].detailedName}</h3></div>
+              
               <div className="flight-details">
               
                 <div>
                   <label>Flying on </label>
-                  <div className="date">{flight.departureDate}</div>
+                  <div className="date-up">{flight.departureDate}</div>
                 </div>
                 <div>
                   <label>Returngin on </label>
-                  <div className="date">{flight.returnDate}</div>
+                  <div className="date-down">{flight.returnDate}</div>
                 </div>
                 <span className="large-display">{flight.price.total} &euro;</span>
                 
