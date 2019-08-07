@@ -4,8 +4,8 @@ export default function NavBar (){
     return(
         <nav className="dark">
         <a href="/">Home</a>
-        <a href="/">Host</a>
-        <a href="/">Logout</a>
+        <a href="/">Blog</a>
+        <a href="/">Contact</a>
       </nav>
     );
 }
