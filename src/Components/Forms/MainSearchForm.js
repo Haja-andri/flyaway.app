@@ -105,6 +105,7 @@ export default function MainSearchForm(props) {
                   <label>FROM</label>
                   <span className="error">{errorMessage}</span>
                   <input 
+                  className="from"
                   typpe="text"
                   placeholder="City, Airport"
                   value={airportSelection.display}

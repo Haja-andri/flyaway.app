@@ -119,6 +119,13 @@ input, textarea {
 	border-bottom-right-radius: 5px;
 }
 
+input.from {
+	background: url(./assets/icons/maps-and-flags.png) no-repeat 3%;
+	background-size: 16px;
+	padding-left: 28px;
+	opacity: 0.8;
+}
+
 input.half{
 	width: 50%;
 }
