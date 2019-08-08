@@ -98,7 +98,8 @@ export default function MainSearchForm(props) {
     return(
         <form autoComplete="off" className={`header-form ${props.currentMode}`}>
           {
-            props.currentMode === 'search' && <h1>Travel inspirations, <br/> on your budget</h1>
+            props.currentMode === 'search' 
+            && <h1>Travel inspirations, <br/> on your budget</h1>
           }        
             <div className={`search-form-element-container ${props.currentMode}`}>
               <div className={`search-form-element ${props.currentMode}`}>

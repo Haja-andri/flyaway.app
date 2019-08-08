@@ -10,9 +10,8 @@ body {
 
 h1 {
   font-weight: bold;
-  font-size: 2rem;
+  font-size: 1.5rem;
   margin: 0;
-  padding-bottom: 30px;
 }
 
 a {
@@ -27,7 +26,7 @@ a {
 }
 
 /* Media screen for main form */
-@media only screen and (max-width: 380px){
+@media only screen and (max-width: 450px){
 	.search-form-container {
 		margin: 0 auto;
 		opacity: 0.8;
@@ -42,8 +41,10 @@ a {
 }
 
 .header-form.select{
+	border-top-left-radius: 0px;
+	border-top-right-radius: 0px;
     padding: 5px;   
-    width: 90%;
+    width: 100%;
     margin: 0 auto;
 }
 

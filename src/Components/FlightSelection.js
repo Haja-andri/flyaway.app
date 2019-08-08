@@ -67,7 +67,7 @@ export default function FlightSelection(props){
 
   return(
     <>
-    <div className="search-form">
+    <div>
       <MainSearchForm 
         submitAirport={props.submitAirport} 
         currentMode={props.currentMode}

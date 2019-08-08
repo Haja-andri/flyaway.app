@@ -22,7 +22,7 @@ function App() {
   return (
     <div>
         <section className={currentMode}>
-        <NavBar currentMode={currentMode} />
+        {/* <NavBar currentMode={currentMode} /> */}
         {
             currentMode === 'search' 
             ? <LandingSearch reRenderWithFlights={reRenderWithFlights} currentMode={currentMode} /> 
