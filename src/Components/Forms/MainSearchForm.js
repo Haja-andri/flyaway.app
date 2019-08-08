@@ -140,7 +140,7 @@ export default function MainSearchForm(props) {
                 {
                   isLoading 
                   ? (<div className="lds-dual-ring"></div>) 
-                  : (<div>Go fly</div>)
+                  : (<div>Fly away !</div>)
                 }
                 </button>              
               </div>
