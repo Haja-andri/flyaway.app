@@ -172,6 +172,7 @@ label {
 ul.countries {
 	position: absolute;
 	background-color: cornsilk;
+	width: 100%;
 	z-index: 10;
 	padding: 0;
 	margin: 0;
@@ -244,12 +245,15 @@ span.small-set, input span.small-set{
 	padding-top: 40px;
 	display: flex;
 	width: 95%;
+	max-width: 1200px;
 	margin: 0 auto;
 }
 
 .result-list-container{
 	background-color: cornsilk;
 	border-top-left-radius: 5px;
+	display: flex wrap;
+	flex-direction: row;
 	width: 40%;
 }
 
@@ -299,7 +303,7 @@ span.small-set, input span.small-set{
 		text-align: left;  
 		padding-bottom: 0px;
 	}
-	
+
 	.result-map{
 		display: none;
 	}	

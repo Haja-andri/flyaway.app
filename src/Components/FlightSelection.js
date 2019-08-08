@@ -7,15 +7,7 @@ import MainSearchForm from './Forms/MainSearchForm';
 export default function FlightSelection(props){
   const [defaultCenter] = useState({ lat: 59.95, lng: 30.33 });
   const [defaultZoom] = useState(4);
-  const [mapLoaded, setMapLoaded] = useState(false);
   const [googleMap, setGoogleMap] = useState(null);
-
-  useEffect( ()=>{
-      if(!mapLoaded && !googleMap){
-        loadMap();
-      }  
-    }
-  );
 
   useEffect( ()=>{
     if(googleMap){
@@ -26,9 +18,11 @@ export default function FlightSelection(props){
       });
       geocodeAddress(new googleMap.Geocoder(), currentMapInstance, googleMap);  
     }
-  },[props.origin]
+    else {
+      loadMap();
+    }
+  }
 );
-
   
   const loadMap = () =>{
     const mapPromise =  loadGoogleMapApi();
@@ -43,7 +37,6 @@ export default function FlightSelection(props){
         center: defaultCenter
       });
       setGoogleMap(googleMap); // make it globaly accessible to the page
-      setMapLoaded(true); 
       const geocoderInstance = new googleMap.Geocoder();
       geocodeAddress(geocoderInstance, currentMapInstance, googleMap);
     }); 
