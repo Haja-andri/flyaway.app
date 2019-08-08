@@ -54,6 +54,12 @@ a {
 	0 10px 10px rgba(0,0,0,0.22);
 }
 
+.full-screen {
+	width: 100vw;
+	height: 100vh;
+	opacity: 1;
+}
+
 .header-form.select{
 	border-top-left-radius: 0px;
 	border-top-right-radius: 0px;
@@ -125,7 +131,7 @@ form {
 input, textarea {
 	background-color: white;
 	color: #666666;
-	font-size: .9rem;
+	font-size: 1rem;
 	padding: 12px 15px;
 	margin-bottom: 15px;
 	margin-top: 5px;
@@ -135,7 +141,7 @@ input, textarea {
 	border-bottom-right-radius: 5px;
 }
 
-input.from {
+input.from, input.from.select {
 	background: url(./assets/icons/maps-and-flags.png) no-repeat 3%;
 	background-size: 16px;
 	padding-left: 28px;
@@ -156,7 +162,6 @@ label {
 	font-size: 12px;
 	letter-spacing: 0.1em;
 	color: cadetblue;
-	text-transform: uppercase;
 }
 
 .hide {
@@ -233,7 +238,7 @@ span.small-set, input span.small-set{
 	padding-left: 35px;
 	opacity: .7;
 	color: #333;
-	font-size: .9rem;
+	font-size: .8rem;
 }
 
 .date-down{

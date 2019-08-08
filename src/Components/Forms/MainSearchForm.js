@@ -22,10 +22,26 @@ export default function MainSearchForm(props) {
   }
 
   // clear or set-up field placeholder to guide the user
-  const updatePlaceHoler = (event) => {
-    event.target.placeholder ? 
-    event.target.placeholder = '' : 
+  const updatePlaceHolder = (event) => {
+    event.target.placeholder = '';
+    const form = document.getElementById('searc-form');
+    if(window.screen.width < 750){
+      form.classList.add('full-screen');
+    }
+    setErrorMessage('');
+  }
+
+  // clear or set-up field placeholder to guide the user
+  const resetFormView = (event) => {
+    const form = document.getElementById('searc-form');
+    if(window.screen.width < 750){
+      form.classList.remove('full-screen');
+    }
     event.target.placeholder = 'City, Airport';
+    setAirportSelection({
+      display: props.currentOrigin || '',
+    })
+    setAirportQuery('');
     setErrorMessage('');
   }
 
@@ -92,7 +108,7 @@ export default function MainSearchForm(props) {
   );
 
     return(
-        <form autoComplete="off" className={`header-form ${props.currentMode}`}>
+        <form id="searc-form" autoComplete="off" className={`header-form ${props.currentMode}`}>
           {
             props.currentMode === 'search' 
             && <h1>Travel inspirations, <br/> on your budget</h1>
@@ -102,13 +118,13 @@ export default function MainSearchForm(props) {
                   <label>I AM FLYING FROM</label>
                   <span className="error">{errorMessage}</span>
                   <input 
-                  className="from"
+                  className={`from ${props.currentMode}`}
                   typpe="text"
                   placeholder="City, Airport"
                   value={airportSelection.display}
                   onChange={onAirportQuery}
-                  onFocus={updatePlaceHoler}
-                  onBlur={updatePlaceHoler}
+                  onFocus={updatePlaceHolder}
+                  onBlur={resetFormView}
                 />
                 <div id="results">                          
                 <ul className="countries">
