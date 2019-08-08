@@ -227,7 +227,7 @@ span.small-set, input span.small-set{
 /* Result contents */
 .date-up, .date-down{
 	padding-top: 10px;
-	background: url(./assets/icons/take-off-2.png) no-repeat 3%;
+	background: url(./assets/icons/take-off.png) no-repeat 3%;
 	background-size: 20px;
 	padding-left: 35px;
 	opacity: .7;
@@ -236,7 +236,7 @@ span.small-set, input span.small-set{
 }
 
 .date-down{
-	background: url(./assets/icons/landing-2.png) no-repeat 3%;
+	background: url(./assets/icons/landing.png) no-repeat 3%;
 	background-size: 20px;
 }
 
