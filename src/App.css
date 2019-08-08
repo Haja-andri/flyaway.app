@@ -8,10 +8,24 @@ body {
 	margin: 0;
 }
 
+h1, h2, h3 {
+	font-weight: bold;
+	margin: 0;
+}
 h1 {
-  font-weight: bold;
-  font-size: 1.5rem;
-  margin: 0;
+	font-size: 1.8rem;
+}
+
+h2 {
+	font-size: 1.6rem;
+}
+
+h3 {
+	font-size: 1.2rem;
+}
+
+h4 {
+	font-size: .8rem;
 }
 
 a {
@@ -53,7 +67,8 @@ a {
 }
 
 .header-form h1{
-    text-align: left;    
+	text-align: left;  
+	padding-bottom: 20px;
 }
 
 button{
@@ -195,8 +210,8 @@ span.small-set, input span.small-set{
 	height: 11.5px;
 	margin: 0px;
 	border-radius: 50%;
-	border: 5px solid #fff;
-	border-color: #fff transparent #fff transparent;
+	border: 5px solid #FF4B2B;
+	border-color: #FF4B2B transparent #FF4B2B transparent;
 	animation: lds-dual-ring 1.5s linear infinite;
 }
 
@@ -280,6 +295,11 @@ span.small-set, input span.small-set{
 
 /* Media screen for search result page */
 @media only screen and (max-width: 750px){
+	.header-form h1{
+		text-align: left;  
+		padding-bottom: 0px;
+	}
+	
 	.result-map{
 		display: none;
 	}	
@@ -313,6 +333,15 @@ span.small-set, input span.small-set{
 .large-display{
 	color: #FF4B2B;
 	font-size: 1.4rem;
+}
+
+@media only screen and (max-width: 890px){
+	.large-display{
+		font-size: .8rem;
+	}
+	label{
+		font-size: .6rem;
+	}
 }
 
 .date {

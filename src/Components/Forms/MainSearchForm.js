@@ -10,22 +10,14 @@ export default function MainSearchForm(props) {
     display: props.currentOrigin || '', 
     cityCode: ''
   });
-  const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
   // called on form submitted
   // async since we fetch the data from remote
-  const onSubmit = async (event) => {
-    event.preventDefault();
-    if(!airportSelection.cityCode) {
-      setErrorMessage('From where are you flying?');
-      return;
-    }
-    setIsLoading(true);
-    const destinations = await fetchDestinations(airportSelection.cityCode);
+  const onSubmit = async (selected) => {
+    const destinations = await fetchDestinations(selected.cityCode);
       if(destinations){
-        setIsLoading(false);
-        props.reRenderWithFlights(destinations, airportSelection.display);
+        props.reRenderWithFlights(destinations, selected.display);
       }
   }
 
@@ -51,11 +43,15 @@ export default function MainSearchForm(props) {
   // an airport and/or city has been selected from autocompletion list 
   const onSelect = (event) => {
     event.preventDefault();
-    setAirportSelection({
+    setAirportSelection({ 
       display: event.currentTarget.innerText, // event.target.parentElement should work as well
-      cityCode: event.currentTarget.id,
+      cityCode: event.currentTarget.id, 
     });
     setAirportQuery('');
+    onSubmit({ 
+      display: event.currentTarget.innerText, // event.target.parentElement should work as well
+      cityCode: event.currentTarget.id, 
+    });
   }
   
   useEffect(
@@ -78,7 +74,7 @@ export default function MainSearchForm(props) {
                   )
               });
               setAirportResult(airportName);  
-            }                        
+            }             
           });
         } catch (error) {
           console.log('error loading airport list ')
@@ -103,7 +99,7 @@ export default function MainSearchForm(props) {
           }        
             <div className={`search-form-element-container ${props.currentMode}`}>
               <div className={`search-form-element ${props.currentMode}`}>
-                  <label>FLYING FROM</label>
+                  <label>I AM FLYING FROM</label>
                   <span className="error">{errorMessage}</span>
                   <input 
                   className="from"
@@ -131,19 +127,6 @@ export default function MainSearchForm(props) {
                   }
                   </ul>
                 </div>
-              </div>
-              {/* <div className={`search-form-element ${props.currentMode}`}>
-                <label>BUDGET</label>
-                <input typpe="text"></input>
-              </div> */}
-              <div className={`search-form-element ${props.currentMode} centered`}>
-                <button onClick={onSubmit}>
-                {
-                  isLoading 
-                  ? (<div className="lds-dual-ring"></div>) 
-                  : (<div>Fly away !</div>)
-                }
-                </button>              
               </div>
             </div>  
         </form>

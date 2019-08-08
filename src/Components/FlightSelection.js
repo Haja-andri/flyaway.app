@@ -18,11 +18,13 @@ export default function FlightSelection(props){
   );
 
   useEffect( ()=>{
+    console.log('effeft');
     if(googleMap){
+      console.log('map');
       const currentMapInstance = new googleMap.Map(document.getElementById('map'), {
         zoom:defaultZoom,
         scrollwheel:false,
-        center: defaultCenter
+        center: defaultZoom
       });
       geocodeAddress(new googleMap.Geocoder(), currentMapInstance, googleMap);  
     }
@@ -85,7 +87,7 @@ export default function FlightSelection(props){
             key={flight.origin + flight.destination}
             className="flight-item"
             >
-              <div className="destination-name"><h3>{props.destinations.dictionaries.locations[flight.destination].detailedName}</h3></div>
+              <div className="destination-name"><h4>{props.destinations.dictionaries.locations[flight.destination].detailedName}</h4></div>
               
               <div className="flight-details">
               

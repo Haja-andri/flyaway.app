@@ -1,6 +1,5 @@
 import React from 'react';
 import { useState } from 'react';
-import NavBar from './Components/NavBar';
 import './App.css';
 import './css/header.css';
 import LandingSearch from './Components/LandingSearch';
