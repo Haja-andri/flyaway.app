@@ -11,16 +11,14 @@ export default function FlightSelection(props){
   const [googleMap, setGoogleMap] = useState(null);
 
   useEffect( ()=>{
-      if(!mapLoaded){
+      if(!mapLoaded && !googleMap){
         loadMap();
       }  
     }
   );
 
   useEffect( ()=>{
-    console.log('effeft');
     if(googleMap){
-      console.log('map');
       const currentMapInstance = new googleMap.Map(document.getElementById('map'), {
         zoom:defaultZoom,
         scrollwheel:false,

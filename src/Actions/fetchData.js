@@ -53,7 +53,6 @@ export const loadGoogleMapApi = () => {
   // #5 return the resolved promise (maps API) to the calling component
   return new Promise(
     (resolve, reject)=> {
-
       window.initGoogleMapPromise = () =>{
           resolve(window.google);
           delete window.initGoogleMapPromise;
