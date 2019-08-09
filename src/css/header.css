@@ -8,14 +8,10 @@ section.search, section.select {
 }
 
 /* Media screen for home background image */
-@media only screen and (max-width: 750px){
+@media only screen and (max-width: 1024px){
     section.search{
-        background-image: url("https://source.unsplash.com/-4-KfFh2eIU/750x1125"); /* MtOVM_rKgag 5bwgW8_9OPs 8tZMt-EiBp8*/
+        background-image: url("https://source.unsplash.com/Ycds6emp7BA/750x1125"); /* MtOVM_rKgag 5bwgW8_9OPs 8tZMt-EiBp8*/
     }
-}
-
-section.select {
-    /*background-image: linear-gradient(to right bottom, whitesmoke,whitesmoke);*/
 }
 
 nav {

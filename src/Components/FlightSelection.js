@@ -1,35 +1,30 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 // function that loads google map api
-import { loadGoogleMapApi } from '../Actions/fetchData';
+import { loadGoogleMapApi, setMapCenterToCurrentLocation, getDestinationGeocode } from '../utils/maps/googleMapApi';
 import MainSearchForm from './Forms/MainSearchForm';
 
 export default function FlightSelection(props){
   const [defaultCenter] = useState({ lat: 59.95, lng: 30.33 });
   const [defaultZoom] = useState(4);
-  const [mapLoaded, setMapLoaded] = useState(false);
   const [googleMap, setGoogleMap] = useState(null);
-
-  useEffect( ()=>{
-      if(!mapLoaded){
-        loadMap();
-      }  
-    }
-  );
+  //const [destinationGeoData, setDestinationGeoData] = useState([]);
 
   useEffect( ()=>{
     if(googleMap){
       const currentMapInstance = new googleMap.Map(document.getElementById('map'), {
         zoom:defaultZoom,
         scrollwheel:false,
-        center: defaultCenter
+        center: defaultZoom
       });
-      geocodeAddress(new googleMap.Geocoder(), currentMapInstance, googleMap);  
+      setMapCenterToCurrentLocation(props.origin, currentMapInstance, googleMap);
     }
-  },[props.origin]
+    else {
+      loadMap();
+    }
+  }
 );
 
-  
   const loadMap = () =>{
     const mapPromise =  loadGoogleMapApi();
     Promise.all([
@@ -43,31 +38,18 @@ export default function FlightSelection(props){
         center: defaultCenter
       });
       setGoogleMap(googleMap); // make it globaly accessible to the page
-      setMapLoaded(true); 
-      const geocoderInstance = new googleMap.Geocoder();
-      geocodeAddress(geocoderInstance, currentMapInstance, googleMap);
+      setMapCenterToCurrentLocation(props.origin, currentMapInstance, googleMap);
     }); 
   }
 
-  const geocodeAddress = (geocoderInstance, currentMapInstance, googleMap) => {
-    const address = props.origin;
-    geocoderInstance.geocode({'address': address}, (results, status) =>{
-      if (status === 'OK') {
-        currentMapInstance.setCenter(results[0].geometry.location);
-        new googleMap.Marker({
-          map: currentMapInstance,
-          position: results[0].geometry.location
-        });
-      } else {
-        alert('Geocode was not successful for the following reason: ' + status);
-      }
-    });
+  const showRouteOnMap = async (destinationCity) =>{
+    const destinationGeoData = await getDestinationGeocode(destinationCity);
+    console.log('destinationGeoData ', destinationGeoData)
   }
   
-
   return(
     <>
-    <div className="search-form">
+    <div>
       <MainSearchForm 
         submitAirport={props.submitAirport} 
         currentMode={props.currentMode}
@@ -84,17 +66,21 @@ export default function FlightSelection(props){
             <div 
             key={flight.origin + flight.destination}
             className="flight-item"
+            onClick={() => {
+              showRouteOnMap(props.destinations.dictionaries.locations[flight.destination].detailedName);
+            }}
             >
-              <h3>{props.destinations.dictionaries.locations[flight.destination].detailedName}</h3>
+              <div className="destination-name"><h4>{props.destinations.dictionaries.locations[flight.destination].detailedName}</h4></div>
+              
               <div className="flight-details">
               
                 <div>
                   <label>Flying on </label>
-                  <div className="date">{flight.departureDate}</div>
+                  <div className="date-up">{flight.departureDate}</div>
                 </div>
                 <div>
                   <label>Returngin on </label>
-                  <div className="date">{flight.returnDate}</div>
+                  <div className="date-down">{flight.returnDate}</div>
                 </div>
                 <span className="large-display">{flight.price.total} &euro;</span>
                 

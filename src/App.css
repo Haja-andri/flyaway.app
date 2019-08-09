@@ -8,11 +8,39 @@ body {
 	margin: 0;
 }
 
+h1, h2, h3 {
+	font-weight: bold;
+	margin: 0;
+}
 h1 {
-  font-weight: bold;
-  font-size: 2rem;
-  margin: 0;
-  padding-bottom: 30px;
+	font-size: 1.8rem;
+}
+
+h2 {
+	font-size: 1.6rem;
+}
+
+h3 {
+	font-size: 1.2rem;
+}
+
+h4 {
+	font-size: .8rem;
+}
+
+@media only screen and (max-width: 350px){
+	h1 {
+		font-size: 1.4rem;
+	}
+	h2 {
+		font-size: 1.4rem;
+	}
+	h3 {
+		font-size: 1rem;
+	}
+	h4 {
+		font-size: .6rem;
+	}
 }
 
 a {
@@ -27,10 +55,10 @@ a {
 }
 
 /* Media screen for main form */
-@media only screen and (max-width: 380px){
+@media only screen and (max-width: 450px){
 	.search-form-container {
 		margin: 0 auto;
-		opacity: 0.8;
+		opacity: 0.9;
 	}	
 }
 
@@ -41,9 +69,17 @@ a {
 	0 10px 10px rgba(0,0,0,0.22);
 }
 
+.full-screen {
+	width: 100vw;
+	height: 100vh;
+	opacity: 1;
+}
+
 .header-form.select{
+	border-top-left-radius: 0px;
+	border-top-right-radius: 0px;
     padding: 5px;   
-    width: 90%;
+    width: 100%;
     margin: 0 auto;
 }
 
@@ -52,7 +88,8 @@ a {
 }
 
 .header-form h1{
-    text-align: left;    
+	text-align: left;  
+	padding-bottom: 20px;
 }
 
 button{
@@ -108,7 +145,7 @@ form {
 
 input, textarea {
 	background-color: white;
-	color: #999999;
+	color: #666666;
 	font-size: 16px;
 	padding: 12px 15px;
 	margin-bottom: 15px;
@@ -117,6 +154,13 @@ input, textarea {
 	border: 1px solid #eceaea;
 	border-top-left-radius: 5px;
 	border-bottom-right-radius: 5px;
+}
+
+input.from, input.from.select {
+	background: url(./assets/icons/maps-and-flags.png) no-repeat 3%;
+	background-size: 16px;
+	padding-left: 28px;
+	opacity: 0.8;
 }
 
 input.half{
@@ -133,7 +177,6 @@ label {
 	font-size: 12px;
 	letter-spacing: 0.1em;
 	color: cadetblue;
-	text-transform: uppercase;
 }
 
 .hide {
@@ -145,11 +188,13 @@ label {
 	position: relative;
 	padding: 0;
 	margin: 0;
+	z-index: 15;
 }
 ul.countries {
 	position: absolute;
 	background-color: cornsilk;
-	z-index: 10;
+	width: 100%;
+	z-index: 15;
 	padding: 0;
 	margin: 0;
 	list-style-type: none;
@@ -187,8 +232,8 @@ span.small-set, input span.small-set{
 	height: 11.5px;
 	margin: 0px;
 	border-radius: 50%;
-	border: 5px solid #fff;
-	border-color: #fff transparent #fff transparent;
+	border: 5px solid #FF4B2B;
+	border-color: #FF4B2B transparent #FF4B2B transparent;
 	animation: lds-dual-ring 1.5s linear infinite;
 }
 
@@ -202,16 +247,34 @@ span.small-set, input span.small-set{
 }
 
 /* Result contents */
+.date-up, .date-down{
+	padding-top: 10px;
+	background: url(./assets/icons/take-off.png) no-repeat 3%;
+	background-size: 20px;
+	padding-left: 35px;
+	opacity: .7;
+	color: #333;
+	font-size: .8rem;
+}
+
+.date-down{
+	background: url(./assets/icons/landing.png) no-repeat 3%;
+	background-size: 20px;
+}
+
 .search-result-container{
 	padding-top: 40px;
 	display: flex;
 	width: 95%;
+	max-width: 1200px;
 	margin: 0 auto;
 }
 
 .result-list-container{
 	background-color: cornsilk;
 	border-top-left-radius: 5px;
+	display: flex wrap;
+	flex-direction: row;
 	width: 40%;
 }
 
@@ -232,7 +295,8 @@ span.small-set, input span.small-set{
 
 #map{
 	width: 100%;
-	height: 90vh;
+	height: 85vh;
+	z-index: -1;
 }
 
 .flight-item{
@@ -256,6 +320,11 @@ span.small-set, input span.small-set{
 
 /* Media screen for search result page */
 @media only screen and (max-width: 750px){
+	.header-form h1{
+		text-align: left;  
+		padding-bottom: 0px;
+	}
+
 	.result-map{
 		display: none;
 	}	
@@ -289,6 +358,15 @@ span.small-set, input span.small-set{
 .large-display{
 	color: #FF4B2B;
 	font-size: 1.4rem;
+}
+
+@media only screen and (max-width: 890px){
+	.large-display{
+		font-size: .8rem;
+	}
+	label{
+		font-size: .6rem;
+	}
 }
 
 .date {
