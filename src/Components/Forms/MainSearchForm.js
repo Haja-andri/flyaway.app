@@ -11,6 +11,7 @@ export default function MainSearchForm(props) {
     cityCode: ''
   });
   const [errorMessage, setErrorMessage] = useState('');
+  const form = document.getElementById('searc-form');
 
   // called on form submitted
   // async since we fetch the data from remote
@@ -24,7 +25,6 @@ export default function MainSearchForm(props) {
   // clear or set-up field placeholder to guide the user
   const updatePlaceHolder = (event) => {
     event.target.placeholder = '';
-    const form = document.getElementById('searc-form');
     if(window.screen.width < 750){
       form.classList.add('full-screen');
     }
@@ -33,7 +33,6 @@ export default function MainSearchForm(props) {
 
   // clear or set-up field placeholder to guide the user
   const resetFormView = (event) => {
-    const form = document.getElementById('searc-form');
     if(window.screen.width < 750){
       form.classList.remove('full-screen');
     }
@@ -41,7 +40,8 @@ export default function MainSearchForm(props) {
     setAirportSelection({
       display: props.currentOrigin || '',
     })
-    setAirportQuery('');
+    //setAirportQuery('');
+    setAirportResult([]);
     setErrorMessage('');
   }
 
@@ -59,6 +59,9 @@ export default function MainSearchForm(props) {
   // an airport and/or city has been selected from autocompletion list 
   const onSelect = (event) => {
     event.preventDefault();
+    if(window.screen.width < 750){
+      form.classList.remove('full-screen');
+    }
     setAirportSelection({ 
       display: event.currentTarget.innerText, // event.target.parentElement should work as well
       cityCode: event.currentTarget.id, 
@@ -126,23 +129,23 @@ export default function MainSearchForm(props) {
                   onFocus={updatePlaceHolder}
                   onBlur={resetFormView}
                 />
-                <div id="results">                          
+              <div id="results">                          
                 <ul className="countries">
-                  {
-                    airportResult && 
-                    airportResult.map(airport =>(
-                      <li 
-                          key={airport.cityCode}
-                          onClick={onSelect} 
-                          id={airport.cityCode} 
-                          className="country-item"
-                        > {airport.listDisplay.cityName}
-                        <span className="small-set">({airport.listDisplay.countryName})</span>
-                      </li>
-                    ))
-                  }
-                  </ul>
-                </div>
+                {
+                  airportResult && 
+                  airportResult.map(airport =>(
+                    <li 
+                        key={airport.cityCode}
+                        onMouseDown={onSelect} 
+                        id={airport.cityCode} 
+                        className="country-item"
+                      > {airport.listDisplay.cityName}
+                      <span className="small-set">({airport.listDisplay.countryName})</span>
+                    </li>
+                  ))
+                }
+                </ul>
+              </div>
               </div>
             </div>  
         </form>
