@@ -1,13 +1,14 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 // function that loads google map api
-import { loadGoogleMapApi, setMapCenterToCurrentLocation } from '../utils/maps/googleMapApi';
+import { loadGoogleMapApi, setMapCenterToCurrentLocation, getDestinationGeocode } from '../utils/maps/googleMapApi';
 import MainSearchForm from './Forms/MainSearchForm';
 
 export default function FlightSelection(props){
   const [defaultCenter] = useState({ lat: 59.95, lng: 30.33 });
   const [defaultZoom] = useState(4);
   const [googleMap, setGoogleMap] = useState(null);
+  //const [destinationGeoData, setDestinationGeoData] = useState([]);
 
   useEffect( ()=>{
     if(googleMap){
@@ -23,7 +24,7 @@ export default function FlightSelection(props){
     }
   }
 );
-  
+
   const loadMap = () =>{
     const mapPromise =  loadGoogleMapApi();
     Promise.all([
@@ -40,8 +41,12 @@ export default function FlightSelection(props){
       setMapCenterToCurrentLocation(props.origin, currentMapInstance, googleMap);
     }); 
   }
-  
 
+  const showRouteOnMap = async (destinationCity) =>{
+    const destinationGeoData = await getDestinationGeocode(destinationCity);
+    console.log('destinationGeoData ', destinationGeoData)
+  }
+  
   return(
     <>
     <div>
@@ -61,6 +66,9 @@ export default function FlightSelection(props){
             <div 
             key={flight.origin + flight.destination}
             className="flight-item"
+            onClick={() => {
+              showRouteOnMap(props.destinations.dictionaries.locations[flight.destination].detailedName);
+            }}
             >
               <div className="destination-name"><h4>{props.destinations.dictionaries.locations[flight.destination].detailedName}</h4></div>
               

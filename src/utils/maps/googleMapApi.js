@@ -1,3 +1,5 @@
+import { fetchDestinationGeocode } from '../../Actions/fetchData';
+
 // loading the google map API for the component to use
 export const loadGoogleMapApi = () => {
     // #1 the component call this function
@@ -25,16 +27,33 @@ return new Promise(
 }
 
 export const setMapCenterToCurrentLocation = (origin, currentMapInstance, googleMap) => {
-const geocoderInstance = new googleMap.Geocoder();
-geocoderInstance.geocode({'address': origin}, (results, status) =>{
-    if (status === 'OK') {
-    currentMapInstance.setCenter(results[0].geometry.location);
-    new googleMap.Marker({
-        map: currentMapInstance,
-        position: results[0].geometry.location
+    const geocoderInstance = new googleMap.Geocoder();
+    geocoderInstance.geocode({'address': origin}, (results, status) =>{
+        if (status === 'OK') {
+        currentMapInstance.setCenter(results[0].geometry.location);
+        new googleMap.Marker({
+            map: currentMapInstance,
+            position: results[0].geometry.location
+        });
+        } else {
+        alert('Geocode was not successful for the following reason: ' + status);
+        }
     });
-    } else {
-    alert('Geocode was not successful for the following reason: ' + status);
-    }
-});
+}
+
+export const getDestinationGeocode = async (address) => {
+    let geocode = await fetchDestinationGeocode(address);
+    return geocode;
+}
+
+export const getDestinationsGeocodeByBatch = async (destinationData) => {
+    let destinationGeocodeArray = [];
+    destinationData.data.forEach(async(city) => {
+        let address = destinationData.dictionaries.locations[city.destination].detailedName;
+        // du to google map limitation on JS library query per seconds
+        // we use the webservice over http which has no limitation
+        let geocode = await fetchDestinationGeocode(address);
+        destinationGeocodeArray.push({ address, geocode });
+    });
+    return destinationGeocodeArray;
 }
