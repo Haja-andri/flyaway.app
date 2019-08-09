@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 // function that loads google map api
-import { loadGoogleMapApi } from '../Actions/fetchData';
+import { loadGoogleMapApi, setMapCenterToCurrentLocation } from '../utils/maps/googleMapApi';
 import MainSearchForm from './Forms/MainSearchForm';
 
 export default function FlightSelection(props){
@@ -16,7 +16,7 @@ export default function FlightSelection(props){
         scrollwheel:false,
         center: defaultZoom
       });
-      geocodeAddress(new googleMap.Geocoder(), currentMapInstance, googleMap);  
+      setMapCenterToCurrentLocation(props.origin, currentMapInstance, googleMap);
     }
     else {
       loadMap();
@@ -37,24 +37,8 @@ export default function FlightSelection(props){
         center: defaultCenter
       });
       setGoogleMap(googleMap); // make it globaly accessible to the page
-      const geocoderInstance = new googleMap.Geocoder();
-      geocodeAddress(geocoderInstance, currentMapInstance, googleMap);
+      setMapCenterToCurrentLocation(props.origin, currentMapInstance, googleMap);
     }); 
-  }
-
-  const geocodeAddress = (geocoderInstance, currentMapInstance, googleMap) => {
-    const address = props.origin;
-    geocoderInstance.geocode({'address': address}, (results, status) =>{
-      if (status === 'OK') {
-        currentMapInstance.setCenter(results[0].geometry.location);
-        new googleMap.Marker({
-          map: currentMapInstance,
-          position: results[0].geometry.location
-        });
-      } else {
-        alert('Geocode was not successful for the following reason: ' + status);
-      }
-    });
   }
   
 
