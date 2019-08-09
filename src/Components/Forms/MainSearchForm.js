@@ -18,6 +18,9 @@ export default function MainSearchForm(props) {
   const onSubmit = async (selected) => {
     const destinations = await fetchDestinations(selected.cityCode);
       if(destinations){
+        // this is to remove the focus from the form so that the virtual keyboarb
+        // on mobile close once a submission is triggered
+        if (document.activeElement !== document.body) document.activeElement.blur();
         props.reRenderWithFlights(destinations, selected.display);
       }
   }
@@ -75,7 +78,7 @@ export default function MainSearchForm(props) {
   
   useEffect(
     () => { // first argument is a call back to to be executed each time the components is mounted
-      const pullAirports = async (airportQuery) => {
+      const pullAirports = async (airportQuery) => {  
         try {
           fetchAirportList(airportQuery)
           .then(result =>{
@@ -136,6 +139,7 @@ export default function MainSearchForm(props) {
                   airportResult.map(airport =>(
                     <li 
                         key={airport.cityCode}
+                        onClick={onSelect}
                         onMouseDown={onSelect} 
                         id={airport.cityCode} 
                         className="country-item"
