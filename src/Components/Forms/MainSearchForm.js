@@ -4,6 +4,7 @@ import { fetchAirportList, fetchDestinations } from '../../Actions/fetchData';
 
 
 export default function MainSearchForm(props) {
+
   const [airportQuery, setAirportQuery] = useState('');
   const [airportResult, setAirportResult] = useState([]);
   const [airportSelection, setAirportSelection] = useState({ 
@@ -12,6 +13,7 @@ export default function MainSearchForm(props) {
   });
   const [errorMessage, setErrorMessage] = useState('');
   const form = document.getElementById('searc-form');
+
 
   // called on form submitted
   // async since we fetch the data from remote
@@ -71,13 +73,23 @@ export default function MainSearchForm(props) {
     });
     setAirportQuery('');
     onSubmit({ 
-      display: event.currentTarget.innerText, // event.target.parentElement should work as well
+      display: event.currentTarget.innerText,
       cityCode: event.currentTarget.id, 
     });
   }
+
+  useEffect(() => {
+      // Initially the airport selection is intialise via props
+      // but after the first render the initialisation from props
+      // is ignored. To set the state with the new props received 
+      // we have to use useEffect to update the state
+      setAirportSelection({
+        display: props.currentOrigin});  
+}, [props.currentOrigin])
   
   useEffect(
-    () => { // first argument is a call back to to be executed each time the components is mounted
+    () => {
+      // first argument is a call back to to be executed each time the components is mounted
       const pullAirports = async (airportQuery) => {  
         try {
           fetchAirportList(airportQuery)
