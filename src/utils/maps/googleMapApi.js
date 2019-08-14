@@ -31,9 +31,10 @@ export const setMapCenterToCurrentLocation = (origin, currentMapInstance, google
     geocoderInstance.geocode({'address': origin}, (results, status) =>{
         if (status === 'OK') {
         currentMapInstance.setCenter(results[0].geometry.location);
+        const position = results[0].geometry.location
         new googleMap.Marker({
             map: currentMapInstance,
-            position: results[0].geometry.location
+            position
         });
         } else {
         alert('Geocode was not successful for the following reason: ' + status);

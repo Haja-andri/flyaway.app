@@ -8,7 +8,6 @@ export default function FlightSelection(props){
   const [defaultCenter] = useState({ lat: 59.95, lng: 30.33 });
   const [defaultZoom] = useState(4);
   const [googleMap, setGoogleMap] = useState(null);
-  //const [destinationGeoData, setDestinationGeoData] = useState([]);
 
   useEffect( ()=>{
     if(googleMap){
@@ -43,8 +42,28 @@ export default function FlightSelection(props){
   }
 
   const showRouteOnMap = async (destinationCity) =>{
-    const destinationGeoData = await getDestinationGeocode(destinationCity);
-    console.log('destinationGeoData ', destinationGeoData)
+    const from = await getDestinationGeocode(props.origin);
+
+    const currentMapInstance = new googleMap.Map(document.getElementById('map'), {
+      zoom:defaultZoom,
+      scrollwheel:false,
+      center: {lat: from.lat, lng: from.lng}
+    });
+
+    const to = await getDestinationGeocode(destinationCity);
+    let routeCoordinates = [
+      {lat: from.lat, lng: from.lng},
+      {lat: to.lat, lng: to.lng},
+    ];
+
+    const flightPath = new googleMap.Polyline({
+      path: routeCoordinates,
+      geodesic: true,
+      strokeColor: '#FF0000',
+      strokeOpacity: 1.0,
+      strokeWeight: 2
+    });
+    flightPath.setMap(currentMapInstance);
   }
   
   return(
