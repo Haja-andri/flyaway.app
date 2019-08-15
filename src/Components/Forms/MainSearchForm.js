@@ -133,9 +133,12 @@ export default function MainSearchForm(props) {
           }        
             <div className={`search-form-element-container ${props.currentMode}`}>
               <div className={`search-form-element ${props.currentMode}`}>
-                  <label>I AM FLYING FROM</label>
-                  <span className="error">{errorMessage}</span>
-                  <input 
+                {
+                  props.currentMode === 'search' 
+                  && <label>I AM FLYING FROM</label>
+                } 
+                <span className="error">{errorMessage}</span>
+                <input 
                   className={`from ${props.currentMode}`}
                   typpe="text"
                   placeholder="City, Airport"
