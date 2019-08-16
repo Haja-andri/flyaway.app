@@ -9,12 +9,13 @@ export const fetchDestinations = (cityCode) => {
       ])
       .then( axiosInstance =>{
         const axiosWithAuth = axiosInstance[0];
-        axiosWithAuth.get(`https://api.amadeus.com/v1/shopping/flight-destinations?origin=${cityCode}`)
+        axiosWithAuth.get(`https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=${cityCode}`)
         .then(airport => {
           resolve( airport.data);
         })
         .catch(error => {
-          reject(error);
+          const errorCode = error.response.data.errors[0].code;
+          reject(errorCode);
         }); 
       })
     }
@@ -29,7 +30,7 @@ export const fetchAirportList =  (query) => {
       ])
       .then(axiosInstance => {
         const axiosWithAuth = axiosInstance[0];
-        axiosWithAuth.get(`https://api.amadeus.com/v1/reference-data/locations?subType=CITY&keyword=${query}&page[limit]=5`)
+        axiosWithAuth.get(`https://test.api.amadeus.com/v1/reference-data/locations?subType=CITY&keyword=${query}&page[limit]=5`)
         .then(airport => {
           resolve(airport.data);
         })

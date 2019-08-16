@@ -14,17 +14,34 @@ export default function MainSearchForm(props) {
   const [errorMessage, setErrorMessage] = useState('');
   const form = document.getElementById('searc-form');
 
+  const printError = (errorMessage)=>{
+    const errorBox = document.getElementById('error-box');
+    errorBox.innerHTML = `<p>${errorMessage}</p>`;
+    errorBox.classList.remove('hide');
+  }
+
 
   // called on form submitted
   // async since we fetch the data from remote
   const onSubmit = async (selected) => {
-    const destinations = await fetchDestinations(selected.cityCode);
+    try {
+      const destinations = await fetchDestinations(selected.cityCode);
       if(destinations){
         // this is to remove the focus from the form so that the virtual keyboarb
         // on mobile close once a submission is triggered
         if (document.activeElement !== document.body) document.activeElement.blur();
         props.reRenderWithFlights(destinations, selected.display);
+      }      
+    } catch (error) {
+      switch (error) {
+        case 141:
+          const errorMessage = `Sorry, their is not destinations yet from ${airportSelection.display}`;
+          printError(errorMessage);
+          break;
+        default:
+          console.log(`Sorry there was an error getting the data ${error}`);
       }
+    }
   }
 
   // clear or set-up field placeholder to guide the user
