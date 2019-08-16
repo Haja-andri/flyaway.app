@@ -84,7 +84,7 @@ export default function MainSearchForm(props) {
       // is ignored. To set the state with the new props received 
       // we have to use useEffect to update the state
       setAirportSelection({
-        display: props.currentOrigin});  
+        display: props.currentOrigin || ''});  
 }, [props.currentOrigin])
   
   useEffect(
