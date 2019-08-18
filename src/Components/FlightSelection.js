@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 // function that loads google map api
 import { loadGoogleMapApi, setMapCenterToCurrentLocation, getDestinationGeocode } from '../utils/maps/googleMapApi';
 import MainSearchForm from './Forms/MainSearchForm';
-import ErrorPop from './ErrorPop';
 
 export default function FlightSelection(props){
   const [defaultCenter] = useState({ lat: 59.95, lng: 30.33 });
@@ -77,7 +76,6 @@ export default function FlightSelection(props){
         currentOrigin = {props.origin}
         />
     </div>
-    <ErrorPop />
     <div className="search-result-container">
       <div className="result-list-container">
         

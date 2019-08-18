@@ -1,6 +1,5 @@
 import React from 'react';
 import MainSearchForm from './Forms/MainSearchForm';
-import ErrorPop from './ErrorPop';
 
 
 export default function LandingHeader(props) {
@@ -12,7 +11,6 @@ export default function LandingHeader(props) {
             reRenderWithFlights={props.reRenderWithFlights} 
             currentMode={props.currentMode}
         />
-        <ErrorPop />
         </div>
         <div className="showcase">
         </div>

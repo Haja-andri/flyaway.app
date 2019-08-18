@@ -14,13 +14,6 @@ export default function MainSearchForm(props) {
   const [errorMessage, setErrorMessage] = useState('');
   const form = document.getElementById('searc-form');
 
-  const printError = (errorMessage)=>{
-    const errorBox = document.getElementById('error-box');
-    errorBox.innerHTML = `<p>${errorMessage}</p>`;
-    errorBox.classList.remove('hide');
-  }
-
-
   // called on form submitted
   // async since we fetch the data from remote
   const onSubmit = async (selected) => {
@@ -35,8 +28,8 @@ export default function MainSearchForm(props) {
     } catch (error) {
       switch (error) {
         case 141:
-          const errorMessage = `Sorry, their is not destinations yet from ${airportSelection.display}`;
-          printError(errorMessage);
+          const errorMessage = `Sorry, their is not destinations available from this city`;
+          setErrorMessage(errorMessage);
           break;
         default:
           console.log(`Sorry there was an error getting the data ${error}`);

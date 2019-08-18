@@ -388,14 +388,3 @@ span.small-set, input span.small-set{
 	z-index: 50; /* Specify a stack order in case you're using a different order for other elements */
 	cursor: pointer; /* Add a pointer on hover */
 }
-
-.error-container p{
-	width: 50%;
-	background: whitesmoke;
-	padding: 20px;
-	text-align: center;
-	color: #FF4B2B;
-	margin:0 auto;
-	margin-top: 40px;
-	border-radius: 5px;
-}
