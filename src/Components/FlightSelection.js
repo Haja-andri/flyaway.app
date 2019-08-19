@@ -81,7 +81,6 @@ export default function FlightSelection(props){
     </div>
     <div className="search-result-container">
       <div className="result-list-container">
-        
       {
         props.destinations.data.map( 
           flight => (
@@ -104,7 +103,7 @@ export default function FlightSelection(props){
                   <label>Returngin on </label>
                   <div className="date-down">{flight.returnDate}</div>
                 </div>
-                <span className="large-display">{flight.price.total} &euro;</span>
+                <div className="large-display">{flight.price.total} <span className="small-display">{props.destinations.meta.currency}</span></div>
                 
               </div>
               

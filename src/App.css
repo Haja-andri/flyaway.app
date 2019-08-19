@@ -361,6 +361,10 @@ span.small-set, input span.small-set{
 	color: #FF4B2B;
 	font-size: 1.4rem;
 }
+.small-display{
+	color: #FF4B2B;
+	font-size: .6rem;
+}
 
 @media only screen and (max-width: 890px){
 	.large-display{
