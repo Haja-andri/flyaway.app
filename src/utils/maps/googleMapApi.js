@@ -26,6 +26,7 @@ return new Promise(
 );
 }
 
+// currently not in use since las factoring/cleanin
 export const setMapCenterToCurrentLocation = (origin, currentMapInstance, googleMap) => {
     const geocoderInstance = new googleMap.Geocoder();
     geocoderInstance.geocode({'address': origin}, (results, status) =>{

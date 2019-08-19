@@ -1,22 +1,31 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 // function that loads google map api
-import { loadGoogleMapApi, setMapCenterToCurrentLocation, getDestinationGeocode } from '../utils/maps/googleMapApi';
+import { loadGoogleMapApi, getDestinationGeocode } from '../utils/maps/googleMapApi';
 import MainSearchForm from './Forms/MainSearchForm';
 
 export default function FlightSelection(props){
-  const [defaultCenter] = useState({ lat: 59.95, lng: 30.33 });
   const [defaultZoom] = useState(4);
   const [googleMap, setGoogleMap] = useState(null);
 
+  const mapDefaultView = async () =>{
+    // we get the map centered on the current origin by default
+    const center = await getDestinationGeocode(props.origin);
+    const currentMapInstance = new googleMap.Map(document.getElementById('map'), {
+      zoom:defaultZoom,
+      scrollwheel:false,
+      center
+    });
+    // add the marker to the center
+    new googleMap.Marker({
+      map: currentMapInstance,
+      position: center
+    });
+  }
+
   useEffect( ()=>{
     if(googleMap){
-      const currentMapInstance = new googleMap.Map(document.getElementById('map'), {
-        zoom:defaultZoom,
-        scrollwheel:false,
-        center: defaultZoom
-      });
-      setMapCenterToCurrentLocation(props.origin, currentMapInstance, googleMap);
+      mapDefaultView();
     }
     else {
       loadMap();
@@ -31,13 +40,7 @@ export default function FlightSelection(props){
     ])
     .then(value =>{
       const googleMap = (value[0].maps);
-      const currentMapInstance = new googleMap.Map(document.getElementById('map'), {
-        zoom:defaultZoom,
-        scrollwheel:false,
-        center: defaultCenter
-      });
       setGoogleMap(googleMap); // make it globaly accessible to the page
-      setMapCenterToCurrentLocation(props.origin, currentMapInstance, googleMap);
     }); 
   }
 
