@@ -28,7 +28,7 @@ export default function MainSearchForm(props) {
     } catch (error) {
       switch (error) {
         case 141:
-          const errorMessage = `Sorry, their is not destinations available from this city`;
+          const errorMessage = `Sorry, no flights are available from this city yet`;
           setErrorMessage(errorMessage);
           break;
         default:

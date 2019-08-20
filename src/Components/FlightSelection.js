@@ -3,23 +3,26 @@ import { useState, useEffect } from 'react';
 // function that loads google map api
 import { loadGoogleMapApi, getDestinationGeocode } from '../utils/maps/googleMapApi';
 import MainSearchForm from './Forms/MainSearchForm';
+import mapStyles from '../css/mapStyling'
 
 export default function FlightSelection(props){
   const [defaultZoom] = useState(4);
   const [googleMap, setGoogleMap] = useState(null);
-
+  
   const mapDefaultView = async () =>{
     // we get the map centered on the current origin by default
     const center = await getDestinationGeocode(props.origin);
     const currentMapInstance = new googleMap.Map(document.getElementById('map'), {
       zoom:defaultZoom,
       scrollwheel:false,
-      center
+      center,
+      styles: mapStyles
     });
     // add the marker to the center
     new googleMap.Marker({
       map: currentMapInstance,
-      position: center
+      position: center,
+      styles: mapStyles
     });
   }
 
@@ -50,7 +53,8 @@ export default function FlightSelection(props){
     const currentMapInstance = new googleMap.Map(document.getElementById('map'), {
       zoom:defaultZoom,
       scrollwheel:false,
-      center: {lat: from.lat, lng: from.lng}
+      center: {lat: from.lat, lng: from.lng},
+      styles: mapStyles
     });
 
     const to = await getDestinationGeocode(destinationCity);
