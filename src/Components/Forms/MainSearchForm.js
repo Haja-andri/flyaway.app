@@ -1,10 +1,19 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { fetchAirportList, fetchDestinations } from '../../Actions/fetchData';
+import { css } from '@emotion/core';
+import BarLoader from 'react-spinners/BarLoader';
 
 
 export default function MainSearchForm(props) {
 
+  const override = css`
+    display: block;
+    margin: 0;
+    border-color: red;
+`;
+
+  const [loading, setLoading] = useState(false); // for the spinner
   const [airportQuery, setAirportQuery] = useState('');
   const [airportResult, setAirportResult] = useState([]);
   const [airportSelection, setAirportSelection] = useState({ 
@@ -23,6 +32,7 @@ export default function MainSearchForm(props) {
         // this is to remove the focus from the form so that the virtual keyboarb
         // on mobile close once a submission is triggered
         if (document.activeElement !== document.body) document.activeElement.blur();
+        setLoading(false);
         props.reRenderWithFlights(destinations, selected.display);
       }      
     } catch (error) {
@@ -82,6 +92,7 @@ export default function MainSearchForm(props) {
       cityCode: event.currentTarget.id, 
     });
     setAirportQuery('');
+    setLoading(true);
     onSubmit({ 
       display: event.currentTarget.innerText,
       cityCode: event.currentTarget.id, 
@@ -157,6 +168,17 @@ export default function MainSearchForm(props) {
                   onFocus={updatePlaceHolder}
                   onBlur={resetFormView}
                 />
+                  {
+                    loading &&
+                    <BarLoader
+                    css={override}
+                    widthUnit={'%'}
+                    size={100}
+                    color={'#FF4B2B'}
+                    loading={true}
+                  />
+                  }
+
               <div id="results">                          
                 <ul className="countries">
                 {

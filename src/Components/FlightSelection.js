@@ -91,7 +91,7 @@ export default function FlightSelection(props){
             <div 
             key={flight.origin + flight.destination}
             className="flight-item"
-            onClick={() => {
+            onMouseEnter={() => {
               showRouteOnMap(props.destinations.dictionaries.locations[flight.destination].detailedName);
             }}
             >
