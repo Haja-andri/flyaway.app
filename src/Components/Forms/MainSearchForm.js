@@ -36,6 +36,7 @@ export default function MainSearchForm(props) {
         props.reRenderWithFlights(destinations, selected.display);
       }      
     } catch (error) {
+      setLoading(false);
       switch (error) {
         case 141:
           const errorMessage = `Sorry, no flights are available from this city yet`;
