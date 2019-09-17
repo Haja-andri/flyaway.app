@@ -7,6 +7,10 @@ section.search, section.select {
     min-height: 100vh;
 }
 
+section.select {
+    background: #FCFEFD;
+}
+
 /* Media screen for home background image */
 @media only screen and (max-width: 1024px){
     section.search{

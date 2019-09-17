@@ -71,6 +71,24 @@ a {
 	0 10px 10px rgba(0,0,0,0.22);
 }
 
+.modal{
+	background-color: rgba(255, 255, 255, 0.95);
+	border-radius: 5px;
+	color: #333;
+	font-family: system-ui, sans-serif;
+	line-height: 1.5;
+	max-width: 50%;
+	padding: 1rem 2rem;
+  }
+  
+  @supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+	.modal {
+	  -webkit-backdrop-filter: blur(10px);
+	  backdrop-filter: blur(10px);
+	  background-color: rgba(255, 255, 255, 0.5);  
+	}
+  }
+
 .full-screen {
 	width: 100vw;
 	height: 100vh;
@@ -78,11 +96,14 @@ a {
 }
 
 .header-form.select{
-	border-top-left-radius: 0px;
-	border-top-right-radius: 0px;
-    padding: 5px;   
+	display: flex;
+	align-items: flex-start;
+	border-radius: 0px;
+	border-bottom: 1px solid #eceaea;
+    padding: 25px;   
     width: 100%;
-    margin: 0 auto;
+	margin: 0 auto;
+	box-shadow: none;
 }
 
 .header-form.search{
@@ -150,7 +171,6 @@ input, textarea {
 	color: #666666;
 	font-size: 16px;
 	padding: 12px 15px;
-	margin-bottom: 15px;
 	margin-top: 5px;
 	width: 100%;
 	border: 1px solid #eceaea;
@@ -190,6 +210,7 @@ label {
 	position: relative;
 	padding: 0;
 	margin: 0;
+	margin-left: 10px;
 	z-index: 15;
 	cursor: pointer;
 }

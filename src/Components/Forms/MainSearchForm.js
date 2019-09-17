@@ -11,6 +11,7 @@ export default function MainSearchForm(props) {
     display: block;
     margin: 0;
     border-color: red;
+    margin-left: 10px;
 `;
 
   const [loading, setLoading] = useState(false); // for the spinner
