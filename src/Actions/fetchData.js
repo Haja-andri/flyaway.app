@@ -47,8 +47,6 @@ export const fetchDestinationGeocode =  (address) => {
   return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${API_KEY}`)
   .then(response => {
     // handle success
-    console.log('address ', address);
-    console.log('response ', response);
     return response.data.results[0].geometry.location;
   })
   .catch(error => {

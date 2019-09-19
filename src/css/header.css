@@ -8,8 +8,8 @@ section.search, section.select {
 }
 
 section.select {
-    /* background: #FCFEFD; */
-    background: white;
+    background: #FCFEFD;
+    /* background: white; */
 }
 
 /* Media screen for home background image */
