@@ -49,7 +49,19 @@ const CardContainer = styled.div`
     display:flex;
     border:1px solid green;
     justify-content:center;
-    height:65%;
+    height:80%;
+    div:nth-child(2n){
+        padding-top:50px;
+    }
+    div:nth-child(3n){
+        padding-top:100px;
+    }
+    div:nth-child(4n){
+        padding-top:30px;
+    }
+    div:nth-child(5n){
+        padding-top:100px;
+    }
 `;
 
 const DestinationCard = styled.div`
@@ -58,6 +70,11 @@ const DestinationCard = styled.div`
     width:25%;
     max-width:300px;
     padding:10px;
+    :hover{
+        cursor: pointer;
+        transition: all 1s ease 0s;
+        transform: translateY(-17px);
+    }
     img{
         width:100%;
         max-height:450px;
