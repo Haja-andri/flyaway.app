@@ -6,23 +6,23 @@ export default function LandingHeader(props) {
     return(
         <MainContainer>
             <MainTittle>
-                <h1>Travel destination, based on your location</h1>
+                <h1>Travel inspiration, <br/>from your location</h1>
             </MainTittle>
             <CardContainer>
                 <DestinationCard>
-                    <img src="https://source.unsplash.com/TVyjcTEKHLU/750x1125" />
+                    <img alt="paris" src="https://source.unsplash.com/TVyjcTEKHLU/750x1125" />
                 </DestinationCard>
                 <DestinationCard>
-                    <img src="https://source.unsplash.com/zVdf2Hmrcxw/750x1125" />
+                    <img alt="madrid" src="https://source.unsplash.com/zVdf2Hmrcxw/750x1125" />
                 </DestinationCard>
                 <DestinationCard>
-                    <img src="https://source.unsplash.com/gGOzpDZ_Qz0/750x1125" />
+                    <img alt="munich" src="https://source.unsplash.com/gGOzpDZ_Qz0/750x1125" />
                 </DestinationCard>
                 <DestinationCard>
-                    <img src="https://source.unsplash.com/mOEqOtmuPG8/750x1125" />
+                    <img alt="london" src="https://source.unsplash.com/mOEqOtmuPG8/750x1125" />
                 </DestinationCard>
                 <DestinationCard>
-                <img src="https://source.unsplash.com/mZ0sV5KjTVQ/750x1125" />
+                    <img alt="nice" src="https://source.unsplash.com/mZ0sV5KjTVQ/750x1125" />
                 </DestinationCard>
             </CardContainer>
         </MainContainer>
