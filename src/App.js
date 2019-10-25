@@ -3,7 +3,8 @@ import { useState } from 'react';
 import './App.css';
 import './css/header.css';
 import LandingSearch from './Components/LandingSearch';
-import FlightSelection from './Components/FlightSelection'
+import FlightSelection from './Components/FlightSelection';
+// import NavBar from './Components/NavBar'
 
 function App() {
   const [currentMode, setCurrentMode] = useState('search')

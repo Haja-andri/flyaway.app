@@ -2,7 +2,9 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { fetchAirportList, fetchDestinations } from '../../Actions/fetchData';
 import { css } from '@emotion/core';
+import styled from 'styled-components'
 import BarLoader from 'react-spinners/BarLoader';
+
 
 
 export default function MainSearchForm(props) {
@@ -152,55 +154,51 @@ export default function MainSearchForm(props) {
         <form id="searc-form" autoComplete="off" className={`header-form ${props.currentMode}`}>
           {
             props.currentMode === 'search' 
-            && <h1>Travel inspirations, <br/> on your budget</h1>
+            && <h1>From where do you want to take off ?</h1>
           }        
             <div className={`search-form-element-container ${props.currentMode}`}>
               <div className={`search-form-element ${props.currentMode}`}>
-                {
-                  props.currentMode === 'search' 
-                  && <label>I AM FLYING FROM</label>
-                } 
-                <span className="error">{errorMessage}</span>
-                <input 
-                  className={`from ${props.currentMode}`}
-                  typpe="text"
-                  placeholder="City, Airport"
-                  value={airportSelection.display}
-                  onChange={onAirportQuery}
-                  onFocus={updatePlaceHolder}
-                  onBlur={resetFormView}
-                />
-                  {
-                    loading &&
-                    <BarLoader
-                    css={override}
-                    widthUnit={'%'}
-                    size={100}
-                    color={'#FF4B2B'}
-                    loading={true}
-                  />
-                  }
-
-              <div id="results">                          
-                <ul className="countries">
-                {
-                  airportResult && 
-                  airportResult.map(airport =>(
-                    <li 
-                        key={airport.cityCode}
-                        onClick={onSelect}
-                        onMouseDown={onSelect} 
-                        id={airport.cityCode} 
-                        className="country-item"
-                      > {airport.listDisplay.cityName}
-                      <span className="small-set">({airport.listDisplay.countryName})</span>
-                    </li>
-                  ))
-                }
-                </ul>
-              </div>
+                <OriginContainer>
+                  <OriginCard>
+                    <h3>Paris</h3>
+                  </OriginCard>
+                  <OriginCard>
+                    <h3>Madrid</h3>
+                  </OriginCard>
+                  <OriginCard>
+                    <h3>Munich</h3>
+                  </OriginCard>
+                </OriginContainer>
               </div>
             </div>  
         </form>
     );
 }
+
+const OriginContainer = styled.div`
+  display:flex;
+  flex-direction:column;
+  align-items: center;
+`;
+
+const OriginCard = styled.div`
+  margin:0 auto;
+  width: 80%;
+  margin:10px;
+  background-color: white;
+  border-top-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border:1px solid #D8ECF7;
+  height: 100px;
+  position: relative;
+  h3{
+    width: 100%;
+    color:#5f9ea0;
+    text-align:center;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
+`;
