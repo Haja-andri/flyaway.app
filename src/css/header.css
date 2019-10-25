@@ -2,8 +2,8 @@ section.search, section.select {
     display: flex;
     flex-direction: column;
     width: 100%;
-    background-image: url("https://source.unsplash.com/Ycds6emp7BA/1600x900"); /* rFKBUwLg_WQ */
-    background-size: cover;
+    /* background-image: url("https://source.unsplash.com/Ycds6emp7BA/1600x900"); /* rFKBUwLg_WQ 
+    background-size: cover; */
     min-height: 100vh;
 }
 
