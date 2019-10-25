@@ -69,6 +69,7 @@ const DestinationCard = styled.div`
     border:1px solid yellow;
     width:25%;
     max-width:300px;
+    min-width:200px;
     padding:10px;
     :hover{
         cursor: pointer;
