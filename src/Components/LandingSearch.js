@@ -6,14 +6,14 @@ export default function LandingHeader(props) {
     return(
         <MainContainer>
             <MainTittle>
-                <h1>Travel inspiration, <br/>from your location</h1>
+                <h1>Tell us where you are. <br/><span>We tell you where you can go</span></h1>
             </MainTittle>
             <CardContainer>
                 <DestinationCard>
                     <img alt="paris" src="https://source.unsplash.com/TVyjcTEKHLU/750x1125" />
                 </DestinationCard>
                 <DestinationCard>
-                    <img alt="madrid" src="https://source.unsplash.com/zVdf2Hmrcxw/750x1125" />
+                    <img alt="madrid" src="https://source.unsplash.com/YuH5zftcocA/750x1125" />
                 </DestinationCard>
                 <DestinationCard>
                     <img alt="munich" src="https://source.unsplash.com/gGOzpDZ_Qz0/750x1125" />
@@ -22,7 +22,7 @@ export default function LandingHeader(props) {
                     <img alt="london" src="https://source.unsplash.com/mOEqOtmuPG8/750x1125" />
                 </DestinationCard>
                 <DestinationCard>
-                    <img alt="nice" src="https://source.unsplash.com/mZ0sV5KjTVQ/750x1125" />
+                    <img alt="nice" src="https://source.unsplash.com/C2WilptuEPY/750x1125" />
                 </DestinationCard>
             </CardContainer>
         </MainContainer>
@@ -32,7 +32,7 @@ export default function LandingHeader(props) {
 const MainContainer = styled.div`
     height:100vh;
     background:white;
-    padding-top:10%;
+    padding-top:2%;
 `;
 
 const MainTittle = styled.div`
@@ -40,7 +40,10 @@ const MainTittle = styled.div`
     h1{
         width:100%
         text-align:center;
-        color:#5f9ea0;
+        color:#36353A;
+        span{
+            color:#666666;
+        }
     }
 `;
 
@@ -66,7 +69,7 @@ const DestinationCard = styled.div`
     display:flex;
     width:25%;
     max-width:350px;
-    min-width:300px;
+    min-width:250px;
     padding:10px;
     :hover{
         cursor: pointer;
@@ -76,7 +79,7 @@ const DestinationCard = styled.div`
     img{
         width:100%;
         min-height:350px;
-        max-height:450px;
+        max-height:400px;
         border-radius:10px;
     }
 `;
