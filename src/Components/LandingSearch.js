@@ -6,7 +6,7 @@ export default function LandingHeader(props) {
     return(
         <MainContainer>
             <MainTittle>
-                <h1>Tell us where you are. <br/><span>We tell you where you can go</span></h1>
+                <h1>Get travel instpiration </h1><h3>Tell us where you are. <br/>We tell you where you can go next</h3>
             </MainTittle>
             <CardContainer>
                 <DestinationCard>
@@ -31,19 +31,20 @@ export default function LandingHeader(props) {
 
 const MainContainer = styled.div`
     height:100vh;
-    background:white;
-    padding-top:2%;
+    padding-top:4%;
+    background:linear-gradient(180deg, rgba(217, 219, 224, 0) 0%, #D9DBE0 100%);
 `;
 
 const MainTittle = styled.div`
-    padding-bottom:30px;
-    h1{
+    padding-bottom:100px;
+    h1, h3{
         width:100%
         text-align:center;
         color:#36353A;
-        span{
-            color:#666666;
-        }
+    }
+    h3{
+        padding-top:15px;
+        color:#666666;
     }
 `;
 
@@ -71,15 +72,15 @@ const DestinationCard = styled.div`
     max-width:350px;
     min-width:250px;
     padding:10px;
-    :hover{
-        cursor: pointer;
-        transition: all 1s ease 0s;
-        transform: translateY(-17px);
-    }
     img{
         width:100%;
         min-height:350px;
         max-height:400px;
         border-radius:10px;
+        :hover{
+            cursor: pointer;
+            transition: all 1s ease 0s;
+            transform: translateY(-17px);
+        }
     }
 `;
