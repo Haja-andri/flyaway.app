@@ -107,6 +107,11 @@ const ImageContainer = styled.div`
     position: relative;
     text-align: center;
     color: white;
+    :hover{
+        cursor: pointer;
+        transition: all 1s ease 0s;
+        transform: translateY(-17px);
+    }
 `;
 
 const CenteredText = styled.div`
