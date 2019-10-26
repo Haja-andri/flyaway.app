@@ -31,12 +31,12 @@ export default function LandingHeader(props) {
 
 const MainContainer = styled.div`
     height:100vh;
-    padding-top:4%;
+    padding-top:20px;
     background:linear-gradient(180deg, rgba(217, 219, 224, 0) 0%, #D9DBE0 100%);
 `;
 
 const MainTittle = styled.div`
-    padding-bottom:100px;
+    padding-bottom:50px;
     h1, h3{
         width:100%
         text-align:center;
@@ -44,7 +44,7 @@ const MainTittle = styled.div`
     }
     h3{
         padding-top:15px;
-        color:#666666;
+        color:#5f9ea0;
     }
 `;
 
@@ -74,8 +74,9 @@ const DestinationCard = styled.div`
     padding:10px;
     img{
         width:100%;
-        min-height:350px;
-        max-height:400px;
+        height:auto;
+        min-height:300px;
+        max-height:450px;
         border-radius:10px;
         :hover{
             cursor: pointer;
