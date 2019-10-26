@@ -6,23 +6,38 @@ export default function LandingHeader(props) {
     return(
         <MainContainer>
             <MainTittle>
-                <h1>Get travel instpiration </h1><h3>Tell us where you are. <br/>We tell you where you can go next</h3>
+                <h1>Get travel inspiration </h1><h3>Tell us where you are. <br/>We tell you where you can go next</h3>
             </MainTittle>
             <CardContainer>
                 <DestinationCard>
-                    <img alt="paris" src="https://source.unsplash.com/TVyjcTEKHLU/750x1125" />
+                    <ImageContainer>
+                        <img alt="paris" src="https://source.unsplash.com/TVyjcTEKHLU/750x1125" />
+                        <CenteredText><div><h2>Paris</h2></div></CenteredText>
+                    </ImageContainer>
                 </DestinationCard>
                 <DestinationCard>
-                    <img alt="madrid" src="https://source.unsplash.com/YuH5zftcocA/750x1125" />
+                    <ImageContainer>
+                        <img alt="madrid" src="https://source.unsplash.com/YuH5zftcocA/750x1125" />
+                        <CenteredText><div><h2>Madrid</h2></div></CenteredText>
+                    </ImageContainer>
                 </DestinationCard>
                 <DestinationCard>
-                    <img alt="munich" src="https://source.unsplash.com/gGOzpDZ_Qz0/750x1125" />
+                    <ImageContainer>
+                        <img alt="munich" src="https://source.unsplash.com/gGOzpDZ_Qz0/750x1125" />
+                        <CenteredText><h2>Munich</h2></CenteredText>
+                    </ImageContainer>
                 </DestinationCard>
                 <DestinationCard>
-                    <img alt="london" src="https://source.unsplash.com/mOEqOtmuPG8/750x1125" />
+                    <ImageContainer>
+                        <img alt="london" src="https://source.unsplash.com/mOEqOtmuPG8/750x1125" />
+                        <CenteredText><h2>London</h2></CenteredText>
+                    </ImageContainer>
                 </DestinationCard>
                 <DestinationCard>
-                    <img alt="nice" src="https://source.unsplash.com/C2WilptuEPY/750x1125" />
+                    <ImageContainer>
+                        <img alt="nice" src="https://source.unsplash.com/C2WilptuEPY/750x1125" />
+                        <CenteredText><h2>Nice</h2></CenteredText>
+                    </ImageContainer>
                 </DestinationCard>
             </CardContainer>
         </MainContainer>
@@ -55,6 +70,8 @@ const CardContainer = styled.div`
     div:nth-child(2n){
         padding-top:50px;
     }
+
+    }
     div:nth-child(3n){
         padding-top:100px;
     }
@@ -84,4 +101,17 @@ const DestinationCard = styled.div`
             transform: translateY(-17px);
         }
     }
+`;
+
+const ImageContainer = styled.div`
+    position: relative;
+    text-align: center;
+    color: white;
+`;
+
+const CenteredText = styled.div`
+    position: absolute;
+    top: 15px;
+    left: 50%;
+    transform: translate(-50%, -50%);
 `;
