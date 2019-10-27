@@ -6,7 +6,7 @@ export default function LandingHeader(props) {
     return(
         <MainContainer>
             <MainTittle>
-                <h1>Get travel inspiration </h1><h3>Tell us where you are. <br/>We tell you where you can go next</h3>
+                <h1>Get travel inspiration </h1><h3>Tell us where you are. <br/>We'll you where you can go next</h3>
             </MainTittle>
             <CardContainer>
                 <DestinationCard>
@@ -48,9 +48,6 @@ const MainContainer = styled.div`
     height:100vh;
     padding-top:20px;
     background:linear-gradient(180deg, rgba(217, 219, 224, 0) 0%, #D9DBE0 100%);
-`;
-
-const MainTittle = styled.div`
     padding-bottom:50px;
     h1, h3{
         width:100%
@@ -61,11 +58,36 @@ const MainTittle = styled.div`
         padding-top:15px;
         color:#5f9ea0;
     }
+    @media screen and (min-width: 300px) {
+        h1, h3{
+            width: 90%;
+            margin:0 auto;
+        }
+        h1{
+            font-size: 2.2rem;
+        }
+        h3{
+            font-size: 1.3rem;
+        }
+    }
+    @media screen and (max-width: 1200px) {
+        h2{
+            font-size: 1.5rem;
+        }
+    }
+    @media screen and (max-width: 400px) {
+        h2{
+            font-size: 2rem;
+        }
+    }
+`;
+
+const MainTittle = styled.div`
 `;
 
 const CardContainer = styled.div`
     display:flex;
-    justify-content:center;
+    justify-content:space-between;
     height:80%;
     max-width: 1600px;
     margin:0 auto;
@@ -97,20 +119,11 @@ const CardContainer = styled.div`
 const DestinationCard = styled.div`
     display:flex;
     width:25%;
-    max-width:300px;
+    max-width:350px;
     min-width:200px;
     padding:10px;
-    img{
-        width:100%;
-        height:auto;
-        min-height:250px;
-        max-height:450px;
-        border-radius:10px;
-        :hover{
-            cursor: pointer;
-            transition: all 1s ease 0s;
-            transform: translateY(-17px);
-        }
+    @media screen and (max-width: 400px) {
+        min-width:300px;
     }
 `;
 
@@ -118,26 +131,31 @@ const ImageContainer = styled.div`
     position: relative;
     text-align: center;
     color: white;
+    img{
+        width:100%;
+        height:auto;
+        min-height:250px;
+        max-height:450px;
+        border-radius:10px;
+        @media screen and (max-width: 400px) {
+            min-height:300px;
+            max-height:400px;
+        }
+    }
     :hover{
         cursor: pointer;
         transition: all 1s ease 0s;
         transform: translateY(-17px);
-        @media screen and (max-width: 1200px) {
-            transform: translateY(-3px);
-        }
     }
 `;
 
 const CenteredText = styled.div`
     position: absolute;
-    top: 15px;
+    top: 5px;
     left: 50%;
     transform: translate(-50%, -50%);
-    @media screen and (max-width: 1200px) {
-        h2{
-            font-size: 1.5rem;
-            padding-top: 30px;
-        }
+    @media screen and (min-width: 350px) {
+        padding-top:40px;
     }
 
 `;
