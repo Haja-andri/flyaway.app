@@ -3,7 +3,12 @@ import { useState } from 'react';
 import './App.css';
 import './css/header.css';
 import LandingSearch from './Components/LandingSearch';
-import FlightSelection from './Components/FlightSelection'
+import FlightSelection from './Components/FlightSelection';
+import {
+    Switch,
+    Route,
+} from 'react-router-dom';
+
 
 function App() {
   const [currentMode, setCurrentMode] = useState('search')
@@ -21,13 +26,11 @@ function App() {
   return (
     <div>
         <section className={currentMode}>
-        {/* <NavBar currentMode={currentMode} /> */}
-        {
-            currentMode === 'search' 
-            ? <LandingSearch reRenderWithFlights={reRenderWithFlights} currentMode={currentMode} /> 
-            : <FlightSelection destinations={destinations} origin={origin} reRenderWithFlights={reRenderWithFlights} currentMode={currentMode}/>
-        }
-      </section>
+          <Switch>
+            <Route exact path="/" render={props => <LandingSearch {...props} />} />
+            <Route path="/result/:ori" render={props => <FlightSelection {...props} />} />
+          </Switch>
+        </section>
     </div>
   );
 }
