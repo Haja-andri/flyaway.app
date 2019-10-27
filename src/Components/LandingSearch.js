@@ -67,32 +67,43 @@ const CardContainer = styled.div`
     display:flex;
     justify-content:center;
     height:80%;
+    max-width: 1600px;
+    margin:0 auto;
+    overflow-x: auto;
+    padding-top:10px;
     div:nth-child(2n){
-        padding-top:50px;
+        @media screen and (min-width: 1200px) {
+            padding-top:50px;
+        }
     }
-
     }
     div:nth-child(3n){
-        padding-top:100px;
+        @media screen and (min-width: 1200px) {
+            padding-top:100px;
+        }
     }
     div:nth-child(4n){
-        padding-top:35px;
+        @media screen and (min-width: 1200px) {
+            padding-top:35px;
+        }
     }
     div:nth-child(5n){
-        padding-top:100px;
+        @media screen and (min-width: 1200px) {
+            padding-top:100px;
+        }
     }
 `;
 
 const DestinationCard = styled.div`
     display:flex;
     width:25%;
-    max-width:350px;
-    min-width:250px;
+    max-width:300px;
+    min-width:200px;
     padding:10px;
     img{
         width:100%;
         height:auto;
-        min-height:300px;
+        min-height:250px;
         max-height:450px;
         border-radius:10px;
         :hover{
@@ -111,6 +122,9 @@ const ImageContainer = styled.div`
         cursor: pointer;
         transition: all 1s ease 0s;
         transform: translateY(-17px);
+        @media screen and (max-width: 1200px) {
+            transform: translateY(-3px);
+        }
     }
 `;
 
@@ -119,4 +133,11 @@ const CenteredText = styled.div`
     top: 15px;
     left: 50%;
     transform: translate(-50%, -50%);
+    @media screen and (max-width: 1200px) {
+        h2{
+            font-size: 1.5rem;
+            padding-top: 30px;
+        }
+    }
+
 `;
