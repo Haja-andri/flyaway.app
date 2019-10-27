@@ -1,5 +1,6 @@
 import React from 'react';
-import styled from 'styled-components'
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 
 export default function LandingHeader(props) {
@@ -11,8 +12,10 @@ export default function LandingHeader(props) {
             <CardContainer>
                 <DestinationCard>
                     <ImageContainer>
-                        <img alt="paris" src="https://source.unsplash.com/TVyjcTEKHLU/750x1125" />
-                        <CenteredText><div><h2>Paris</h2></div></CenteredText>
+                        <Link to="/result">
+                            <img alt="paris" src="https://source.unsplash.com/TVyjcTEKHLU/750x1125" />
+                            <CenteredText><div><h2>Paris</h2></div></CenteredText>
+                        </Link>
                     </ImageContainer>
                 </DestinationCard>
                 <DestinationCard>
@@ -154,6 +157,7 @@ const CenteredText = styled.div`
     top: 5px;
     left: 50%;
     transform: translate(-50%, -50%);
+    color:white;
     @media screen and (min-width: 350px) {
         padding-top:40px;
     }
