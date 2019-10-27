@@ -12,7 +12,7 @@ export default function LandingHeader(props) {
             <CardContainer>
                 <DestinationCard>
                     <ImageContainer>
-                        <Link to="/result">
+                        <Link to="/result/PAR">
                             <img alt="paris" src="https://source.unsplash.com/TVyjcTEKHLU/750x1125" />
                             <CenteredText><div><h2>Paris</h2></div></CenteredText>
                         </Link>
@@ -20,26 +20,34 @@ export default function LandingHeader(props) {
                 </DestinationCard>
                 <DestinationCard>
                     <ImageContainer>
-                        <img alt="madrid" src="https://source.unsplash.com/YuH5zftcocA/750x1125" />
-                        <CenteredText><div><h2>Madrid</h2></div></CenteredText>
+                        <Link to="/result/MAD">
+                            <img alt="madrid" src="https://source.unsplash.com/YuH5zftcocA/750x1125" />
+                            <CenteredText><div><h2>Madrid</h2></div></CenteredText>
+                        </Link>
                     </ImageContainer>
                 </DestinationCard>
                 <DestinationCard>
                     <ImageContainer>
-                        <img alt="munich" src="https://source.unsplash.com/gGOzpDZ_Qz0/750x1125" />
-                        <CenteredText><h2>Munich</h2></CenteredText>
+                        <Link to="/result/MUN">
+                            <img alt="munich" src="https://source.unsplash.com/gGOzpDZ_Qz0/750x1125" />
+                            <CenteredText><h2>Munich</h2></CenteredText>
+                        </Link>
                     </ImageContainer>
                 </DestinationCard>
                 <DestinationCard>
                     <ImageContainer>
-                        <img alt="london" src="https://source.unsplash.com/mOEqOtmuPG8/750x1125" />
-                        <CenteredText><h2>London</h2></CenteredText>
+                        <Link to="/result/LON">
+                            <img alt="london" src="https://source.unsplash.com/mOEqOtmuPG8/750x1125" />
+                            <CenteredText><h2>London</h2></CenteredText>
+                        </Link>
                     </ImageContainer>
                 </DestinationCard>
                 <DestinationCard>
                     <ImageContainer>
-                        <img alt="nice" src="https://source.unsplash.com/C2WilptuEPY/750x1125" />
-                        <CenteredText><h2>Nice</h2></CenteredText>
+                        <Link to="/result/NIC">
+                            <img alt="nice" src="https://source.unsplash.com/C2WilptuEPY/750x1125" />
+                            <CenteredText><h2>Nice</h2></CenteredText>
+                        </Link>
                     </ImageContainer>
                 </DestinationCard>
             </CardContainer>
