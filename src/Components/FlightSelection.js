@@ -2,16 +2,51 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 // function that loads google map api
 import { loadGoogleMapApi, getDestinationGeocode } from '../utils/maps/googleMapApi';
+import { fetchDestinations } from '../Actions/fetchData';
 import MainSearchForm from './Forms/MainSearchForm';
 import mapStyles from '../css/mapStyling'
 
 export default function FlightSelection(props){
+
+  // Set curent origin in local state
+  const [origin, SetOrigin] = useState(props.match.params.ori);
+  const [destinations, SetDestinations] = useState(null);
+  // error message
+  const [errorMessage, setErrorMessage] = useState('');
+  // google map
   const [defaultZoom] = useState(4);
   const [googleMap, setGoogleMap] = useState(null);
+
+
+  // Get the destination list based on origin
+  useEffect(()=>{
+    console.log("Calling use effeect");
+    const getDestinations = async (origin) =>{
+      try {
+          const destinationsList = await fetchDestinations(origin);
+          console.log("Destination is", destinationsList);
+          SetDestinations(destinationsList);
+      }
+      catch (error) {
+        switch (error) {
+          case 141:
+            const errorMessage = `Sorry, no flights are available from this city yet`;
+            setErrorMessage(errorMessage);
+            break;
+          default:
+            console.log(`Sorry there was an error getting the data ${error}`);
+        }
+      }
+    }
+    getDestinations(origin);
+  }, []
+
+  );
+  
   
   const mapDefaultView = async () =>{
     // we get the map centered on the current origin by default
-    const center = await getDestinationGeocode(props.origin);
+    const center = await getDestinationGeocode(origin);
     const currentMapInstance = new googleMap.Map(document.getElementById('map'), {
       zoom:defaultZoom,
       scrollwheel:false,
@@ -48,7 +83,7 @@ export default function FlightSelection(props){
   }
 
   const showRouteOnMap = async (destinationCity) =>{
-    const from = await getDestinationGeocode(props.origin);
+    const from = await getDestinationGeocode(origin);
 
     const currentMapInstance = new googleMap.Map(document.getElementById('map'), {
       zoom:defaultZoom,
@@ -76,42 +111,44 @@ export default function FlightSelection(props){
   return(
     <>
     <div>
-      <MainSearchForm 
+      {/* <MainSearchForm 
         submitAirport={props.submitAirport} 
         currentMode={props.currentMode}
         reRenderWithFlights={props.reRenderWithFlights}
         currentOrigin = {props.origin}
-        />
+        /> */}
     </div>
     <div className="search-result-container">
       <div className="result-list-container">
       {
-        props.destinations.data.map( 
-          flight => (
-            <div 
-            key={flight.origin + flight.destination}
-            className="flight-item"
-            onMouseEnter={() => {
-              showRouteOnMap(props.destinations.dictionaries.locations[flight.destination].detailedName);
-            }}
-            >
-              <div className="destination-name"><h4>{props.destinations.dictionaries.locations[flight.destination].detailedName}</h4></div>
-              
-              <div className="flight-details">
-              
-                <div>
-                  <label>Flying on </label>
-                  <div className="date-up">{flight.departureDate}</div>
+        destinations && (
+          destinations.data.map( 
+            flight => (
+              <div 
+              key={flight.origin + flight.destination}
+              className="flight-item"
+              onMouseEnter={() => {
+                showRouteOnMap(destinations.dictionaries.locations[flight.destination].detailedName);
+              }}
+              >
+                <div className="destination-name"><h4>{destinations.dictionaries.locations[flight.destination].detailedName}</h4></div>
+                
+                <div className="flight-details">
+                
+                  <div>
+                    <label>Flying on </label>
+                    <div className="date-up">{flight.departureDate}</div>
+                  </div>
+                  <div>
+                    <label>Returngin on </label>
+                    <div className="date-down">{flight.returnDate}</div>
+                  </div>
+                  <div className="large-display">{flight.price.total} <span className="small-display">{destinations.meta.currency}</span></div>
+                  
                 </div>
-                <div>
-                  <label>Returngin on </label>
-                  <div className="date-down">{flight.returnDate}</div>
-                </div>
-                <div className="large-display">{flight.price.total} <span className="small-display">{props.destinations.meta.currency}</span></div>
                 
               </div>
-              
-            </div>
+            )
           )
         )
       }
