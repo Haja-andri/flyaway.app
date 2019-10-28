@@ -34,13 +34,16 @@ export default function FlightSelection(props){
   originTable[props.match.params.ori].active = true;
 
   // Set curent origin in local state
-  const [origin, SetOrigin] = useState(null);
+  const [origin, SetOrigin] = useState(props.match.params.ori);
   const [destinations, SetDestinations] = useState(null);
   // error message
   const [errorMessage, setErrorMessage] = useState('');
   // google map
   const [defaultZoom] = useState(4);
   const [googleMap, setGoogleMap] = useState(null);
+  const [mapLoaded, setmapLoaded] = useState(false);
+  const [ currentCityCenter, setCurrentCityCenter ] = useState(null);
+
 
   useEffect(()=>{
     SetOrigin(props.match.params.ori)
@@ -73,8 +76,14 @@ export default function FlightSelection(props){
   
   
   const mapDefaultView = async () =>{
+    if(currentCityCenter === originTable[origin].city_name){
+      // if the origin have not changed we do not update the default view
+      return;
+    }
+    else setCurrentCityCenter(originTable[origin].city_name)
     // we get the map centered on the current origin by default
     const center = await getDestinationGeocode(originTable[origin].city_name);
+
     const currentMapInstance = new googleMap.Map(document.getElementById('map'), {
       zoom:defaultZoom,
       scrollwheel:false,
@@ -93,11 +102,16 @@ export default function FlightSelection(props){
     if(googleMap){
       mapDefaultView();
     }
-    else {
+  }
+  );
+
+useEffect( ()=>{
+    if(!mapLoaded){
       loadMap();
     }
-  }
+  }, [origin]
 );
+
 
   const loadMap = () =>{
     const mapPromise =  loadGoogleMapApi();
@@ -107,6 +121,7 @@ export default function FlightSelection(props){
     .then(value =>{
       const googleMap = (value[0].maps);
       setGoogleMap(googleMap); // make it globaly accessible to the page
+      setmapLoaded(true);
     }); 
   }
 

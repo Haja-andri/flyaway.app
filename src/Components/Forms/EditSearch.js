@@ -51,4 +51,8 @@ const OriginCity = styled.div`
   background-color: ${props => props.active ? "#5f9ea0" : "none"};
   color: ${props => props.active ? "white" : "none"};
   border: ${props => props.active ? "#D8ECF7" : "1px solid #eeeeee"};
+  :hover{
+    transition: all 0.4s ease 0s;
+    transform: translateY(-5px);
+  }
 `;
