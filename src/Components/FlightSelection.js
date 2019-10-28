@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 // function that loads google map api
 import { loadGoogleMapApi, getDestinationGeocode } from '../utils/maps/googleMapApi';
 import { fetchDestinations } from '../Actions/fetchData';
-import MainSearchForm from './Forms/MainSearchForm';
+import EditSearch from './Forms/EditSearch';
 import mapStyles from '../css/mapStyling'
 
 export default function FlightSelection(props){
@@ -122,12 +122,13 @@ export default function FlightSelection(props){
   return(
     <>
     <div>
-      {/* <MainSearchForm 
+      <EditSearch 
         submitAirport={props.submitAirport} 
-        currentMode={props.currentMode}
+        currentMode={'select'}
         reRenderWithFlights={props.reRenderWithFlights}
         currentOrigin = {props.origin}
-        /> */}
+        />
+        
     </div>
     <div className="search-result-container">
       <div className="result-list-container">
