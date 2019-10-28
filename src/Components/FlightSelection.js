@@ -30,16 +30,22 @@ export default function FlightSelection(props){
       "active": false,
     }
   }; 
-  // Set curent origin in local state
-  const [origin, SetOrigin] = useState(props.match.params.ori);
   // set the current origin to active => true
-  originTable[origin].active = true;
+  originTable[props.match.params.ori].active = true;
+
+  // Set curent origin in local state
+  const [origin, SetOrigin] = useState(null);
   const [destinations, SetDestinations] = useState(null);
   // error message
   const [errorMessage, setErrorMessage] = useState('');
   // google map
   const [defaultZoom] = useState(4);
   const [googleMap, setGoogleMap] = useState(null);
+
+  useEffect(()=>{
+    SetOrigin(props.match.params.ori)
+  },[props.match.params.ori] // force to re-render the component when receiving new props
+  )
 
 
   // Get the destination list based on origin
@@ -61,7 +67,7 @@ export default function FlightSelection(props){
       }
     }
     getDestinations(origin);
-  }, []
+  }, [origin]
 
   );
   

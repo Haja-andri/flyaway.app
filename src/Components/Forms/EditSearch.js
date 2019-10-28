@@ -3,7 +3,8 @@ import { useState, useEffect } from 'react';
 import { fetchAirportList, fetchDestinations } from '../../Actions/fetchData';
 import { css } from '@emotion/core';
 import BarLoader from 'react-spinners/BarLoader';
-import styled from 'styled-components'
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 
 
@@ -15,7 +16,9 @@ export default function EditSearch(props) {
         <label>YOU ARE FLYING FROM</label>
         <Row>
           {Object.keys(originTable).map((origin) => (
-            <OriginCity active={originTable[origin].active}>{originTable[origin].city_name}</OriginCity>
+            <Link to={`/result/${origin}`}>
+              <OriginCity active={originTable[origin].active}>{originTable[origin].city_name}</OriginCity>
+            </Link>
             ))
           }
         </Row>
