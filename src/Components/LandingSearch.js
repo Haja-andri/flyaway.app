@@ -13,7 +13,7 @@ export default function LandingHeader(props) {
                 <DestinationCard>
                     <ImageContainer>
                         <Link to="/result/PAR">
-                            {/* <img alt="paris" src="https://source.unsplash.com/TVyjcTEKHLU/750x1125" /> */}
+                            <img alt="paris" src="https://source.unsplash.com/TVyjcTEKHLU/750x1125" />
                             <CenteredText><div><h2>Paris</h2></div></CenteredText>
                         </Link>
                     </ImageContainer>
@@ -21,7 +21,7 @@ export default function LandingHeader(props) {
                 <DestinationCard>
                     <ImageContainer>
                         <Link to="/result/MAD">
-                            {/* <img alt="madrid" src="https://source.unsplash.com/YuH5zftcocA/750x1125" /> */}
+                            <img alt="madrid" src="https://source.unsplash.com/YuH5zftcocA/750x1125" />
                             <CenteredText><div><h2>Madrid</h2></div></CenteredText>
                         </Link>
                     </ImageContainer>
@@ -29,7 +29,7 @@ export default function LandingHeader(props) {
                 <DestinationCard>
                     <ImageContainer>
                         <Link to="/result/MUN">
-                            {/* <img alt="munich" src="https://source.unsplash.com/gGOzpDZ_Qz0/750x1125" /> */}
+                            <img alt="munich" src="https://source.unsplash.com/gGOzpDZ_Qz0/750x1125" />
                             <CenteredText><h2>Munich</h2></CenteredText>
                         </Link>
                     </ImageContainer>
@@ -37,16 +37,16 @@ export default function LandingHeader(props) {
                 <DestinationCard>
                     <ImageContainer>
                         <Link to="/result/LON">
-                            {/* <img alt="london" src="https://source.unsplash.com/mOEqOtmuPG8/750x1125" /> */}
+                            <img alt="london" src="https://source.unsplash.com/mOEqOtmuPG8/750x1125" />
                             <CenteredText><h2>London</h2></CenteredText>
                         </Link>
                     </ImageContainer>
                 </DestinationCard>
                 <DestinationCard>
                     <ImageContainer>
-                        <Link to="/result/NIC">
-                            {/* <img alt="nice" src="https://source.unsplash.com/C2WilptuEPY/750x1125" /> */}
-                            <CenteredText><h2>Nice</h2></CenteredText>
+                        <Link to="/result/NEW">
+                            <img alt="nice" src="https://source.unsplash.com/C2WilptuEPY/750x1125" />
+                            <CenteredText><h2>New York</h2></CenteredText>
                         </Link>
                     </ImageContainer>
                 </DestinationCard>
@@ -83,7 +83,7 @@ const MainContainer = styled.div`
     }
     @media screen and (max-width: 1200px) {
         h2{
-            font-size: 1.5rem;
+            font-size: 1.2rem;
         }
     }
     @media screen and (max-width: 400px) {

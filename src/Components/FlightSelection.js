@@ -8,6 +8,13 @@ import mapStyles from '../css/mapStyling'
 
 export default function FlightSelection(props){
 
+  const originTable = {
+    "MAD": "MADRID",
+    "MUN": "MUNICH",
+    "PAR": "PARIS",
+    "NEW": "NEW YORK",
+    "LON": "LONDON"
+  }; 
   // Set curent origin in local state
   const [origin, SetOrigin] = useState(props.match.params.ori);
   const [destinations, SetDestinations] = useState(null);
@@ -20,11 +27,9 @@ export default function FlightSelection(props){
 
   // Get the destination list based on origin
   useEffect(()=>{
-    console.log("Calling use effeect");
     const getDestinations = async (origin) =>{
       try {
           const destinationsList = await fetchDestinations(origin);
-          console.log("Destination is", destinationsList);
           SetDestinations(destinationsList);
       }
       catch (error) {
@@ -46,7 +51,7 @@ export default function FlightSelection(props){
   
   const mapDefaultView = async () =>{
     // we get the map centered on the current origin by default
-    const center = await getDestinationGeocode(origin);
+    const center = await getDestinationGeocode(originTable[origin]);
     const currentMapInstance = new googleMap.Map(document.getElementById('map'), {
       zoom:defaultZoom,
       scrollwheel:false,
@@ -83,7 +88,7 @@ export default function FlightSelection(props){
   }
 
   const showRouteOnMap = async (destinationCity) =>{
-    const from = await getDestinationGeocode(origin);
+    const from = await getDestinationGeocode(originTable[origin]);
 
     const currentMapInstance = new googleMap.Map(document.getElementById('map'), {
       zoom:defaultZoom,
@@ -93,6 +98,12 @@ export default function FlightSelection(props){
     });
 
     const to = await getDestinationGeocode(destinationCity);
+    if (!from || !to) {
+      // enable to get the line geocoordinate, return otherwise 
+      // it breaks the display
+      return;
+    }
+
     let routeCoordinates = [
       {lat: from.lat, lng: from.lng},
       {lat: to.lat, lng: to.lng},
