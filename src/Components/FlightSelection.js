@@ -10,9 +10,9 @@ export default function FlightSelection(props){
 
   const originTable = {
     "MAD": "MADRID",
-    "MUN": "MUNICH",
+    "MUC": "MUNICH",
     "PAR": "PARIS",
-    "NEW": "NEW YORK",
+    "NYC": "NEW YORK",
     "LON": "LONDON"
   }; 
   // Set curent origin in local state

@@ -28,7 +28,7 @@ export default function LandingHeader(props) {
                 </DestinationCard>
                 <DestinationCard>
                     <ImageContainer>
-                        <Link to="/result/MUN">
+                        <Link to="/result/MUC">
                             <img alt="munich" src="https://source.unsplash.com/gGOzpDZ_Qz0/750x1125" />
                             <CenteredText><h2>Munich</h2></CenteredText>
                         </Link>
@@ -44,7 +44,7 @@ export default function LandingHeader(props) {
                 </DestinationCard>
                 <DestinationCard>
                     <ImageContainer>
-                        <Link to="/result/NEW">
+                        <Link to="/result/NYC">
                             <img alt="nice" src="https://source.unsplash.com/C2WilptuEPY/750x1125" />
                             <CenteredText><h2>New York</h2></CenteredText>
                         </Link>
