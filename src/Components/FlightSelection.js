@@ -9,14 +9,31 @@ import mapStyles from '../css/mapStyling'
 export default function FlightSelection(props){
 
   const originTable = {
-    "MAD": "MADRID",
-    "MUC": "MUNICH",
-    "PAR": "PARIS",
-    "NYC": "NEW YORK",
-    "LON": "LONDON"
+    "MAD": {
+      "city_name": "MADRID",
+      "active": false,
+    },
+    "MUC": {
+      "city_name": "MUNICH",
+      "active": false,
+    },
+    "PAR": {
+      "city_name": "PARIS",
+      "active": false,
+    },
+    "NYC": {
+      "city_name": "NEW YORK",
+      "active": false,
+    },
+    "LON": {
+      "city_name": "LONDON",
+      "active": false,
+    }
   }; 
   // Set curent origin in local state
   const [origin, SetOrigin] = useState(props.match.params.ori);
+  // set the current origin to active => true
+  originTable[origin].active = true;
   const [destinations, SetDestinations] = useState(null);
   // error message
   const [errorMessage, setErrorMessage] = useState('');
@@ -51,7 +68,7 @@ export default function FlightSelection(props){
   
   const mapDefaultView = async () =>{
     // we get the map centered on the current origin by default
-    const center = await getDestinationGeocode(originTable[origin]);
+    const center = await getDestinationGeocode(originTable[origin].city_name);
     const currentMapInstance = new googleMap.Map(document.getElementById('map'), {
       zoom:defaultZoom,
       scrollwheel:false,
@@ -88,7 +105,7 @@ export default function FlightSelection(props){
   }
 
   const showRouteOnMap = async (destinationCity) =>{
-    const from = await getDestinationGeocode(originTable[origin]);
+    const from = await getDestinationGeocode(originTable[origin].city_name);
 
     const currentMapInstance = new googleMap.Map(document.getElementById('map'), {
       zoom:defaultZoom,
@@ -124,9 +141,8 @@ export default function FlightSelection(props){
     <div>
       <EditSearch 
         submitAirport={props.submitAirport} 
-        currentMode={'select'}
         reRenderWithFlights={props.reRenderWithFlights}
-        currentOrigin = {props.origin}
+        origin = {origin}
         />
         
     </div>

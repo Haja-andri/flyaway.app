@@ -13,7 +13,7 @@ export default function EditSearch(props) {
     return(
       <EditSearchContainer>
         <OriginCityContainer>
-          <label>YOU FLY FROM</label>
+          <label>YOU ARE FLYING FROM</label>
           <Row>
             <OriginCity>Paris</OriginCity>
             <OriginCity>Madrid</OriginCity>
@@ -46,6 +46,7 @@ const OriginCity = styled.div`
   margin-left:5px;
   border-top-left-radius: 5px;
   border-bottom-right-radius: 5px;
+  font-size: .8rem;
   background-color: ${props => props.active ? "#5f9ea0" : "none"};
   color: ${props => props.active ? "white" : "none"};
   border: ${props => props.active ? "#D8ECF7" : "1px solid #eeeeee"};
