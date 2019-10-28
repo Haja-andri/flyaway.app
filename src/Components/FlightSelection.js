@@ -4,9 +4,21 @@ import { useState, useEffect } from 'react';
 import { loadGoogleMapApi, getDestinationGeocode } from '../utils/maps/googleMapApi';
 import { fetchDestinations } from '../Actions/fetchData';
 import EditSearch from './Forms/EditSearch';
-import mapStyles from '../css/mapStyling'
+import mapStyles from '../css/mapStyling';
+import { css } from '@emotion/core';
+import PropagateLoader from 'react-spinners/PropagateLoader';
 
 export default function FlightSelection(props){
+
+  const override = css`
+  margin: 0;
+  margin-left: 10px;
+  display: flex;
+  justify-content: center;
+  padding-top:30px;  
+  padding-bottom:30px;  
+`;
+
 
   const originTable = {
     "MAD": {
@@ -54,6 +66,7 @@ export default function FlightSelection(props){
   // Get the destination list based on origin
   useEffect(()=>{
     const getDestinations = async (origin) =>{
+      SetDestinations(null);
       try {
           const destinationsList = await fetchDestinations(origin);
           SetDestinations(destinationsList);
@@ -165,12 +178,11 @@ useEffect( ()=>{
         reRenderWithFlights={props.reRenderWithFlights}
         originTable = {originTable}
         />
-        
     </div>
     <div className="search-result-container">
       <div className="result-list-container">
       {
-        destinations && (
+        destinations ? (
           destinations.data.map( 
             flight => (
               <div 
@@ -199,6 +211,17 @@ useEffect( ()=>{
               </div>
             )
           )
+        )
+        : (
+          <div className="flight-item">
+            <PropagateLoader
+              css={override}
+              widthUnit={'%'}
+              size={10}
+              color={'#5f9ea0'}
+              loading={true}
+            />
+          </div>
         )
       }
       </div>

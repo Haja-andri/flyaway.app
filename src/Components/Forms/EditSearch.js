@@ -54,5 +54,6 @@ const OriginCity = styled.div`
   :hover{
     transition: all 0.4s ease 0s;
     transform: translateY(-5px);
+    border:1px solid #5f9ea0;
   }
 `;
