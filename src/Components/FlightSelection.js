@@ -142,7 +142,7 @@ export default function FlightSelection(props){
       <EditSearch 
         submitAirport={props.submitAirport} 
         reRenderWithFlights={props.reRenderWithFlights}
-        origin = {origin}
+        originTable = {originTable}
         />
         
     </div>

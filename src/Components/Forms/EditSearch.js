@@ -8,22 +8,20 @@ import styled from 'styled-components'
 
 
 export default function EditSearch(props) {
-
-
-    return(
-      <EditSearchContainer>
-        <OriginCityContainer>
-          <label>YOU ARE FLYING FROM</label>
-          <Row>
-            <OriginCity>Paris</OriginCity>
-            <OriginCity>Madrid</OriginCity>
-            <OriginCity>Munich</OriginCity>
-            <OriginCity>London</OriginCity>
-            <OriginCity active>New York</OriginCity>
-          </Row>
-        </OriginCityContainer>
-      </EditSearchContainer>
-   );
+  const { originTable } = props
+  return(
+    <EditSearchContainer>
+      <OriginCityContainer>
+        <label>YOU ARE FLYING FROM</label>
+        <Row>
+          {Object.keys(originTable).map((origin) => (
+            <OriginCity active={originTable[origin].active}>{originTable[origin].city_name}</OriginCity>
+            ))
+          }
+        </Row>
+      </OriginCityContainer>
+    </EditSearchContainer>
+  );
 }
 
 const EditSearchContainer = styled.div`
