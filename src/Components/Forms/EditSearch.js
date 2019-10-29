@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 export default function EditSearch(props) {
   const { originTable } = props
 
-  const originOptions = () => {
+  const showOriginOptions = () => {
     // Methode 1 forEach() on Nodelist
     let cities = document.querySelectorAll('.origin-city');
     cities.forEach((city)=>{
@@ -22,11 +22,23 @@ export default function EditSearch(props) {
     // for(let i=0; i<cityArray.length; i++){
     //   cityArray[i].style.display = 'block';
     // }
+    toggleChangeOriginLink();
   }
+  const toggleChangeOriginLink = () =>{
+    const link = document.getElementById('show-hide-origin-link');
+    link.classList.toggle("hide");
+  }
+  useEffect(()=>{
+    toggleChangeOriginLink();
+  }
+
+  );
+
+
   return(
     <EditSearchContainer>
       <OriginCityContainer>
-        <EditLabel>YOU ARE FLYING FROM <span onClick={originOptions}>Change origin</span></EditLabel>
+        <EditLabel>YOU ARE FLYING FROM <span id="show-hide-origin-link" onClick={showOriginOptions}>Change origin</span></EditLabel>
         <Row id="origin-list">
           {Object.keys(originTable).map((origin) => (
             <Link to={`/result/${origin}`}>
