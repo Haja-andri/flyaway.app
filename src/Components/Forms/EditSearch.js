@@ -22,14 +22,26 @@ export default function EditSearch(props) {
     // for(let i=0; i<cityArray.length; i++){
     //   cityArray[i].style.display = 'block';
     // }
-    toggleChangeOriginLink();
   }
-  const toggleChangeOriginLink = () =>{
-    const link = document.getElementById('show-hide-origin-link');
-    link.classList.toggle("hide");
+
+  const hideOriginOptions = () => {
+    // Methode 1 forEach() on Nodelist
+    let cities = document.querySelectorAll('.origin-city');
+    cities.forEach((city)=>{
+      if(originTable[city.id].active){
+        city.style.display = "block";
+      }
+      else city.style.display = "none";
+    });
+    // Other method by mapping the NodeList to an array
+    //const cityArray = [...document.querySelectorAll('.origin-city')]
+    // for(let i=0; i<cityArray.length; i++){
+    //   cityArray[i].style.display = 'block';
+    // }
   }
+
   useEffect(()=>{
-    toggleChangeOriginLink();
+    hideOriginOptions();
   }
 
   );
@@ -38,11 +50,11 @@ export default function EditSearch(props) {
   return(
     <EditSearchContainer>
       <OriginCityContainer>
-        <EditLabel>YOU ARE FLYING FROM <span id="show-hide-origin-link" onClick={showOriginOptions}>Change origin</span></EditLabel>
-        <Row id="origin-list">
+        <EditLabel>YOU ARE FLYING FROM <span onClick={showOriginOptions}>(change)</span></EditLabel>
+        <Row>
           {Object.keys(originTable).map((origin) => (
             <Link to={`/result/${origin}`}>
-              <OriginCity className="origin-city" active={originTable[origin].active}>{originTable[origin].city_name}</OriginCity>
+              <OriginCity id={origin} className="origin-city" active={originTable[origin].active}>{originTable[origin].city_name}</OriginCity>
             </Link>
             ))
           }
@@ -60,11 +72,12 @@ const EditSearchContainer = styled.div`
 `;
 
 const OriginCityContainer = styled.div`
+  width: 100%;
 `;
 
 const Row = styled.div`
   display:flex;
-  padding-top:10px;
+  padding-top:5px;
 `;
 
 const OriginCity = styled.div`
@@ -73,9 +86,9 @@ const OriginCity = styled.div`
   border-top-left-radius: 5px;
   border-bottom-right-radius: 5px;
   font-size: .8rem;
-  background-color: ${props => props.active ? "#5f9ea0" : "none"};
-  color: ${props => props.active ? "white" : "none"};
-  border: ${props => props.active ? "#D8ECF7" : "1px solid #eeeeee"};
+  background-color: none;
+  color: none;
+  border: ${props => props.active ? "1px solid #5f9ea0" : "1px solid #eeeeee"};
   display: ${props => props.active ? "block" : "none"};
   :hover{
     transition: all 0.4s ease 0s;
