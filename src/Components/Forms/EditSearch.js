@@ -10,14 +10,27 @@ import { Link } from 'react-router-dom';
 
 export default function EditSearch(props) {
   const { originTable } = props
+
+  const originOptions = () => {
+    // Methode 1 forEach() on Nodelist
+    let cities = document.querySelectorAll('.origin-city');
+    cities.forEach((city)=>{
+      city.style.display = "block";
+    });
+    // Other method by mapping the NodeList to an array
+    //const cityArray = [...document.querySelectorAll('.origin-city')]
+    // for(let i=0; i<cityArray.length; i++){
+    //   cityArray[i].style.display = 'block';
+    // }
+  }
   return(
     <EditSearchContainer>
       <OriginCityContainer>
-        <label>YOU ARE FLYING FROM</label>
-        <Row>
+        <EditLabel>YOU ARE FLYING FROM <span onClick={originOptions}>Change origin</span></EditLabel>
+        <Row id="origin-list">
           {Object.keys(originTable).map((origin) => (
             <Link to={`/result/${origin}`}>
-              <OriginCity active={originTable[origin].active}>{originTable[origin].city_name}</OriginCity>
+              <OriginCity className="origin-city" active={originTable[origin].active}>{originTable[origin].city_name}</OriginCity>
             </Link>
             ))
           }
@@ -51,9 +64,20 @@ const OriginCity = styled.div`
   background-color: ${props => props.active ? "#5f9ea0" : "none"};
   color: ${props => props.active ? "white" : "none"};
   border: ${props => props.active ? "#D8ECF7" : "1px solid #eeeeee"};
+  display: ${props => props.active ? "block" : "none"};
   :hover{
     transition: all 0.4s ease 0s;
     transform: translateY(-5px);
     border:1px solid #5f9ea0;
+  }
+`;
+
+const EditLabel = styled.label`
+  span{
+    font-size:10px;
+    color:lightpink;
+    :hover{
+      cursor:pointer;
+    }
   }
 `;
