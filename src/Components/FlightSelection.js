@@ -72,14 +72,7 @@ export default function FlightSelection(props){
           SetDestinations(destinationsList);
       }
       catch (error) {
-        switch (error) {
-          case 141:
-            const errorMessage = `Sorry, no flights are available from this city yet`;
-            setErrorMessage(errorMessage);
-            break;
-          default:
-            console.log(`Sorry there was an error getting the data ${error}`);
-        }
+        setErrorMessage("an error occured while looking for your data, please try again later");
       }
     }
     getDestinations(origin);
@@ -122,7 +115,7 @@ useEffect( ()=>{
     if(!mapLoaded){
       loadMap();
     }
-  }, [origin]
+  }, [origin, mapLoaded]
 );
 
 
@@ -181,6 +174,14 @@ useEffect( ()=>{
     </div>
     <div className="search-result-container">
       <div className="result-list-container">
+      {
+        errorMessage && (
+          <div className="flight-item">
+            {errorMessage}
+          </div>
+        )
+
+      }
       {
         destinations ? (
           destinations.data.map( 

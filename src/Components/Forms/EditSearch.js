@@ -1,8 +1,5 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
-import { fetchAirportList, fetchDestinations } from '../../Actions/fetchData';
-import { css } from '@emotion/core';
-import BarLoader from 'react-spinners/BarLoader';
+import { useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
@@ -50,17 +47,17 @@ export default function EditSearch(props) {
   return(
     <EditSearchContainer>
       <OriginCityContainer>
-        <EditLabel>YOU ARE FLYING FROM</EditLabel>
+        <label>YOU ARE FLYING FROM</label>
         <Row>
           {Object.keys(originTable).map((origin) => (
               originTable[origin].active ? (
-                <div>
+                <div key={originTable[origin].city_name}>
                   <OriginCity id={origin} onClick={showOriginOptions} className="origin-city" active>{originTable[origin].city_name}</OriginCity>
                 </div>
               ) 
               : 
               (
-                <Link to={`/result/${origin}`}>
+                <Link key={originTable[origin].city_name} to={`/result/${origin}`}>
                   <OriginCity id={origin} className="origin-city">{originTable[origin].city_name}</OriginCity>
                 </Link>
               )
@@ -103,15 +100,5 @@ const OriginCity = styled.div`
     transition: all 0.4s ease 0s;
     transform: translateY(-5px);
     border:1px solid #5f9ea0;
-  }
-`;
-
-const EditLabel = styled.label`
-  span{
-    font-size:10px;
-    color:lightpink;
-    :hover{
-      cursor:pointer;
-    }
   }
 `;
