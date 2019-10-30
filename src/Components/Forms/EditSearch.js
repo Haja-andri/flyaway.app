@@ -54,7 +54,9 @@ export default function EditSearch(props) {
         <Row>
           {Object.keys(originTable).map((origin) => (
               originTable[origin].active ? (
+                <div>
                   <OriginCity id={origin} onClick={showOriginOptions} className="origin-city" active>{originTable[origin].city_name}</OriginCity>
+                </div>
               ) 
               : 
               (
@@ -78,13 +80,13 @@ const EditSearchContainer = styled.div`
 `;
 
 const OriginCityContainer = styled.div`
-
 `;
 
 const Row = styled.div`
   display:flex;
   justify-content: start;
   flex-wrap: wrap;
+  align-items:baseline;
 `;
 
 const OriginCity = styled.div`
