@@ -50,12 +50,18 @@ export default function EditSearch(props) {
   return(
     <EditSearchContainer>
       <OriginCityContainer>
-        <EditLabel>YOU ARE FLYING FROM <span onClick={showOriginOptions}>(change)</span></EditLabel>
+        <EditLabel>YOU ARE FLYING FROM</EditLabel>
         <Row>
           {Object.keys(originTable).map((origin) => (
-            <Link to={`/result/${origin}`}>
-              <OriginCity id={origin} className="origin-city" active={originTable[origin].active}>{originTable[origin].city_name}</OriginCity>
-            </Link>
+              originTable[origin].active ? (
+                  <OriginCity id={origin} onClick={showOriginOptions} className="origin-city" active>{originTable[origin].city_name}</OriginCity>
+              ) 
+              : 
+              (
+                <Link to={`/result/${origin}`}>
+                  <OriginCity id={origin} className="origin-city">{originTable[origin].city_name}</OriginCity>
+                </Link>
+              )
             ))
           }
         </Row>
@@ -72,22 +78,23 @@ const EditSearchContainer = styled.div`
 `;
 
 const OriginCityContainer = styled.div`
-  width: 100%;
+
 `;
 
 const Row = styled.div`
   display:flex;
-  padding-top:5px;
+  justify-content: start;
+  flex-wrap: wrap;
 `;
 
 const OriginCity = styled.div`
   padding:10px;
   margin-left:5px;
+  margin-top:10px;
   border-top-left-radius: 5px;
   border-bottom-right-radius: 5px;
   font-size: .8rem;
   background-color: none;
-  color: none;
   border: ${props => props.active ? "1px solid #5f9ea0" : "1px solid #eeeeee"};
   display: ${props => props.active ? "block" : "none"};
   :hover{
