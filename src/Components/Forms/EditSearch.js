@@ -25,10 +25,9 @@ export default function EditSearch(props) {
     // Methode 1 forEach() on Nodelist
     let cities = document.querySelectorAll('.origin-city');
     cities.forEach((city)=>{
-      if(originTable[city.id].active){
-        city.style.display = "block";
+      if(!originTable[city.id].active){
+        city.style.display = "none";
       }
-      else city.style.display = "none";
     });
     // Other method by mapping the NodeList to an array
     //const cityArray = [...document.querySelectorAll('.origin-city')]
@@ -83,19 +82,18 @@ const Row = styled.div`
   display:flex;
   justify-content: start;
   flex-wrap: wrap;
-  align-items:baseline;
+  align-items:center;
+  margin-top:10px;
 `;
 
 const OriginCity = styled.div`
   padding:10px;
   margin-left:5px;
-  margin-top:10px;
   border-top-left-radius: 5px;
   border-bottom-right-radius: 5px;
   font-size: .8rem;
   background-color: none;
   border: ${props => props.active ? "1px solid #5f9ea0" : "1px solid #eeeeee"};
-  display: ${props => props.active ? "block" : "none"};
   :hover{
     transition: all 0.4s ease 0s;
     transform: translateY(-5px);
