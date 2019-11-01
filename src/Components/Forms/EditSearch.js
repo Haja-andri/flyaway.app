@@ -18,7 +18,7 @@ export default function EditSearch(props) {
     // Other method by mapping the NodeList to an array
     //const cityArray = [...document.querySelectorAll('.origin-city')]
     // for(let i=0; i<cityArray.length; i++){
-    //   cityArray[i].style.display = 'block';
+    //   cityArray[i].classList.remove('hide');
     // }
   }
 
@@ -34,7 +34,7 @@ export default function EditSearch(props) {
     // Other method by mapping the NodeList to an array
     //const cityArray = [...document.querySelectorAll('.origin-city')]
     // for(let i=0; i<cityArray.length; i++){
-    //   cityArray[i].style.display = 'block';
+    //   cityArray[i].classList.add('hide');
     // }
   }
 
