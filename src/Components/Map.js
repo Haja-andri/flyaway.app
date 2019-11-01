@@ -4,7 +4,7 @@ import mapStyles from '../css/mapStyling';
 
 
 const Map = (props) => {
-    const { originTable, origin } = props;
+    const { originTable, origin, destination } = props;
     // google map
     const [defaultZoom] = useState(4);
     const [googleMap, setGoogleMap] = useState(null);
@@ -52,6 +52,12 @@ const Map = (props) => {
         }, [origin, mapLoaded]
     );
 
+    useEffect( ()=>{
+        if(mapLoaded){
+                showRouteOnMap(destination);
+            }
+        }, [ destination ]
+    );
 
     const loadMap = () =>{
         const mapPromise =  loadGoogleMapApi();
@@ -65,17 +71,17 @@ const Map = (props) => {
         }); 
     }
 
-    const showRouteOnMap = async (destinationCity) =>{
+    const showRouteOnMap = async (destination) =>{
         const from = await getDestinationGeocode(originTable[origin].city_name);
 
-        const currentMapInstance = new googleMap.Map(document.getElementById('map'), {
-            zoom:defaultZoom,
-            scrollwheel:false,
-            center: {lat: from.lat, lng: from.lng},
-            styles: mapStyles
-        });
+        // const currentMapInstance = new googleMap.Map(document.getElementById('map'), {
+        //     zoom:defaultZoom,
+        //     scrollwheel:false,
+        //     center: {lat: from.lat, lng: from.lng},
+        //     styles: mapStyles
+        // });
 
-        const to = await getDestinationGeocode(destinationCity);
+        const to = await getDestinationGeocode(destination);
         if (!from || !to) {
             // enable to get the line geocoordinate, return otherwise 
             // it breaks the display
@@ -94,7 +100,7 @@ const Map = (props) => {
         strokeOpacity: 1.0,
         strokeWeight: 2
     });
-    flightPath.setMap(currentMapInstance);
+    flightPath.setMap(mapInstance);
 }
 
 return(

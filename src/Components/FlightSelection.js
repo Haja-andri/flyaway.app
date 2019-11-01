@@ -46,7 +46,10 @@ export default function FlightSelection(props){
 
   // Set curent origin in local state
   const [origin, SetOrigin] = useState(props.match.params.ori);
+  // list of destination
   const [destinations, SetDestinations] = useState(null);
+  // single destination
+  const [destination, SetDestination] = useState(null);
   // error message
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -58,21 +61,28 @@ export default function FlightSelection(props){
 
   // Get the destination list based on origin
   useEffect(()=>{
-    const getDestinations = async (origin) =>{
-      SetDestinations(null);
-      try {
-          const destinationsList = await fetchDestinations(origin);
-          SetDestinations(destinationsList);
+      const getDestinations = async (origin) =>{
+        SetDestinations(null);
+        try {
+            const destinationsList = await fetchDestinations(origin);
+            SetDestinations(destinationsList);
+        }
+        catch (error) {
+          setErrorMessage("an error occured while looking for your data, please try again later");
+        }
       }
-      catch (error) {
-        setErrorMessage("an error occured while looking for your data, please try again later");
-      }
-    }
-    getDestinations(origin);
-  }, [origin]
-
+      getDestinations(origin);
+    }, [origin]
   );
-  
+
+  useEffect(()=>{
+    }, [destination]
+  );
+
+  const showRouteOnMap = (destination) => {
+    SetDestination(destination)
+  }
+
   return(
     <>
     <div>
@@ -99,9 +109,9 @@ export default function FlightSelection(props){
               <div 
               key={flight.origin + flight.destination}
               className="flight-item"
-              // onMouseEnter={() => {
-              //   showRouteOnMap(destinations.dictionaries.locations[flight.destination].detailedName);
-              // }}
+              onMouseEnter={() => {
+                showRouteOnMap(destinations.dictionaries.locations[flight.destination].detailedName);
+              }}
               >
                 <div className="destination-name"><h4>{destinations.dictionaries.locations[flight.destination].detailedName}</h4></div>
                 
@@ -138,7 +148,11 @@ export default function FlightSelection(props){
       </div>
       <div className="result-map">
         <div className="map-container">
-        <Map originTable={originTable} origin={origin}/>
+        <Map 
+          originTable={originTable} 
+          origin={origin} 
+          destination={destination}
+        />
         </div>
       </div>
     </div>
