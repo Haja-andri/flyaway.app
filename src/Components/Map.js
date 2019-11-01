@@ -10,11 +10,10 @@ const Map = (props) => {
     const [googleMap, setGoogleMap] = useState(null);
     const [mapLoaded, setmapLoaded] = useState(false);
     const [ currentCityCenter, setCurrentCityCenter ] = useState(null);
+    const [ mapInstance, setMapInstance] = useState(null);
 
     
     const mapDefaultView = async () =>{
-        console.log('originTable', originTable);
-        debugger
         if(currentCityCenter === originTable[origin].city_name){
             // if the origin have not changed we do not update the default view
             return;
@@ -29,9 +28,11 @@ const Map = (props) => {
                 center,
                 styles: mapStyles
             });
+            // keep instance of Map available to the component life cycle
+            setMapInstance(currentMapInstance);
             // add the marker to the center
             new googleMap.Marker({
-            map: currentMapInstance,
+            map: mapInstance,
             position: center,
             styles: mapStyles
         });
@@ -64,37 +65,37 @@ const Map = (props) => {
         }); 
     }
 
-//     const showRouteOnMap = async (destinationCity) =>{
-//         const from = await getDestinationGeocode(originTable[origin].city_name);
+    const showRouteOnMap = async (destinationCity) =>{
+        const from = await getDestinationGeocode(originTable[origin].city_name);
 
-//         const currentMapInstance = new googleMap.Map(document.getElementById('map'), {
-//             zoom:defaultZoom,
-//             scrollwheel:false,
-//             center: {lat: from.lat, lng: from.lng},
-//             styles: mapStyles
-//         });
+        const currentMapInstance = new googleMap.Map(document.getElementById('map'), {
+            zoom:defaultZoom,
+            scrollwheel:false,
+            center: {lat: from.lat, lng: from.lng},
+            styles: mapStyles
+        });
 
-//         const to = await getDestinationGeocode(destinationCity);
-//         if (!from || !to) {
-//             // enable to get the line geocoordinate, return otherwise 
-//             // it breaks the display
-//             return;
-//         }
+        const to = await getDestinationGeocode(destinationCity);
+        if (!from || !to) {
+            // enable to get the line geocoordinate, return otherwise 
+            // it breaks the display
+            return;
+        }
 
-//         let routeCoordinates = [
-//             {lat: from.lat, lng: from.lng},
-//             {lat: to.lat, lng: to.lng},
-//         ];
+        let routeCoordinates = [
+            {lat: from.lat, lng: from.lng},
+            {lat: to.lat, lng: to.lng},
+        ];
 
-//     const flightPath = new googleMap.Polyline({
-//         path: routeCoordinates,
-//         geodesic: true,
-//         strokeColor: '#FF0000',
-//         strokeOpacity: 1.0,
-//         strokeWeight: 2
-//     });
-//     flightPath.setMap(currentMapInstance);
-// }
+    const flightPath = new googleMap.Polyline({
+        path: routeCoordinates,
+        geodesic: true,
+        strokeColor: '#FF0000',
+        strokeOpacity: 1.0,
+        strokeWeight: 2
+    });
+    flightPath.setMap(currentMapInstance);
+}
 
 return(
     <div id="map" >
