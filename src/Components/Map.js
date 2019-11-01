@@ -18,7 +18,8 @@ const Map = (props) => {
             // if the origin have not changed we do not update the default view
             return;
         }
-        else setCurrentCityCenter(originTable[origin].city_name)
+        else {
+            setCurrentCityCenter(originTable[origin].city_name)
             // we get the map centered on the current origin by default
             const center = await getDestinationGeocode(originTable[origin].city_name);
 
@@ -28,14 +29,16 @@ const Map = (props) => {
                 center,
                 styles: mapStyles
             });
+            
             // keep instance of Map available to the component life cycle
-            setMapInstance(currentMapInstance);
             // add the marker to the center
             new googleMap.Marker({
-            map: mapInstance,
+            map: currentMapInstance,
             position: center,
             styles: mapStyles
-        });
+            });
+            setMapInstance(currentMapInstance);
+        } 
     }
 
     useEffect( ()=>{
@@ -74,12 +77,12 @@ const Map = (props) => {
     const showRouteOnMap = async (destination) =>{
         const from = await getDestinationGeocode(originTable[origin].city_name);
 
-        // const currentMapInstance = new googleMap.Map(document.getElementById('map'), {
-        //     zoom:defaultZoom,
-        //     scrollwheel:false,
-        //     center: {lat: from.lat, lng: from.lng},
-        //     styles: mapStyles
-        // });
+        const currentMapInstance = new googleMap.Map(document.getElementById('map'), {
+            zoom:defaultZoom,
+            scrollwheel:false,
+            center: {lat: from.lat, lng: from.lng},
+            styles: mapStyles
+        });
 
         const to = await getDestinationGeocode(destination);
         if (!from || !to) {
@@ -92,7 +95,6 @@ const Map = (props) => {
             {lat: from.lat, lng: from.lng},
             {lat: to.lat, lng: to.lng},
         ];
-
     const flightPath = new googleMap.Polyline({
         path: routeCoordinates,
         geodesic: true,
@@ -100,11 +102,13 @@ const Map = (props) => {
         strokeOpacity: 1.0,
         strokeWeight: 2
     });
-    flightPath.setMap(mapInstance);
+    flightPath.setMap(currentMapInstance);
 }
 
 return(
-    <div id="map" >
+    <div className="map-container">
+        <div id="map" >
+        </div>
     </div>
 )
 

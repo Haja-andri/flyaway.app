@@ -147,13 +147,11 @@ export default function FlightSelection(props){
       }
       </div>
       <div className="result-map">
-        <div className="map-container">
         <Map 
           originTable={originTable} 
           origin={origin} 
           destination={destination}
         />
-        </div>
       </div>
     </div>
     </>
