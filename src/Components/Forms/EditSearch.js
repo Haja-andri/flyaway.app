@@ -10,9 +10,10 @@ export default function EditSearch(props) {
 
   const showOriginOptions = () => {
     // Methode 1 forEach() on Nodelist
-    let cities = document.querySelectorAll('.origin-city');
+    let cities = document.querySelectorAll("div[name='origin']");
     cities.forEach((city)=>{
-      city.style.display = "block";
+      console.dir("Showing", city);
+      city.classList.remove('hide');
     });
     // Other method by mapping the NodeList to an array
     //const cityArray = [...document.querySelectorAll('.origin-city')]
@@ -23,10 +24,11 @@ export default function EditSearch(props) {
 
   const hideOriginOptions = () => {
     // Methode 1 forEach() on Nodelist
-    let cities = document.querySelectorAll('.origin-city');
+    let cities = document.querySelectorAll("div[name='origin']");
     cities.forEach((city)=>{
+      console.dir(city);
       if(!originTable[city.id].active){
-        city.style.display = "none";
+        city.classList.add('hide');
       }
     });
     // Other method by mapping the NodeList to an array
@@ -51,13 +53,13 @@ export default function EditSearch(props) {
           {Object.keys(originTable).map((origin) => (
               originTable[origin].active ? (
                 <div key={originTable[origin].city_name}>
-                  <OriginCity id={origin} onClick={showOriginOptions} className="origin-city" active>{originTable[origin].city_name}</OriginCity>
+                  <OriginCity name="origin" id={origin} onClick={showOriginOptions} className="origin-city" active>{originTable[origin].city_name}</OriginCity>
                 </div>
               ) 
               : 
               (
                 <Link key={originTable[origin].city_name} to={`/result/${origin}`}>
-                  <OriginCity id={origin} className="origin-city">{originTable[origin].city_name}</OriginCity>
+                  <OriginCity name="origin" id={origin} className="origin-city">{originTable[origin].city_name}</OriginCity>
                 </Link>
               )
             ))
