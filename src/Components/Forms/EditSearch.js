@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 
-
 export default function EditSearch(props) {
   const { originTable } = props
 
@@ -12,30 +11,18 @@ export default function EditSearch(props) {
     // Methode 1 forEach() on Nodelist
     let cities = document.querySelectorAll("div[name='origin']");
     cities.forEach((city)=>{
-      console.dir("Showing", city);
       city.classList.remove('hide');
     });
-    // Other method by mapping the NodeList to an array
-    //const cityArray = [...document.querySelectorAll('.origin-city')]
-    // for(let i=0; i<cityArray.length; i++){
-    //   cityArray[i].classList.remove('hide');
-    // }
   }
 
   const hideOriginOptions = () => {
     // Methode 1 forEach() on Nodelist
     let cities = document.querySelectorAll("div[name='origin']");
     cities.forEach((city)=>{
-      console.dir(city);
       if(!originTable[city.id].active){
         city.classList.add('hide');
       }
     });
-    // Other method by mapping the NodeList to an array
-    //const cityArray = [...document.querySelectorAll('.origin-city')]
-    // for(let i=0; i<cityArray.length; i++){
-    //   cityArray[i].classList.add('hide');
-    // }
   }
 
   useEffect(()=>{
@@ -94,7 +81,6 @@ const OriginCity = styled.div`
   border-top-left-radius: 5px;
   border-bottom-right-radius: 5px;
   font-size: .8rem;
-  background-color: none;
   border: ${props => props.active ? "1px solid #5f9ea0" : "1px solid #eeeeee"};
   :hover{
     transition: all 0.4s ease 0s;
