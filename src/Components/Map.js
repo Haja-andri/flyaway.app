@@ -13,6 +13,7 @@ const Map = (props) => {
     const [ mapInstance, setMapInstance] = useState(null);
     const [ markerInstance, setMarkerInstance] = useState(null);
     const [ polyLineInstance, setPolyLineInstance] = useState(null);
+    const [ center, setCenter] = useState(null);
 
     
     const mapDefaultView = async (mapAPI) =>{
@@ -37,6 +38,7 @@ const Map = (props) => {
         // keep instance of Map available to the component life cycle
         setMapInstance(currentMapInstance);
         setMarkerInstance(marker);
+        setCenter(center);
     }
 
     const updateMapCenter = async (newCenter) => {
@@ -52,6 +54,7 @@ const Map = (props) => {
                 });
             // update the marker instance
             setMarkerInstance(newMarker);
+            setCenter(center);
         }
 
     useEffect( ()=>{
@@ -84,13 +87,6 @@ const Map = (props) => {
 
 const showRouteOnMap = async (destination) =>{
     const from = await getDestinationGeocode(originTable[origin].city_name);
-
-    // const currentMapInstance = new googleMap.Map(document.getElementById('map'), {
-    //     zoom:defaultZoom,
-    //     scrollwheel:false,
-    //     center: {lat: from.lat, lng: from.lng},
-    //     styles: mapStyles
-    // });
 
     const to = await getDestinationGeocode(destination);
     if (!from || !to) {
