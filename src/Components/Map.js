@@ -12,6 +12,7 @@ const Map = (props) => {
     //const [ currentCityCenter, setCurrentCityCenter ] = useState(null);
     const [ mapInstance, setMapInstance] = useState(null);
     const [ markerInstance, setMarkerInstance] = useState(null);
+    const [ polyLineInstance, setPolyLineInstance] = useState(null);
 
     
     const mapDefaultView = async (mapAPI) =>{
@@ -82,26 +83,31 @@ const Map = (props) => {
 
 
 const showRouteOnMap = async (destination) =>{
-        const from = await getDestinationGeocode(originTable[origin].city_name);
+    const from = await getDestinationGeocode(originTable[origin].city_name);
 
-        const currentMapInstance = new googleMap.Map(document.getElementById('map'), {
-            zoom:defaultZoom,
-            scrollwheel:false,
-            center: {lat: from.lat, lng: from.lng},
-            styles: mapStyles
-        });
+    // const currentMapInstance = new googleMap.Map(document.getElementById('map'), {
+    //     zoom:defaultZoom,
+    //     scrollwheel:false,
+    //     center: {lat: from.lat, lng: from.lng},
+    //     styles: mapStyles
+    // });
 
-        const to = await getDestinationGeocode(destination);
-        if (!from || !to) {
-            // enable to get the line geocoordinate, return otherwise 
-            // it breaks the display
-            return;
-        }
+    const to = await getDestinationGeocode(destination);
+    if (!from || !to) {
+        // enable to get the line geocoordinate, return otherwise 
+        // it breaks the display
+        return;
+    }
 
-        let routeCoordinates = [
-            {lat: from.lat, lng: from.lng},
-            {lat: to.lat, lng: to.lng},
-        ];
+    let routeCoordinates = [
+        {lat: from.lat, lng: from.lng},
+        {lat: to.lat, lng: to.lng},
+    ];
+    // if a polyline is already there we clear it
+    if(polyLineInstance){
+        polyLineInstance.setMap(null);
+    }
+    // create the new polyline
     const flightPath = new googleMap.Polyline({
         path: routeCoordinates,
         geodesic: true,
@@ -109,7 +115,10 @@ const showRouteOnMap = async (destination) =>{
         strokeOpacity: 1.0,
         strokeWeight: 2
     });
-    flightPath.setMap(currentMapInstance);
+    // display the new polyline
+    flightPath.setMap(mapInstance);
+    // Kepp the new polyline in state
+    setPolyLineInstance(flightPath)
 }
 
 return(
