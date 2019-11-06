@@ -9,14 +9,15 @@ const Map = (props) => {
     const [defaultZoom] = useState(4);
     const [googleMap, setGoogleMap] = useState(null);
     const [mapLoaded, setmapLoaded] = useState(false);
-    const [ currentCityCenter, setCurrentCityCenter ] = useState(null);
+    //const [ currentCityCenter, setCurrentCityCenter ] = useState(null);
     const [ mapInstance, setMapInstance] = useState(null);
+    const [ markerInstance, setMarkerInstance] = useState(null);
 
     
     const mapDefaultView = async (mapAPI) =>{
         setGoogleMap(mapAPI);
         setmapLoaded(true);
-        setCurrentCityCenter(originTable[origin].city_name)
+        // setCurrentCityCenter(originTable[origin].city_name)
         // we get the map centered on the current origin by default
         const center = await getDestinationGeocode(originTable[origin].city_name);
 
@@ -26,16 +27,31 @@ const Map = (props) => {
             center,
             styles: mapStyles
         });
-        
-        // keep instance of Map available to the component life cycle
         // add the marker to the center
-        new mapAPI.Marker({
+        const marker = new mapAPI.Marker({
         map: currentMapInstance,
         position: center,
         styles: mapStyles
         });
+        // keep instance of Map available to the component life cycle
         setMapInstance(currentMapInstance);
+        setMarkerInstance(marker);
     }
+
+    const updateMapCenter = async (newCenter) => {
+        const center = await getDestinationGeocode(originTable[newCenter].city_name);
+            mapInstance.setCenter(center);
+            // reset current marker
+            markerInstance.setMap(null);
+            // create a new one with the new center
+            const newMarker = new googleMap.Marker({
+                map: mapInstance,
+                position: center,
+                styles: mapStyles
+                });
+            // update the marker instance
+            setMarkerInstance(newMarker);
+        }
 
     useEffect( ()=>{
             const getMapAPI = async () =>{
@@ -56,7 +72,16 @@ const Map = (props) => {
         }, [destination]
     );
 
-    const showRouteOnMap = async (destination) =>{
+    // use effect to update the map when origin is changed
+    useEffect( ()=>{
+        if (mapLoaded){
+            updateMapCenter(origin);
+        }
+    }, [origin]
+);
+
+
+const showRouteOnMap = async (destination) =>{
         const from = await getDestinationGeocode(originTable[origin].city_name);
 
         const currentMapInstance = new googleMap.Map(document.getElementById('map'), {
