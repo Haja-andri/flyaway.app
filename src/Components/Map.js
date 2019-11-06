@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { loadGoogleMapApi, getDestinationGeocode } from '../utils/maps/googleMapApi';
+import { loadMap, loadGoogleMapApi, getDestinationGeocode } from '../utils/maps/googleMapApi';
 import mapStyles from '../css/mapStyling';
 
 
@@ -13,66 +13,48 @@ const Map = (props) => {
     const [ mapInstance, setMapInstance] = useState(null);
 
     
-    const mapDefaultView = async () =>{
-        if(currentCityCenter === originTable[origin].city_name){
-            // if the origin have not changed we do not update the default view
-            return;
-        }
-        else {
-            setCurrentCityCenter(originTable[origin].city_name)
-            // we get the map centered on the current origin by default
-            const center = await getDestinationGeocode(originTable[origin].city_name);
+    const mapDefaultView = async (mapAPI) =>{
+        setGoogleMap(mapAPI);
+        setmapLoaded(true);
+        setCurrentCityCenter(originTable[origin].city_name)
+        // we get the map centered on the current origin by default
+        const center = await getDestinationGeocode(originTable[origin].city_name);
 
-            const currentMapInstance = new googleMap.Map(document.getElementById('map'), {
-                zoom:defaultZoom,
-                scrollwheel:false,
-                center,
-                styles: mapStyles
-            });
-            
-            // keep instance of Map available to the component life cycle
-            // add the marker to the center
-            new googleMap.Marker({
-            map: currentMapInstance,
-            position: center,
+        const currentMapInstance = new mapAPI.Map(document.getElementById('map'), {
+            zoom:defaultZoom,
+            scrollwheel:false,
+            center,
             styles: mapStyles
-            });
-            setMapInstance(currentMapInstance);
-        } 
+        });
+        
+        // keep instance of Map available to the component life cycle
+        // add the marker to the center
+        new mapAPI.Marker({
+        map: currentMapInstance,
+        position: center,
+        styles: mapStyles
+        });
+        setMapInstance(currentMapInstance);
     }
 
     useEffect( ()=>{
-            if(googleMap){
-                mapDefaultView();
+            const getMapAPI = async () =>{
+                // will get the MAP js API loaded
+                // and pass it to default view
+                mapDefaultView(await loadMap());
             }
-        }
+            getMapAPI();
+        }, [] // Nothing in the array means the use effect will run only once
     );
 
+    // useEffect that updated the map with
+    // route when the user hover a given destination
     useEffect( ()=>{
-            if(!mapLoaded){
-                loadMap();
-            }
-        }, [origin, mapLoaded]
-    );
-
-    useEffect( ()=>{
-        if(mapLoaded){
+            if (mapLoaded){
                 showRouteOnMap(destination);
             }
-        }, [ destination ]
+        }, [destination]
     );
-
-    const loadMap = () =>{
-        const mapPromise =  loadGoogleMapApi();
-        Promise.all([
-            mapPromise
-        ])
-        .then(value =>{
-            const googleMap = (value[0].maps);
-            setGoogleMap(googleMap); // make it globaly accessible to the page
-            setmapLoaded(true);
-        }); 
-    }
 
     const showRouteOnMap = async (destination) =>{
         const from = await getDestinationGeocode(originTable[origin].city_name);

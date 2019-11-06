@@ -1,7 +1,7 @@
 import { fetchDestinationGeocode } from '../../Actions/fetchData';
 
 // loading the google map API for the component to use
-export const loadGoogleMapApi = () => {
+const loadGoogleMapApi = () => {
     // #1 the component call this function
     // #2 it will set-up the script on the body
     // and trigger the API call to the URL with the params and API key
@@ -11,20 +11,33 @@ export const loadGoogleMapApi = () => {
     // #3 the callback resolve the promise with window.google (previously set in the API call)
     // #4 we clear the callback function from window
     // #5 return the resolved promise (maps API) to the calling component
-return new Promise(
-    (resolve, reject)=> {
-    window.initGoogleMapPromise = () =>{
-        resolve(window.google);
-        delete window.initGoogleMapPromise;
-    }
-    const script = document.createElement('script');
-    const API_KEY = process.env.REACT_APP_GOOGLE_API_KEY;
-    script.async = true;
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}&callback=initGoogleMapPromise`;
-    document.body.appendChild(script);    
-    }
-);
+    return new Promise(
+        (resolve, reject)=> {
+        window.initGoogleMapPromise = () =>{
+            resolve(window.google);
+            delete window.initGoogleMapPromise;
+        }
+        const script = document.createElement('script');
+        const API_KEY = process.env.REACT_APP_GOOGLE_API_KEY;
+        script.async = true;
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}&callback=initGoogleMapPromise`;
+        document.body.appendChild(script);    
+        }
+    );
 }
+
+export const loadMap = () =>{
+    const mapPromise =  loadGoogleMapApi();
+    const MapAPI = Promise.all([
+        mapPromise
+    ])
+    .then(value =>{
+        const googleMap = (value[0].maps);
+        return googleMap;
+    }); 
+    return MapAPI;
+}
+
 
 // currently not in use since las factoring/cleanin
 export const setMapCenterToCurrentLocation = (origin, currentMapInstance, googleMap) => {
