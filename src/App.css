@@ -334,6 +334,7 @@ span.small-set, input span.small-set{
 
 .flight-item:hover {
 	border: 1px solid #D8ECF7;
+	cursor: pointer;
 }
 
 .flight-details{
