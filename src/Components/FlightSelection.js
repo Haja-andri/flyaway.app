@@ -1,10 +1,9 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 // function that loads google map api
-import { loadGoogleMapApi, getDestinationGeocode } from '../utils/maps/googleMapApi';
 import { fetchDestinations } from '../Actions/fetchData';
+import Map from './Map'
 import EditSearch from './Forms/EditSearch';
-import mapStyles from '../css/mapStyling';
 import { css } from '@emotion/core';
 import PropagateLoader from 'react-spinners/PropagateLoader';
 
@@ -47,15 +46,14 @@ export default function FlightSelection(props){
 
   // Set curent origin in local state
   const [origin, SetOrigin] = useState(props.match.params.ori);
+  // list of destination
   const [destinations, SetDestinations] = useState(null);
+  // single destination
+  const [destination, SetDestination] = useState(null);
+  // clear route from map
+  const [clearRoute, SetClearRoute] = useState(false);
   // error message
   const [errorMessage, setErrorMessage] = useState('');
-  // google map
-  const [defaultZoom] = useState(4);
-  const [googleMap, setGoogleMap] = useState(null);
-  const [mapLoaded, setmapLoaded] = useState(false);
-  const [ currentCityCenter, setCurrentCityCenter ] = useState(null);
-
 
   useEffect(()=>{
     SetOrigin(props.match.params.ori)
@@ -65,104 +63,32 @@ export default function FlightSelection(props){
 
   // Get the destination list based on origin
   useEffect(()=>{
-    const getDestinations = async (origin) =>{
-      SetDestinations(null);
-      try {
-          const destinationsList = await fetchDestinations(origin);
-          SetDestinations(destinationsList);
+      const getDestinations = async (origin) =>{
+        SetDestinations(null);
+        try {
+            const destinationsList = await fetchDestinations(origin);
+            SetDestinations(destinationsList);
+        }
+        catch (error) {
+          setErrorMessage("an error occured while looking for your data, please try again later");
+        }
       }
-      catch (error) {
-        setErrorMessage("an error occured while looking for your data, please try again later");
-      }
-    }
-    getDestinations(origin);
-  }, [origin]
-
-  );
-  
-  
-  const mapDefaultView = async () =>{
-    if(currentCityCenter === originTable[origin].city_name){
-      // if the origin have not changed we do not update the default view
-      return;
-    }
-    else setCurrentCityCenter(originTable[origin].city_name)
-    // we get the map centered on the current origin by default
-    const center = await getDestinationGeocode(originTable[origin].city_name);
-
-    const currentMapInstance = new googleMap.Map(document.getElementById('map'), {
-      zoom:defaultZoom,
-      scrollwheel:false,
-      center,
-      styles: mapStyles
-    });
-    // add the marker to the center
-    new googleMap.Marker({
-      map: currentMapInstance,
-      position: center,
-      styles: mapStyles
-    });
-  }
-
-  useEffect( ()=>{
-    if(googleMap){
-      mapDefaultView();
-    }
-  }
+      getDestinations(origin);
+    }, [origin]
   );
 
-useEffect( ()=>{
-    if(!mapLoaded){
-      loadMap();
-    }
-  }, [origin, mapLoaded]
-);
+  useEffect(()=>{
+    }, [destination]
+  );
 
-
-  const loadMap = () =>{
-    const mapPromise =  loadGoogleMapApi();
-    Promise.all([
-      mapPromise
-    ])
-    .then(value =>{
-      const googleMap = (value[0].maps);
-      setGoogleMap(googleMap); // make it globaly accessible to the page
-      setmapLoaded(true);
-    }); 
+  const showRouteOnMap = (destination) => {
+    SetDestination(destination)
   }
 
-  const showRouteOnMap = async (destinationCity) =>{
-    const from = await getDestinationGeocode(originTable[origin].city_name);
-
-    const currentMapInstance = new googleMap.Map(document.getElementById('map'), {
-      zoom:defaultZoom,
-      scrollwheel:false,
-      center: {lat: from.lat, lng: from.lng},
-      styles: mapStyles
-    });
-
-    const to = await getDestinationGeocode(destinationCity);
-    if (!from || !to) {
-      // enable to get the line geocoordinate, return otherwise 
-      // it breaks the display
-      return;
-    }
-
-    let routeCoordinates = [
-      {lat: from.lat, lng: from.lng},
-      {lat: to.lat, lng: to.lng},
-    ];
-
-    const flightPath = new googleMap.Polyline({
-      path: routeCoordinates,
-      geodesic: true,
-      strokeColor: '#FF0000',
-      strokeOpacity: 1.0,
-      strokeWeight: 2
-    });
-    flightPath.setMap(currentMapInstance);
+  const clearRouteFromMap = (bool) => {
+    SetClearRoute(bool);
   }
-  
+
   return(
     <>
     <div>
@@ -191,6 +117,9 @@ useEffect( ()=>{
               className="flight-item"
               onMouseEnter={() => {
                 showRouteOnMap(destinations.dictionaries.locations[flight.destination].detailedName);
+              }}
+              onMouseLeave={()=>{
+                clearRouteFromMap(true)
               }}
               >
                 <div className="destination-name"><h4>{destinations.dictionaries.locations[flight.destination].detailedName}</h4></div>
@@ -227,10 +156,13 @@ useEffect( ()=>{
       }
       </div>
       <div className="result-map">
-        <div className="map-container">
-        <div id="map" >
-        </div>
-        </div>
+        <Map 
+          originTable={originTable} 
+          origin={origin} 
+          destination={destination}
+          clearRoute={clearRoute}
+          clearRouteFromMap={clearRouteFromMap}
+        />
       </div>
     </div>
     </>
