@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { loadMap, loadGoogleMapApi, getDestinationGeocode } from '../utils/maps/googleMapApi';
+import { loadMap, getDestinationGeocode } from '../utils/maps/googleMapApi';
 import mapStyles from '../css/mapStyling';
 
 
@@ -15,11 +15,9 @@ const Map = (props) => {
     const [defaultZoom] = useState(4);
     const [googleMap, setGoogleMap] = useState(null);
     const [mapLoaded, setmapLoaded] = useState(false);
-    //const [ currentCityCenter, setCurrentCityCenter ] = useState(null);
     const [ mapInstance, setMapInstance] = useState(null);
     const [ markerInstance, setMarkerInstance] = useState(null);
     const [ polyLineInstance, setPolyLineInstance] = useState(null);
-    const [ center, setCenter] = useState(null);
 
     
     const mapDefaultView = async (mapAPI) =>{
@@ -44,7 +42,6 @@ const Map = (props) => {
         // keep instance of Map available to the component life cycle
         setMapInstance(currentMapInstance);
         setMarkerInstance(marker);
-        setCenter(center);
     }
 
     const updateMapCenter = async (newCenter) => {
@@ -60,7 +57,6 @@ const Map = (props) => {
                 });
             // update the marker instance
             setMarkerInstance(newMarker);
-            setCenter(center);
         }
 
     useEffect( ()=>{
@@ -96,7 +92,7 @@ const Map = (props) => {
             polyLineInstance.setMap(null);
         }
         // this function will reset the state of 
-        // clearRoute on the parent component
+        // clearRoute to false on the parent component
         clearRouteFromMap(false);
     }, [clearRoute]
     );
@@ -106,7 +102,7 @@ const showRouteOnMap = async (destination) =>{
 
     const to = await getDestinationGeocode(destination);
     if (!from || !to) {
-        // enable to get the line geocoordinate, return otherwise 
+        // unable to get the line geocoordinate, return otherwise 
         // it breaks the display
         return;
     }
@@ -125,7 +121,8 @@ const showRouteOnMap = async (destination) =>{
     });
     // display the new polyline
     flightPath.setMap(mapInstance);
-    // Kepp the new polyline in state
+    // Keep the new polyline in state
+    // so we can clear it later
     setPolyLineInstance(flightPath)
 }
 
