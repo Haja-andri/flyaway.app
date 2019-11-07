@@ -4,7 +4,13 @@ import mapStyles from '../css/mapStyling';
 
 
 const Map = (props) => {
-    const { originTable, origin, destination } = props;
+    const { 
+        originTable, 
+        origin, 
+        destination, 
+        clearRoute,
+        clearRouteFromMap
+    } = props;
     // google map
     const [defaultZoom] = useState(4);
     const [googleMap, setGoogleMap] = useState(null);
@@ -81,9 +87,19 @@ const Map = (props) => {
         if (mapLoaded){
             updateMapCenter(origin);
         }
-    }, [origin]
-);
+        }, [origin]
+    );
 
+    useEffect(()=>{
+        // if a polyline is already there we clear it
+        if(polyLineInstance){
+            polyLineInstance.setMap(null);
+        }
+        // this function will reset the state of 
+        // clearRoute on the parent component
+        clearRouteFromMap(false);
+    }, [clearRoute]
+    );
 
 const showRouteOnMap = async (destination) =>{
     const from = await getDestinationGeocode(originTable[origin].city_name);
@@ -99,10 +115,6 @@ const showRouteOnMap = async (destination) =>{
         {lat: from.lat, lng: from.lng},
         {lat: to.lat, lng: to.lng},
     ];
-    // if a polyline is already there we clear it
-    if(polyLineInstance){
-        polyLineInstance.setMap(null);
-    }
     // create the new polyline
     const flightPath = new googleMap.Polyline({
         path: routeCoordinates,

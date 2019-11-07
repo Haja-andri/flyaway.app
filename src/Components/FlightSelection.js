@@ -50,6 +50,8 @@ export default function FlightSelection(props){
   const [destinations, SetDestinations] = useState(null);
   // single destination
   const [destination, SetDestination] = useState(null);
+  // clear route from map
+  const [clearRoute, SetClearRoute] = useState(false);
   // error message
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -83,6 +85,10 @@ export default function FlightSelection(props){
     SetDestination(destination)
   }
 
+  const clearRouteFromMap = (bool) => {
+    SetClearRoute(bool);
+  }
+
   return(
     <>
     <div>
@@ -111,6 +117,9 @@ export default function FlightSelection(props){
               className="flight-item"
               onMouseEnter={() => {
                 showRouteOnMap(destinations.dictionaries.locations[flight.destination].detailedName);
+              }}
+              onMouseLeave={()=>{
+                clearRouteFromMap(true)
               }}
               >
                 <div className="destination-name"><h4>{destinations.dictionaries.locations[flight.destination].detailedName}</h4></div>
@@ -151,6 +160,8 @@ export default function FlightSelection(props){
           originTable={originTable} 
           origin={origin} 
           destination={destination}
+          clearRoute={clearRoute}
+          clearRouteFromMap={clearRouteFromMap}
         />
       </div>
     </div>
