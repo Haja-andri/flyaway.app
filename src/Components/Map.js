@@ -111,6 +111,7 @@ const showRouteOnMap = async (destination) =>{
         {lat: from.lat, lng: from.lng},
         {lat: to.lat, lng: to.lng},
     ];
+
     // create the new polyline
     const flightPath = new googleMap.Polyline({
         path: routeCoordinates,
@@ -123,7 +124,7 @@ const showRouteOnMap = async (destination) =>{
     flightPath.setMap(mapInstance);
     // Keep the new polyline in state
     // so we can clear it later
-    setPolyLineInstance(flightPath)
+    setPolyLineInstance(flightPath)    
 }
 
 return(

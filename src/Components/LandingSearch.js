@@ -162,7 +162,8 @@ const ImageContainer = styled.div`
 
 const CenteredText = styled.div`
     position: absolute;
-    top: 5px;
+    width:100%;
+    top: 15px;
     left: 50%;
     transform: translate(-50%, -50%);
     color:white;
