@@ -122,7 +122,7 @@ export default function FlightSelection(props){
                 clearRouteFromMap(true)
               }}
               >
-                <div className="destination-name"><h4>{destinations.dictionaries.locations[flight.destination].detailedName}</h4></div>
+                <div><h4 className="destination-name">{destinations.dictionaries.locations[flight.destination].detailedName}</h4></div>
                 
                 <div className="flight-details">
                 

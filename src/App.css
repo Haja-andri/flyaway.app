@@ -390,13 +390,17 @@ span.small-set, input span.small-set{
 
 @media only screen and (max-width: 890px){
 	.large-display{
-		font-size: .8rem;
+		font-size: 1.1rem;
 	}
 	label{
-		font-size: .6rem;
+		font-size: .7rem;
 	}
 }
 
+
+.destination-name{
+	font-size: .8rem;
+}
 .date {
 	margin-top: 10px;
 	font-size: .8rem;
