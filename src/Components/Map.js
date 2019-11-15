@@ -31,13 +31,12 @@ const Map = (props) => {
             zoom:defaultZoom,
             scrollwheel:false,
             center,
-            styles: mapStyles
+            styles: mapStyles,
         });
         // add the marker to the center
         const marker = new mapAPI.Marker({
-        map: currentMapInstance,
-        position: center,
-        styles: mapStyles
+            map: currentMapInstance,
+            position: center,
         });
         // keep instance of Map available to the component life cycle
         setMapInstance(currentMapInstance);
