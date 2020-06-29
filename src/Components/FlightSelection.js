@@ -48,11 +48,11 @@ export default function FlightSelection(props) {
   // Set curent origin in local state
   const [origin, SetOrigin] = useState(props.match.params.ori);
   // list of destination
-  const [destinations, SetDestinations] = useState(null);
+  const [destinations, setDestinations] = useState(null);
   // single destination
-  const [destination, SetDestination] = useState(null);
+  const [destination, setDestination] = useState(null);
   // clear route from map
-  const [clearRoute, SetClearRoute] = useState(false);
+  const [clearRoute, setClearRoute] = useState(false);
   // error message
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -66,10 +66,10 @@ export default function FlightSelection(props) {
   // Get the destination list based on origin
   useEffect(() => {
     const getDestinations = async (origin) => {
-      SetDestinations(null);
+      setDestinations(null);
       try {
         const destinationsList = await fetchDestinations(origin);
-        SetDestinations(destinationsList);
+        setDestinations(destinationsList);
       } catch (error) {
         setErrorMessage(
           "an error occured while looking for your data, please try again later"
@@ -82,11 +82,7 @@ export default function FlightSelection(props) {
   const showRouteOnMap = (destination) => {
     // event.preventDefault();
     //const destination = event.target.id
-    SetDestination(destination);
-  };
-
-  const clearRouteFromMap = (bool) => {
-    SetClearRoute(bool);
+    setDestination(destination);
   };
 
   const trackMouseStop = (event) => {
@@ -104,8 +100,8 @@ export default function FlightSelection(props) {
   };
 
   const handleMouseLeave = () => {
-    SetDestination(null)
-    SetClearRoute(true);
+    setDestination(null)
+    setClearRoute(true);
     setMousePosition("")
   }
 
@@ -192,7 +188,7 @@ export default function FlightSelection(props) {
             origin={origin}
             destination={destination}
             clearRoute={clearRoute}
-            SetClearRoute={SetClearRoute}
+            setClearRoute={setClearRoute}
           />
         </div>
       </div>

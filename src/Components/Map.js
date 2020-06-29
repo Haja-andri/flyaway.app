@@ -8,7 +8,7 @@ const Map = (props) => {
     origin,
     destination,
     clearRoute,
-    SetClearRoute,
+    setClearRoute,
   } = props;
   // google map
   const [defaultZoom] = useState(4);
@@ -95,11 +95,14 @@ const Map = (props) => {
     }
   }, [origin]);
 
-
+  /**
+   * This effect will clear current route (if any)
+   * when the mouse leave the destination box
+   */
   useEffect(()=>{
     if(clearRoute) {
       removeRoute()
-      SetClearRoute(false)
+      setClearRoute(false)
     }
   }, [clearRoute]
 
@@ -153,15 +156,6 @@ const Map = (props) => {
     // We already have a polyline instence and
     // a destination
     if (polyLineInstance && destination) {
-      // const path = polyLineInstance.getPath();
-      // /**
-      //  * we clear the current path (previously was 
-      //  * using polyLineInstance.setMap(null) to remove 
-      //  * the current polyline but hadd lots of state synching issue)
-      //  * path.clear() does the same by manipullating directly the object 
-      //  * property
-      //  */
-      // path.clear(); 
       removeRoute();
       polyLineInstance.setPath(routeCoordinates);
       polyLineInstance.setMap(mapInstance);
@@ -169,8 +163,6 @@ const Map = (props) => {
 
   };
 
-  const removeRoute = () =>{
-    const path = polyLineInstance.getPath();
     /**
      * we clear the current path (previously was 
      * using polyLineInstance.setMap(null) to remove 
@@ -178,6 +170,8 @@ const Map = (props) => {
      * path.clear() does the same by manipullating directly the object 
      * property
      */
+    const removeRoute = () =>{
+    const path = polyLineInstance.getPath();
     path.clear(); 
   }
 
