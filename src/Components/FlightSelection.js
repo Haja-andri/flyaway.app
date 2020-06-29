@@ -129,10 +129,6 @@ export default function FlightSelection(props) {
             destinations.data.map((flight) => (
               <div
                 key={flight.origin + flight.destination}
-                id={
-                  destinations.dictionaries.locations[flight.destination]
-                    .detailedName
-                }
                 className="flight-item"
                 onMouseMove={(e) => trackMouseStop(e)}
                 onMouseEnter={() => {
