@@ -85,7 +85,7 @@ const Map = (props) => {
         );
         const markerCoordinate = await getDestinationGeocode(destinations.dictionaries.locations[flight.destination].detailedName);
     // add the marker to the center
-    const marker = new googleMap.Marker({
+    new googleMap.Marker({
       map: mapInstance,
       position: markerCoordinate,
       styles: mapStyles,
