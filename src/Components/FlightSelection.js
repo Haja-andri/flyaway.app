@@ -80,7 +80,6 @@ export default function FlightSelection(props) {
   }, [origin]);
 
   const showRouteOnMap = (destination) => {
-    SetClearRoute(true);
     // event.preventDefault();
     //const destination = event.target.id
     SetDestination(destination);
@@ -99,7 +98,7 @@ export default function FlightSelection(props) {
       thread;
 
     clearTimeout(thread);
-    thread = setTimeout(onmousestop, 1500);
+    thread = setTimeout(onmousestop, 500);
     //console.log((arguments[0] || event).clientX);
   };
 
@@ -108,6 +107,8 @@ export default function FlightSelection(props) {
   };
 
   const handleMouseLeave = () => {
+    SetDestination(null)
+    SetClearRoute(true);
     setMousePosition("")
   }
 

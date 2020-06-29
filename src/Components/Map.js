@@ -91,7 +91,7 @@ const Map = (props) => {
 
   useEffect(() => {
     // if a polyline is already there we clear it
-    if (polyLineInstance) {
+    if (polyLineInstance && clearRoute) {
       polyLineInstance.setMap(null);
       setPolyLineInstance(null);
     }
@@ -117,7 +117,7 @@ const Map = (props) => {
 
     // This is to make sure that the previous
     // polyline have been cleared before rendering a new one
-    if (polyLineInstance === null) {
+    if (!polyLineInstance) {
       // create the new polyline
       const flightPath = new googleMap.Polyline({
         path: routeCoordinates,
