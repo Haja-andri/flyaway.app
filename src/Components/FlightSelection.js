@@ -183,6 +183,7 @@ export default function FlightSelection(props) {
             originTable={originTable}
             origin={origin}
             destination={destination}
+            destinations={destinations}
             clearRoute={clearRoute}
             setClearRoute={setClearRoute}
           />

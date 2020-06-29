@@ -7,6 +7,7 @@ const Map = (props) => {
     originTable,
     origin,
     destination,
+    destinations,
     clearRoute,
     setClearRoute,
   } = props;
@@ -60,7 +61,8 @@ const Map = (props) => {
   };
 
   /** The very first effect run (only once)
-   * to laod the API
+   * to laod the API and render the default view
+   * incliding the markers
    */
   useEffect(
     () => {
@@ -73,6 +75,28 @@ const Map = (props) => {
     },
     [] // Nothing in the array means the use effect will run only once
   );
+
+  useEffect(() => {
+    const loadMarkers = () => {
+      const data = destinations.data;
+      data.forEach(async(flight) => {
+        console.log(
+          destinations.dictionaries.locations[flight.destination].detailedName
+        );
+        const markerCoordinate = await getDestinationGeocode(destinations.dictionaries.locations[flight.destination].detailedName);
+    // add the marker to the center
+    const marker = new googleMap.Marker({
+      map: mapInstance,
+      position: markerCoordinate,
+      styles: mapStyles,
+    });        
+      });
+
+    }
+    if (destinations) {
+      loadMarkers();
+    }
+  }, [destinations]);
 
   /**
    * useEffect that updated the map with
@@ -99,21 +123,19 @@ const Map = (props) => {
    * This effect will clear current route (if any)
    * when the mouse leave the destination box
    */
-  useEffect(()=>{
-    if(clearRoute) {
-      removeRoute()
-      setClearRoute(false)
+  useEffect(() => {
+    if (clearRoute) {
+      removeRoute();
+      setClearRoute(false);
     }
-  }, [clearRoute]
+  }, [clearRoute]);
 
-  )
-
-/**
- * 
- * @param {*} destination 
- * Function that will render the route on the map based
- * on current origin and destination received
- */
+  /**
+   *
+   * @param {*} destination
+   * Function that will render the route on the map based
+   * on current origin and destination received
+   */
 
   const showRouteOnMap = async (destination) => {
     // get the to (destination) and from (origin)
@@ -135,7 +157,7 @@ const Map = (props) => {
      * a polyline instance yet so we create a polyline
      * instance that can be reused subsequently to render
      * new route without needed a new map instance nor polyline
-     * instance 
+     * instance
      */
     if (!polyLineInstance) {
       // create the new polyline
@@ -160,20 +182,19 @@ const Map = (props) => {
       polyLineInstance.setPath(routeCoordinates);
       polyLineInstance.setMap(mapInstance);
     }
-
   };
 
-    /**
-     * we clear the current path (previously was 
-     * using polyLineInstance.setMap(null) to remove 
-     * the current polyline but hadd lots of state synching issue)
-     * path.clear() does the same by manipullating directly the object 
-     * property
-     */
-    const removeRoute = () =>{
+  /**
+   * we clear the current path (previously was
+   * using polyLineInstance.setMap(null) to remove
+   * the current polyline but hadd lots of state synching issue)
+   * path.clear() does the same by manipullating directly the object
+   * property
+   */
+  const removeRoute = () => {
     const path = polyLineInstance.getPath();
-    path.clear(); 
-  }
+    path.clear();
+  };
 
   return (
     <div className="map-container">
