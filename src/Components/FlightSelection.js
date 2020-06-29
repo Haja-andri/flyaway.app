@@ -92,14 +92,11 @@ export default function FlightSelection(props) {
   const trackMouseStop = (event) => {
     setMouseStopped(false)
     var onmousestop = function () {
-        //console.log("mouse stopped at " + mousePosition);
         setMouseStopped(true)
       },
       thread;
-
     clearTimeout(thread);
     thread = setTimeout(onmousestop, 500);
-    //console.log((arguments[0] || event).clientX);
   };
 
   const handleMouseEnter = (destination) => {
@@ -195,7 +192,7 @@ export default function FlightSelection(props) {
             origin={origin}
             destination={destination}
             clearRoute={clearRoute}
-            clearRouteFromMap={clearRouteFromMap}
+            SetClearRoute={SetClearRoute}
           />
         </div>
       </div>

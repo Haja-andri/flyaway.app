@@ -8,7 +8,7 @@ const Map = (props) => {
     origin,
     destination,
     clearRoute,
-    clearRouteFromMap,
+    SetClearRoute,
   } = props;
   // google map
   const [defaultZoom] = useState(4);
@@ -59,6 +59,9 @@ const Map = (props) => {
     setMarkerInstance(newMarker);
   };
 
+  /** The very first effect run (only once)
+   * to laod the API
+   */
   useEffect(
     () => {
       const getMapAPI = async () => {
@@ -71,38 +74,47 @@ const Map = (props) => {
     [] // Nothing in the array means the use effect will run only once
   );
 
-  // useEffect that updated the map with
-  // route when the user hover a given destination
+  /**
+   * useEffect that updated the map with
+   * route when the user hover a given destination
+   * change in the destination will trigger the effect
+   */
   useEffect(() => {
     if (mapLoaded) {
-      if (polyLineInstance) {
-        polyLineInstance.setMap(null);
-      }
       showRouteOnMap(destination);
     }
   }, [destination]);
 
-  // use effect to update the map when origin is changed
+  /**
+   * Use effect to update the map when origin is changed
+   * to recenter the map on the new origin
+   */
   useEffect(() => {
     if (mapLoaded) {
       updateMapCenter(origin);
     }
   }, [origin]);
 
-  useEffect(() => {
-    // if a polyline is already there we clear it
-    if (polyLineInstance && clearRoute) {
-      polyLineInstance.setMap(null);
-      //setPolyLineInstance(null);
+
+  useEffect(()=>{
+    if(clearRoute) {
+      removeRoute()
+      SetClearRoute(false)
     }
-    // this function will reset the state of
-    // clearRoute to false on the parent component
-    clearRouteFromMap(false);
-  }, [clearRoute, clearRouteFromMap]);
+  }, [clearRoute]
+
+  )
+
+/**
+ * 
+ * @param {*} destination 
+ * Function that will render the route on the map based
+ * on current origin and destination received
+ */
 
   const showRouteOnMap = async (destination) => {
+    // get the to (destination) and from (origin)
     const from = await getDestinationGeocode(originTable[origin].city_name);
-
     const to = await getDestinationGeocode(destination);
     if (!from || !to) {
       // unable to get the line geocoordinate, return otherwise
@@ -115,19 +127,13 @@ const Map = (props) => {
       { lat: to.lat, lng: to.lng },
     ];
 
-    // This is to make sure that the previous
-    // polyline have been cleared before rendering a new one
-    if (polyLineInstance && destination) {
-      const path = polyLineInstance.getPath();
-      //console.log(path.getAt())
-      // Iterate over the vertices.
-//      for (var i = 0; i < path.getLength(); i++) {
-        path.clear();
-  //    }
-      polyLineInstance.setPath(routeCoordinates)
-      polyLineInstance.setMap(mapInstance)
-    }
-
+    /**
+     * for the first polyline rendered, we do not have
+     * a polyline instance yet so we create a polyline
+     * instance that can be reused subsequently to render
+     * new route without needed a new map instance nor polyline
+     * instance 
+     */
     if (!polyLineInstance) {
       // create the new polyline
       const flightPath = new googleMap.Polyline({
@@ -143,7 +149,37 @@ const Map = (props) => {
       // so we can clear it later
       setPolyLineInstance(flightPath);
     }
+
+    // We already have a polyline instence and
+    // a destination
+    if (polyLineInstance && destination) {
+      // const path = polyLineInstance.getPath();
+      // /**
+      //  * we clear the current path (previously was 
+      //  * using polyLineInstance.setMap(null) to remove 
+      //  * the current polyline but hadd lots of state synching issue)
+      //  * path.clear() does the same by manipullating directly the object 
+      //  * property
+      //  */
+      // path.clear(); 
+      removeRoute();
+      polyLineInstance.setPath(routeCoordinates);
+      polyLineInstance.setMap(mapInstance);
+    }
+
   };
+
+  const removeRoute = () =>{
+    const path = polyLineInstance.getPath();
+    /**
+     * we clear the current path (previously was 
+     * using polyLineInstance.setMap(null) to remove 
+     * the current polyline but hadd lots of state synching issue)
+     * path.clear() does the same by manipullating directly the object 
+     * property
+     */
+    path.clear(); 
+  }
 
   return (
     <div className="map-container">
