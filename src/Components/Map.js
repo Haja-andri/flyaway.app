@@ -75,7 +75,7 @@ const Map = (props) => {
   // route when the user hover a given destination
   useEffect(() => {
     if (mapLoaded) {
-      if(polyLineInstance) {
+      if (polyLineInstance) {
         polyLineInstance.setMap(null);
       }
       showRouteOnMap(destination);
@@ -93,7 +93,7 @@ const Map = (props) => {
     // if a polyline is already there we clear it
     if (polyLineInstance && clearRoute) {
       polyLineInstance.setMap(null);
-      setPolyLineInstance(null);
+      //setPolyLineInstance(null);
     }
     // this function will reset the state of
     // clearRoute to false on the parent component
@@ -117,6 +117,17 @@ const Map = (props) => {
 
     // This is to make sure that the previous
     // polyline have been cleared before rendering a new one
+    if (polyLineInstance && destination) {
+      const path = polyLineInstance.getPath();
+      //console.log(path.getAt())
+      // Iterate over the vertices.
+//      for (var i = 0; i < path.getLength(); i++) {
+        path.clear();
+  //    }
+      polyLineInstance.setPath(routeCoordinates)
+      polyLineInstance.setMap(mapInstance)
+    }
+
     if (!polyLineInstance) {
       // create the new polyline
       const flightPath = new googleMap.Polyline({
