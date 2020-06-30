@@ -47,8 +47,10 @@ export default function FlightSelection(props) {
 
   // Set curent origin in local state
   const [origin, SetOrigin] = useState(props.match.params.ori);
-  // list of destination
+  // list of original destinations 
   const [destinations, setDestinations] = useState(null);
+  // list of cleaned destinations (removed undefined coordinate from destinations.data)
+  const [filteredDestinations, setFilteredDestinations] = useState(null);
   // single destination
   const [destination, setDestination] = useState(null);
   // clear route from map
@@ -117,6 +119,7 @@ export default function FlightSelection(props) {
     <>
       <div>
         <EditSearch
+          setFilteredDestinations={setFilteredDestinations}
           submitAirport={props.submitAirport}
           reRenderWithFlights={props.reRenderWithFlights}
           originTable={originTable}
@@ -125,15 +128,15 @@ export default function FlightSelection(props) {
       <div className="search-result-container">
         <div className="result-list-container">
           {errorMessage && <div className="flight-item">{errorMessage}</div>}
-          {destinations ? (
-            destinations.data.map((flight) => (
+          {filteredDestinations ? (
+            filteredDestinations.data.map((flight, index) => (
               <div
                 key={flight.origin + flight.destination}
                 className="flight-item"
                 onMouseMove={(e) => trackMouseStop(e)}
                 onMouseEnter={() => {
                   handleMouseEnter(
-                    destinations.dictionaries.locations[flight.destination]
+                    filteredDestinations.dictionaries.locations[flight.destination]
                       .detailedName
                   );
                 }}
@@ -142,9 +145,10 @@ export default function FlightSelection(props) {
                 <div>
                   <h4 className="destination-name">
                     {
-                      destinations.dictionaries.locations[flight.destination]
+                      filteredDestinations.dictionaries.locations[flight.destination]
                         .detailedName
                     }
+                    {" " + index}
                   </h4>
                 </div>
 
@@ -160,7 +164,7 @@ export default function FlightSelection(props) {
                   <div className="large-display">
                     {flight.price.total}{" "}
                     <span className="small-display">
-                      {destinations.meta.currency}
+                      {filteredDestinations.meta.currency}
                     </span>
                   </div>
                 </div>
@@ -184,6 +188,7 @@ export default function FlightSelection(props) {
             origin={origin}
             destination={destination}
             destinations={destinations}
+            setFilteredDestinations={setFilteredDestinations}
             clearRoute={clearRoute}
             setClearRoute={setClearRoute}
           />

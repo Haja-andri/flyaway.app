@@ -8,6 +8,7 @@ const Map = (props) => {
     origin,
     destination,
     destinations,
+    setFilteredDestinations,
     clearRoute,
     setClearRoute,
   } = props;
@@ -18,6 +19,7 @@ const Map = (props) => {
   const [mapInstance, setMapInstance] = useState(null);
   const [markerInstance, setMarkerInstance] = useState(null);
   const [polyLineInstance, setPolyLineInstance] = useState(null);
+  const [isFilteredDestionations, setIsFilteredDestionations] = useState(false);
 
   const mapDefaultView = async (mapAPI) => {
     setGoogleMap(mapAPI);
@@ -96,12 +98,20 @@ const Map = (props) => {
           destinations.data.splice(key, 1)
         }
       });
+      setIsFilteredDestionations(true)
     };
     if (destinations) {
-      //console.log(destinations.data)
       buildMarkers();
     }
   }, [destinations]);
+
+useEffect(()=>{
+  if(isFilteredDestionations){
+    setFilteredDestinations(destinations);
+    setIsFilteredDestionations(false)
+  }
+},[isFilteredDestionations]
+)
 
   /**
    * useEffect that updated the map with
@@ -197,6 +207,7 @@ const Map = (props) => {
    * property
    */
   const removeRoute = () => {
+    if (!polyLineInstance) return
     const path = polyLineInstance.getPath();
     path.clear();
   };
