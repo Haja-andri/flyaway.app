@@ -111,11 +111,14 @@ const Map = (props) => {
   }, [destinations]);
 
 
-  useEffect(()=>{
-    console.log(coordinates)
-  },[coordinates]
+  // useEffect(()=>{
+  //   if(coordinates["A MERINO BENITEZ"]) {
+  //     console.log(coordinates["A MERINO BENITEZ"])
+  //   }
+    
+  // },[coordinates]
 
-  )
+//  )
 
   useEffect(() => {
     if (isFilteredDestionations) {
@@ -132,7 +135,6 @@ const Map = (props) => {
   useEffect(() => {
     if (mapLoaded && destination) {
       showRouteOnMap(destination);
-      console.log(destination);
     }
   }, [destination]);
 
@@ -167,7 +169,8 @@ const Map = (props) => {
   const showRouteOnMap = async (destination) => {
     // get the to (destination) and from (origin)
     const from = await getDestinationGeocode(originTable[origin].city_name);
-    const to = await getDestinationGeocode(destination);
+    //const to = await getDestinationGeocode(destination);
+    const to = coordinates[destination];
     if (!from || !to) {
       // unable to get the line geocoordinate, return otherwise
       // it breaks the display
