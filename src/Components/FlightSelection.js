@@ -8,8 +8,8 @@ import { css } from "@emotion/core";
 import PropagateLoader from "react-spinners/PropagateLoader";
 
 export default function FlightSelection(props) {
-  const [mousePosition, setMousePosition] = React.useState("");
-  const [mouseStopped, setMouseStopped] = React.useState(false);
+  // const [mousePosition, setMousePosition] = React.useState("");
+  // const [mouseStopped, setMouseStopped] = React.useState(false);
 
   const override = css`
     margin: 0;
@@ -92,15 +92,15 @@ export default function FlightSelection(props) {
     setDestination(destination);
   };
 
-  const trackMouseStop = (event) => {
-    setMouseStopped(false)
-    var onmousestop = function () {
-        setMouseStopped(true)
-      },
-      thread;
-    clearTimeout(thread);
-    thread = setTimeout(onmousestop, 0);
-  };
+  // const trackMouseStop = (event) => {
+  //   setMouseStopped(false)
+  //   var onmousestop = function () {
+  //       setMouseStopped(true)
+  //     },
+  //     thread;
+  //   clearTimeout(thread);
+  //   thread = setTimeout(onmousestop, 0);
+  // };
 
   // const handleMouseEnter = (destination) => {
   //   setMousePosition(destination);

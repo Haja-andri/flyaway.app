@@ -19,7 +19,6 @@ const Map = (props) => {
   const [mapInstance, setMapInstance] = useState(null);
   const [markerInstance, setMarkerInstance] = useState(null);
   const [polyLineInstance, setPolyLineInstance] = useState(null);
-  const [isFilteredDestionations, setIsFilteredDestionations] = useState(false);
   const [coordinates, setCoordinates] = useState({});
 
   const mapDefaultView = async (mapAPI) => {
