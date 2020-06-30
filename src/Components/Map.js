@@ -101,12 +101,19 @@ const Map = (props) => {
             ...prevState,
             [destination]: markerCoordinate,
           }));
+          // builder the new flight data by
+          // flitering with only the destination
+          // that has coordinates
           filteredDestination.push(flight);
         } 
 
         if(i === dataLength-1){
+          // we ran through the entire array 
+          // we mutate destination.data
           destinations.data = filteredDestination;
-          setIsFilteredDestionations(true)
+          //then push the filtered data to the parent component
+          // to render the side list synched with the markers
+          setFilteredDestinations(destinations)
         }
         i++;
       });
@@ -117,12 +124,12 @@ const Map = (props) => {
   }, [destinations]);
 
 
-  useEffect(() => {
-    if (isFilteredDestionations) {
-      setFilteredDestinations(destinations);
-      setIsFilteredDestionations(false);
-    }
-  }, [isFilteredDestionations]);
+  // useEffect(() => {
+  //   if (isFilteredDestionations) {
+  //     setFilteredDestinations(destinations);
+  //     setIsFilteredDestionations(false);
+  //   }
+  // }, [isFilteredDestionations]);
 
   /**
    * useEffect that updated the map with
