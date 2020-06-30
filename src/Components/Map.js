@@ -77,24 +77,29 @@ const Map = (props) => {
   );
 
   useEffect(() => {
-    const loadMarkers = () => {
-      const data = destinations.data;
-      data.forEach(async(flight) => {
-        console.log(
+    const buildMarkers = () => {
+      //const data = destinations.data;
+      destinations.data.forEach(async (flight, key) => {
+        const markerCoordinate = await getDestinationGeocode(
           destinations.dictionaries.locations[flight.destination].detailedName
         );
-        const markerCoordinate = await getDestinationGeocode(destinations.dictionaries.locations[flight.destination].detailedName);
-    // add the marker to the center
-    new googleMap.Marker({
-      map: mapInstance,
-      position: markerCoordinate,
-      styles: mapStyles,
-    });        
+        if (markerCoordinate) {
+          // add the markers on the map
+          new googleMap.Marker({
+            map: mapInstance,
+            position: markerCoordinate,
+            styles: mapStyles,
+          });
+        }
+        else {
+          // clean the data from undefined coodinate
+          destinations.data.splice(key, 1)
+        }
       });
-
-    }
+    };
     if (destinations) {
-      loadMarkers();
+      //console.log(destinations.data)
+      buildMarkers();
     }
   }, [destinations]);
 
