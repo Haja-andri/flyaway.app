@@ -102,14 +102,8 @@ const Map = (props) => {
             [destination]: markerCoordinate,
           }));
           filteredDestination.push(flight);
-          //console.log(filteredDestination)
         } 
 
-        // else {
-        //   // clean the data from undefined coodinate
-        //   destinations.data.splice(index, 1);
-        // }
-        //console.log(i)
         if(i === dataLength-1){
           destinations.data = filteredDestination;
           setIsFilteredDestionations(true)
@@ -122,15 +116,6 @@ const Map = (props) => {
     }
   }, [destinations]);
 
-
-  // useEffect(()=>{
-  //   if(coordinates["A MERINO BENITEZ"]) {
-  //     console.log(coordinates["A MERINO BENITEZ"])
-  //   }
-    
-  // },[coordinates]
-
-//  )
 
   useEffect(() => {
     if (isFilteredDestionations) {

@@ -99,26 +99,26 @@ export default function FlightSelection(props) {
       },
       thread;
     clearTimeout(thread);
-    thread = setTimeout(onmousestop, 200);
+    thread = setTimeout(onmousestop, 0);
   };
 
-  const handleMouseEnter = (destination) => {
-    setMousePosition(destination);
-  };
+  // const handleMouseEnter = (destination) => {
+  //   setMousePosition(destination);
+  // };
 
-  const handleMouseLeave = () => {
-    setDestination(null)
-    setClearRoute(true);
-    setMousePosition("")
-  }
+  // const handleMouseLeave = () => {
+  //   setDestination(null)
+  //   setClearRoute(true);
+  //   setMousePosition("")
+  // }
 
-  useEffect(()=>{
-    if (mouseStopped && mousePosition){
-      showRouteOnMap(mousePosition);
-    }
-  }, [mouseStopped, mousePosition]
+  // useEffect(()=>{
+  //   if (mouseStopped && mousePosition){
+  //     showRouteOnMap(mousePosition);
+  //   }
+  // }, [mouseStopped, mousePosition]
 
-  )
+  // )
 
   return (
     <>
@@ -138,14 +138,12 @@ export default function FlightSelection(props) {
               <div
                 key={flight.origin + flight.destination}
                 className="flight-item"
-                onMouseMove={(e) => trackMouseStop(e)}
                 onMouseEnter={() => {
-                  handleMouseEnter(
+                  showRouteOnMap(
                     filteredDestinations.dictionaries.locations[flight.destination]
                       .detailedName
                   );
                 }}
-                onMouseLeave={() => {handleMouseLeave()}}
               >
                 <div>
                   <h4 className="destination-name">
