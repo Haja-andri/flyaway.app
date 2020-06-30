@@ -24,22 +24,27 @@ export default function FlightSelection(props) {
     MAD: {
       city_name: "MADRID",
       active: false,
+      location: {lat: 40.4167754, lng: -3.7037902},
     },
     MUC: {
       city_name: "MUNICH",
       active: false,
+      location: {lat: 48.1351253, lng: 11.5819805},
     },
     PAR: {
       city_name: "PARIS",
       active: false,
+      location: {lat: 48.856614, lng: 2.3522219},
     },
     NYC: {
       city_name: "NEW YORK",
       active: false,
+      location: {lat: 40.7127753, lng: -74.0059728},
     },
     LON: {
       city_name: "LONDON",
       active: false,
+      location: {lat: 51.5073509, lng: -0.1277583},
     },
   };
   // set the current origin to active => true
@@ -94,7 +99,7 @@ export default function FlightSelection(props) {
       },
       thread;
     clearTimeout(thread);
-    thread = setTimeout(onmousestop, 500);
+    thread = setTimeout(onmousestop, 200);
   };
 
   const handleMouseEnter = (destination) => {

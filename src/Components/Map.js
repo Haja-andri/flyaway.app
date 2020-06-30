@@ -82,7 +82,10 @@ const Map = (props) => {
   useEffect(() => {
     const buildMarkers = () => {
       //const data = destinations.data;
-      destinations.data.forEach(async (flight, key) => {
+      let dataLength = destinations.data.length
+      let filteredDestination = [];
+      let i = 0;
+      destinations.data.forEach(async (flight, index) => {
         const destination =
           destinations.dictionaries.locations[flight.destination].detailedName;
         const markerCoordinate = await getDestinationGeocode(destination);
@@ -98,12 +101,21 @@ const Map = (props) => {
             ...prevState,
             [destination]: markerCoordinate,
           }));
-        } else {
-          // clean the data from undefined coodinate
-          destinations.data.splice(key, 1);
+          filteredDestination.push(flight);
+          //console.log(filteredDestination)
+        } 
+
+        // else {
+        //   // clean the data from undefined coodinate
+        //   destinations.data.splice(index, 1);
+        // }
+        //console.log(i)
+        if(i === dataLength-1){
+          destinations.data = filteredDestination;
+          setIsFilteredDestionations(true)
         }
+        i++;
       });
-      setIsFilteredDestionations(true);
     };
     if (destinations) {
       buildMarkers();
@@ -168,8 +180,7 @@ const Map = (props) => {
 
   const showRouteOnMap = async (destination) => {
     // get the to (destination) and from (origin)
-    const from = await getDestinationGeocode(originTable[origin].city_name);
-    //const to = await getDestinationGeocode(destination);
+    const from = originTable[origin].location
     const to = coordinates[destination];
     if (!from || !to) {
       // unable to get the line geocoordinate, return otherwise
@@ -196,7 +207,7 @@ const Map = (props) => {
         geodesic: true,
         strokeColor: "#FF0000",
         strokeOpacity: 1.0,
-        strokeWeight: 2,
+        strokeWeight: 3,
       });
       // display the new polyline
       flightPath.setMap(mapInstance);
