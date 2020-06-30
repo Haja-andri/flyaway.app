@@ -20,6 +20,7 @@ const Map = (props) => {
   const [markerInstance, setMarkerInstance] = useState(null);
   const [polyLineInstance, setPolyLineInstance] = useState(null);
   const [isFilteredDestionations, setIsFilteredDestionations] = useState(false);
+  const [coordinates, setCoordinates] = useState({});
 
   const mapDefaultView = async (mapAPI) => {
     setGoogleMap(mapAPI);
@@ -82,9 +83,9 @@ const Map = (props) => {
     const buildMarkers = () => {
       //const data = destinations.data;
       destinations.data.forEach(async (flight, key) => {
-        const markerCoordinate = await getDestinationGeocode(
-          destinations.dictionaries.locations[flight.destination].detailedName
-        );
+        const destination =
+          destinations.dictionaries.locations[flight.destination].detailedName;
+        const markerCoordinate = await getDestinationGeocode(destination);
         if (markerCoordinate) {
           // add the markers on the map
           new googleMap.Marker({
@@ -92,26 +93,36 @@ const Map = (props) => {
             position: markerCoordinate,
             styles: mapStyles,
           });
-        }
-        else {
+          //Storing the coordinates to fasten future reference
+          setCoordinates((prevState) => ({
+            ...prevState,
+            [destination]: markerCoordinate,
+          }));
+        } else {
           // clean the data from undefined coodinate
-          destinations.data.splice(key, 1)
+          destinations.data.splice(key, 1);
         }
       });
-      setIsFilteredDestionations(true)
+      setIsFilteredDestionations(true);
     };
     if (destinations) {
       buildMarkers();
     }
   }, [destinations]);
 
-useEffect(()=>{
-  if(isFilteredDestionations){
-    setFilteredDestinations(destinations);
-    setIsFilteredDestionations(false)
-  }
-},[isFilteredDestionations]
-)
+
+  useEffect(()=>{
+    console.log(coordinates)
+  },[coordinates]
+
+  )
+
+  useEffect(() => {
+    if (isFilteredDestionations) {
+      setFilteredDestinations(destinations);
+      setIsFilteredDestionations(false);
+    }
+  }, [isFilteredDestionations]);
 
   /**
    * useEffect that updated the map with
@@ -119,8 +130,9 @@ useEffect(()=>{
    * change in the destination will trigger the effect
    */
   useEffect(() => {
-    if (mapLoaded) {
+    if (mapLoaded && destination) {
       showRouteOnMap(destination);
+      console.log(destination);
     }
   }, [destination]);
 
@@ -207,7 +219,7 @@ useEffect(()=>{
    * property
    */
   const removeRoute = () => {
-    if (!polyLineInstance) return
+    if (!polyLineInstance) return;
     const path = polyLineInstance.getPath();
     path.clear();
   };
