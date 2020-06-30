@@ -84,6 +84,7 @@ const Map = (props) => {
       //const data = destinations.data;
       let dataLength = destinations.data.length
       let filteredDestination = [];
+      let tempStorage = []
       let i = 0;
       destinations.data.forEach(async (flight, index) => {
         const destination =
@@ -103,8 +104,11 @@ const Map = (props) => {
           }));
           // builder the new flight data by
           // flitering with only the destination
-          // that has coordinates
-          filteredDestination.push(flight);
+          // that has coordinates          
+          if(!tempStorage.includes(destination)){
+            tempStorage.push(destination)
+            filteredDestination.push(flight);
+          }
         } 
 
         if(i === dataLength-1){
