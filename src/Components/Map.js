@@ -12,6 +12,12 @@ const Map = (props) => {
     clearRoute,
     setClearRoute,
   } = props;
+  
+  const getInitialCoordinates = () => {
+    const localData = localStorage.getItem('coordinates'); 
+    if(localData) return JSON.parse(localData)
+    else return {}
+  }
   // google map
   const [defaultZoom] = useState(4);
   const [googleMap, setGoogleMap] = useState(null);
@@ -19,7 +25,9 @@ const Map = (props) => {
   const [mapInstance, setMapInstance] = useState(null);
   const [markerInstance, setMarkerInstance] = useState(null);
   const [polyLineInstance, setPolyLineInstance] = useState(null);
-  const [coordinates, setCoordinates] = useState({});
+  const [coordinates, setCoordinates] = useState(getInitialCoordinates());
+
+
 
   const mapDefaultView = async (mapAPI) => {
     setGoogleMap(mapAPI);
