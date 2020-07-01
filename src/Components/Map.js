@@ -34,8 +34,6 @@ const Map = (props) => {
       center,
       styles: mapStyles,
     });
-
-    console.log(currentMapInstance)
     // add the marker to the center
     const marker = new mapAPI.Marker({
       map: currentMapInstance,
@@ -82,46 +80,60 @@ const Map = (props) => {
 
   useEffect(() => {
     const buildMarkers = () => {
-      //const data = destinations.data;
-      let dataLength = destinations.data.length
+      // if we have an empty object in the state
+      // we run the API request to
+      // 1. get the coordinates
+      // 2. Render the markers
+      // 3. Set the coordinates in state
+      // {
+      let dataLength = destinations.data.length;
       let filteredDestination = [];
-      let destinationListTracking = []
-      let localStorage = {}
       let i = 0;
       destinations.data.forEach(async (flight, index) => {
         const destination =
           destinations.dictionaries.locations[flight.destination].detailedName;
-        const markerCoordinate = await getDestinationGeocode(destination);
-        if (markerCoordinate) {
-          // add the markers on the map
-          new googleMap.Marker({
-            map: mapInstance,
-            position: markerCoordinate,
-            styles: mapStyles,
-          });
-          //Storing the coordinates to fasten future reference
-          setCoordinates((prevState) => ({
-            ...prevState,
-            [destination]: markerCoordinate,
-          }));
-          // builder the new flight data by
-          // flitering with only the destination
-          // that has coordinates          
-          if(!destinationListTracking.includes(destination)){
-            destinationListTracking.push(destination);
-            localStorage[destination] = markerCoordinate
+        // the destination is not in state yet
+        if (!(destination in coordinates)) {
+          // we make call to API to get the coordinate
+          const markerCoordinate = await getDestinationGeocode(destination);
+          if (markerCoordinate) {
+            // add the markers on the map
+            new googleMap.Marker({
+              map: mapInstance,
+              position: markerCoordinate,
+              styles: mapStyles,
+            });
+            //Storing the coordinates to fasten future reference
+            setCoordinates((prevState) => ({
+              ...prevState,
+              [destination]: markerCoordinate,
+            }));
+            // builder the new flight data by
+            // flitering with only the destination
+            // that has coordinates
             filteredDestination.push(flight);
           }
-        } 
-
-        if(i === dataLength-1){
-          // we ran through the entire array 
+        }
+        // The destination is already in the stae
+        else {
+          // we render the marker on the map
+          new googleMap.Marker({
+            map: mapInstance,
+            position: coordinates[destination],
+            styles: mapStyles,
+          });
+          // we add to the filtered data to be rendered
+          // on the side list
+          filteredDestination.push(flight);
+        }
+        if (i === dataLength - 1) {
+          // we ran through the entire array
           // we mutate destination.data
           destinations.data = filteredDestination;
-          console.log(localStorage)
+          //console.log(coordinates)
           //then push the filtered data to the parent component
           // to render the side list synched with the markers
-          setFilteredDestinations(destinations)
+          setFilteredDestinations(destinations);
         }
         i++;
       });
@@ -130,7 +142,6 @@ const Map = (props) => {
       buildMarkers();
     }
   }, [destinations]);
-
 
   // useEffect(() => {
   //   if (isFilteredDestionations) {
@@ -180,7 +191,7 @@ const Map = (props) => {
 
   const showRouteOnMap = async (destination) => {
     // get the to (destination) and from (origin)
-    const from = originTable[origin].location
+    const from = originTable[origin].location;
     const to = coordinates[destination];
     if (!from || !to) {
       // unable to get the line geocoordinate, return otherwise
