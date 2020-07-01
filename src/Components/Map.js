@@ -15,8 +15,16 @@ const Map = (props) => {
   
   const getInitialCoordinates = () => {
     const localData = localStorage.getItem('coordinates'); 
-    if(localData) return JSON.parse(localData)
+    if(localData) {
+      const data = JSON.parse(localData)
+      return data
+    } 
     else return {}
+  }
+
+  const setLocalStorage = (coordinates) => {
+    console.log(coordinates);
+    localStorage.setItem('coordinates', JSON.stringify(coordinates)); 
   }
   // google map
   const [defaultZoom] = useState(4);
@@ -26,6 +34,7 @@ const Map = (props) => {
   const [markerInstance, setMarkerInstance] = useState(null);
   const [polyLineInstance, setPolyLineInstance] = useState(null);
   const [coordinates, setCoordinates] = useState(getInitialCoordinates());
+  const [newCoordinates ,setNewCoordinates]= useState(false);
 
 
 
@@ -97,11 +106,14 @@ const Map = (props) => {
       let dataLength = destinations.data.length;
       let filteredDestination = [];
       let i = 0;
+      let newCoordinates = false
       destinations.data.forEach(async (flight, index) => {
         const destination =
           destinations.dictionaries.locations[flight.destination].detailedName;
         // the destination is not in state yet
         if (!(destination in coordinates)) {
+          console.log("Missing " + destination)
+          newCoordinates = true;
           // we make call to API to get the coordinate
           const markerCoordinate = await getDestinationGeocode(destination);
           if (markerCoordinate) {
@@ -111,11 +123,13 @@ const Map = (props) => {
               position: markerCoordinate,
               styles: mapStyles,
             });
-            //Storing the coordinates to fasten future reference
+            //Storing the coordinates in local state
+            // to avoid API call in future reference
             setCoordinates((prevState) => ({
               ...prevState,
               [destination]: markerCoordinate,
             }));
+            console.log("Added " + destination)
             // builder the new flight data by
             // flitering with only the destination
             // that has coordinates
@@ -142,6 +156,9 @@ const Map = (props) => {
           //then push the filtered data to the parent component
           // to render the side list synched with the markers
           setFilteredDestinations(destinations);
+          if(newCoordinates) {
+            setNewCoordinates(true);
+          }
         }
         i++;
       });
@@ -150,6 +167,17 @@ const Map = (props) => {
       buildMarkers();
     }
   }, [destinations]);
+
+
+  useEffect(()=>{
+  // update local storage with new data
+  if(newCoordinates){
+    setLocalStorage(coordinates);
+    setNewCoordinates(false)
+  }
+  
+},[newCoordinates, coordinates])
+
 
   // useEffect(() => {
   //   if (isFilteredDestionations) {
