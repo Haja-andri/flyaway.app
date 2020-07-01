@@ -12,20 +12,16 @@ const Map = (props) => {
     clearRoute,
     setClearRoute,
   } = props;
-  
-  const getInitialCoordinates = () => {
-    const localData = localStorage.getItem('coordinates'); 
-    if(localData) {
-      const data = JSON.parse(localData)
-      return data
-    } 
-    else return {}
-  }
 
-  const setLocalStorage = (coordinates) => {
-    console.log(coordinates);
-    localStorage.setItem('coordinates', JSON.stringify(coordinates)); 
-  }
+  const getLocalState = (item) => {
+    const localData = localStorage.getItem(item);
+    if (localData) return JSON.parse(localData);
+    else return null;
+  };
+
+  const setLocalStorage = (item, data) => {
+    localStorage.setItem(item, JSON.stringify(data));
+  };
   // google map
   const [defaultZoom] = useState(4);
   const [googleMap, setGoogleMap] = useState(null);
@@ -33,10 +29,13 @@ const Map = (props) => {
   const [mapInstance, setMapInstance] = useState(null);
   const [markerInstance, setMarkerInstance] = useState(null);
   const [polyLineInstance, setPolyLineInstance] = useState(null);
-  const [coordinates, setCoordinates] = useState(getInitialCoordinates());
-  const [newCoordinates ,setNewCoordinates]= useState(false);
-
-
+  const [coordinates, setCoordinates] = useState(
+    getLocalState("coordinates") || {}
+  );
+  const [nonValidDestinations, setNonValidDestinations] = useState(
+    getLocalState("nonvalid") || []
+  );
+  const [newCoordinates, setNewCoordinates] = useState(false);
 
   const mapDefaultView = async (mapAPI) => {
     setGoogleMap(mapAPI);
@@ -106,13 +105,17 @@ const Map = (props) => {
       let dataLength = destinations.data.length;
       let filteredDestination = [];
       let i = 0;
-      let newCoordinates = false
+      let newCoordinates = false;
+      let newNonValidDestinations = [];
       destinations.data.forEach(async (flight, index) => {
         const destination =
           destinations.dictionaries.locations[flight.destination].detailedName;
-        // the destination is not in state yet
-        if (!(destination in coordinates)) {
-          console.log("Missing " + destination)
+        // the destination is not in state yet. And it is not in the
+        // non valid destination yet
+        if (
+          !(destination in coordinates) &&
+          !nonValidDestinations.includes(destination)
+        ) {
           newCoordinates = true;
           // we make call to API to get the coordinate
           const markerCoordinate = await getDestinationGeocode(destination);
@@ -129,11 +132,15 @@ const Map = (props) => {
               ...prevState,
               [destination]: markerCoordinate,
             }));
-            console.log("Added " + destination)
             // builder the new flight data by
             // flitering with only the destination
             // that has coordinates
             filteredDestination.push(flight);
+          }
+          // this destination is not returning
+          // any valid coordinate, we black list it
+          else {
+            newNonValidDestinations.push(destination);
           }
         }
         // The destination is already in the stae
@@ -152,12 +159,16 @@ const Map = (props) => {
           // we ran through the entire array
           // we mutate destination.data
           destinations.data = filteredDestination;
-          //console.log(coordinates)
           //then push the filtered data to the parent component
           // to render the side list synched with the markers
           setFilteredDestinations(destinations);
-          if(newCoordinates) {
+          if (newCoordinates) {
             setNewCoordinates(true);
+          }
+          if (newNonValidDestinations.length > 0) {
+            setNonValidDestinations(
+              nonValidDestinations.concat(newNonValidDestinations)
+            );
           }
         }
         i++;
@@ -168,23 +179,20 @@ const Map = (props) => {
     }
   }, [destinations]);
 
+  // Effect that update local storage with new data
+  // (coordinates)
+  useEffect(() => {
+    if (newCoordinates) {
+      setLocalStorage("coordinates", coordinates);
+      setNewCoordinates(false);
+    }
+  }, [newCoordinates, coordinates]);
 
-  useEffect(()=>{
   // update local storage with new data
-  if(newCoordinates){
-    setLocalStorage(coordinates);
-    setNewCoordinates(false)
-  }
-  
-},[newCoordinates, coordinates])
-
-
-  // useEffect(() => {
-  //   if (isFilteredDestionations) {
-  //     setFilteredDestinations(destinations);
-  //     setIsFilteredDestionations(false);
-  //   }
-  // }, [isFilteredDestionations]);
+  // (non valid destination --> no coordinate from API)
+  useEffect(() => {
+    setLocalStorage("nonvalid", nonValidDestinations);
+  }, [nonValidDestinations]);
 
   /**
    * useEffect that updated the map with
