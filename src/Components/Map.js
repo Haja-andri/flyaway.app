@@ -34,6 +34,8 @@ const Map = (props) => {
       center,
       styles: mapStyles,
     });
+
+    console.log(currentMapInstance)
     // add the marker to the center
     const marker = new mapAPI.Marker({
       map: currentMapInstance,
@@ -83,7 +85,8 @@ const Map = (props) => {
       //const data = destinations.data;
       let dataLength = destinations.data.length
       let filteredDestination = [];
-      let tempStorage = []
+      let destinationListTracking = []
+      let localStorage = {}
       let i = 0;
       destinations.data.forEach(async (flight, index) => {
         const destination =
@@ -104,8 +107,9 @@ const Map = (props) => {
           // builder the new flight data by
           // flitering with only the destination
           // that has coordinates          
-          if(!tempStorage.includes(destination)){
-            tempStorage.push(destination)
+          if(!destinationListTracking.includes(destination)){
+            destinationListTracking.push(destination);
+            localStorage[destination] = markerCoordinate
             filteredDestination.push(flight);
           }
         } 
@@ -114,6 +118,7 @@ const Map = (props) => {
           // we ran through the entire array 
           // we mutate destination.data
           destinations.data = filteredDestination;
+          console.log(localStorage)
           //then push the filtered data to the parent component
           // to render the side list synched with the markers
           setFilteredDestinations(destinations)
