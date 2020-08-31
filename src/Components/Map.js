@@ -103,7 +103,8 @@ const Map = (props) => {
       // 3. Set the coordinates in state
       // {
       let dataLength = destinations.data.length;
-      let filteredDestination = [];
+      let filteredFlights = [];
+      let destinationList = [];
       let i = 0;
       let newCoordinates = false;
       let newNonValidDestinations = [];
@@ -116,7 +117,6 @@ const Map = (props) => {
           !(destination in coordinates) &&
           !nonValidDestinations.includes(destination)
         ) {
-
           newCoordinates = true;
           // we make call to API to get the coordinate
           const markerCoordinate = await getDestinationGeocode(destination);
@@ -136,7 +136,7 @@ const Map = (props) => {
             // builder the new flight data by
             // flitering with only the destination
             // that has coordinates
-            filteredDestination.push(flight);
+            filteredFlights.push(flight);
           }
           // this destination is not returning
           // any valid coordinate, we black list it
@@ -144,8 +144,9 @@ const Map = (props) => {
             newNonValidDestinations.push(destination);
           }
         }
-        // The destination is already in the stae
+        // The destination is already in the state
         else {
+          // 
           // we render the marker on the map
           new googleMap.Marker({
             map: mapInstance,
@@ -153,13 +154,18 @@ const Map = (props) => {
             styles: mapStyles,
           });
           // we add to the filtered data to be rendered
-          // on the side list
-          filteredDestination.push(flight);
+          // on the side list, only if it was not in the 
+          // list yet (avoiding duplication --- Amadeus issue)
+          if(!(destinationList.includes(destination))) {
+            filteredFlights.push(flight);
+          }
+          // maintain current list of destinations (local loop)
+          destinationList.push(destination)
         }
         if (i === dataLength - 1) {
           // we ran through the entire array
           // we mutate destination.data
-          destinations.data = filteredDestination;
+          destinations.data = filteredFlights;
           //then push the filtered data to the parent component
           // to render the side list synched with the markers
           setFilteredDestinations(destinations);
