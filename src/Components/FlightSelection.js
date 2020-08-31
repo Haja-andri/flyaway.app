@@ -62,23 +62,12 @@ export default function FlightSelection(props) {
   const [clearRoute, setClearRoute] = useState(false);
   // error message
   const [errorMessage, setErrorMessage] = useState("");
-  // coordinates from local storage
-  const [coordinates, setCoordinates] = useState({})
 
   useEffect(
     () => {
       SetOrigin(props.match.params.ori);
     },
     [props.match.params.ori] // force to re-render the component when receiving new props
-  );
-
-  useEffect(()=>{
-    if(filteredDestinations){
-      const localData = localStorage.getItem("coordinates");
-      setCoordinates(JSON.parse(localData))
-    }
-  },[filteredDestinations]
-
   );
 
   // Get the destination list based on origin
