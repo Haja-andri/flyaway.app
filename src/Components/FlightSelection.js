@@ -62,12 +62,23 @@ export default function FlightSelection(props) {
   const [clearRoute, setClearRoute] = useState(false);
   // error message
   const [errorMessage, setErrorMessage] = useState("");
+  // coordinates from local storage
+  const [coordinates, setCoordinates] = useState({})
 
   useEffect(
     () => {
       SetOrigin(props.match.params.ori);
     },
     [props.match.params.ori] // force to re-render the component when receiving new props
+  );
+
+  useEffect(()=>{
+    if(filteredDestinations){
+      const localData = localStorage.getItem("coordinates");
+      setCoordinates(JSON.parse(localData))
+    }
+  },[filteredDestinations]
+
   );
 
   // Get the destination list based on origin
@@ -86,40 +97,6 @@ export default function FlightSelection(props) {
     getDestinations(origin);
   }, [origin]);
 
-  const showRouteOnMap = (destination) => {
-    // event.preventDefault();
-    //const destination = event.target.id
-    setDestination(destination);
-  };
-
-  // const trackMouseStop = (event) => {
-  //   setMouseStopped(false)
-  //   var onmousestop = function () {
-  //       setMouseStopped(true)
-  //     },
-  //     thread;
-  //   clearTimeout(thread);
-  //   thread = setTimeout(onmousestop, 0);
-  // };
-
-  // const handleMouseEnter = (destination) => {
-  //   setMousePosition(destination);
-  // };
-
-  // const handleMouseLeave = () => {
-  //   setDestination(null)
-  //   setClearRoute(true);
-  //   setMousePosition("")
-  // }
-
-  // useEffect(()=>{
-  //   if (mouseStopped && mousePosition){
-  //     showRouteOnMap(mousePosition);
-  //   }
-  // }, [mouseStopped, mousePosition]
-
-  // )
-
   return (
     <>
       <div>
@@ -135,11 +112,12 @@ export default function FlightSelection(props) {
           {errorMessage && <div className="flight-item">{errorMessage}</div>}
           {filteredDestinations ? (
             filteredDestinations.data.map((flight, index) => (
+              
               <div
                 key={flight.origin + flight.destination}
                 className="flight-item"
                 onMouseEnter={() => {
-                  showRouteOnMap(
+                  setDestination(
                     filteredDestinations.dictionaries.locations[flight.destination]
                       .detailedName
                   );

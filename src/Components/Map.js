@@ -22,6 +22,7 @@ const Map = (props) => {
   const setLocalStorage = (item, data) => {
     localStorage.setItem(item, JSON.stringify(data));
   };
+
   // google map
   const [defaultZoom] = useState(4);
   const [googleMap, setGoogleMap] = useState(null);
@@ -157,9 +158,10 @@ const Map = (props) => {
               styles: mapStyles,
             });
             // we add to the filtered data to be rendered
-            // on the side list, only if it was not in the
-            // list yet (avoiding duplication --- Amadeus issue)
-            if (!destinationList.includes(destination)) {
+            // on the side list, only if 
+            // #1 it was not in the list yet (avoiding duplication --- Amadeus issue)
+            // #2 Not listed in non valid destination (no coordinates)
+            if (!destinationList.includes(destination) && !nonValidDestinations.includes(destination)) {
               filteredFlights.push(flight);
             }
             // maintain current list of destinations (local loop)
@@ -309,10 +311,13 @@ const Map = (props) => {
    * change in the destination will trigger the effect
    */
   useEffect(() => {
-    if (mapLoaded && destination) {
+    if(!destination){
+      memoizedRemoveRoute();
+    }
+    else if (mapLoaded && destination) {
       memoizedShowRouteOnMap(destination);
     }
-  }, [destination, memoizedShowRouteOnMap, mapLoaded]);
+  }, [destination, memoizedShowRouteOnMap, memoizedRemoveRoute, mapLoaded]);
 
   /**
    * Use effect to update the map when origin is changed
