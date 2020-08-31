@@ -38,29 +38,35 @@ const Map = (props) => {
   );
   const [newCoordinates, setNewCoordinates] = useState(false);
 
-  const mapDefaultView = async (mapAPI) => {
-    setGoogleMap(mapAPI);
-    setmapLoaded(true);
-    // setCurrentCityCenter(originTable[origin].city_name)
-    // we get the map centered on the current origin by default
-    const center = await getDestinationGeocode(originTable[origin].city_name);
+  const memoizedMapDefaultView = useCallback((mapAPI)=>{
+    const mapDefaultView = async (mapAPI) => {
+      setGoogleMap(mapAPI);
+      setmapLoaded(true);
+      // setCurrentCityCenter(originTable[origin].city_name)
+      // we get the map centered on the current origin by default
+      const center = await getDestinationGeocode(originTable[origin].city_name);
+  
+      const currentMapInstance = new mapAPI.Map(document.getElementById("map"), {
+        zoom: defaultZoom,
+        scrollwheel: false,
+        center,
+        styles: mapStyles,
+      });
+      // add the marker to the center
+      const marker = new mapAPI.Marker({
+        map: currentMapInstance,
+        position: center,
+        styles: mapStyles,
+      });
+      // keep instance of Map available to the component life cycle
+      setMapInstance(currentMapInstance);
+      setMarkerInstance(marker);
+    };
+    mapDefaultView(mapAPI);
+  },[origin, originTable, defaultZoom]
 
-    const currentMapInstance = new mapAPI.Map(document.getElementById("map"), {
-      zoom: defaultZoom,
-      scrollwheel: false,
-      center,
-      styles: mapStyles,
-    });
-    // add the marker to the center
-    const marker = new mapAPI.Marker({
-      map: currentMapInstance,
-      position: center,
-      styles: mapStyles,
-    });
-    // keep instance of Map available to the component life cycle
-    setMapInstance(currentMapInstance);
-    setMarkerInstance(marker);
-  };
+  )
+
 
   const updateMapCenter = async (newCenter) => {
     const center = await getDestinationGeocode(
@@ -204,14 +210,17 @@ const Map = (props) => {
    */
   useEffect(
     () => {
-      const getMapAPI = async () => {
-        // will get the MAP js API loaded
-        // and pass it to default view
-        mapDefaultView(await loadMap());
-      };
-      getMapAPI();
+      if(!mapLoaded){
+        console.log("called")
+        const getMapAPI = async () => {
+          memoizedMapDefaultView(await loadMap())
+          // will get the MAP js API loaded
+          // and pass it to default view
+        };
+        getMapAPI();  
+      }
     },
-    [] // Nothing in the array means the use effect will run only once
+    [mapLoaded, memoizedMapDefaultView] // Nothing in the array means the use effect will run only once
   );
 
   /**
