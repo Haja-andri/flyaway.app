@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 
 export default function EditSearch(props) {
-  const { originTable } = props
+  const { originTable, setFilteredDestinations } = props
 
   const showOriginOptions = () => {
     // Methode 1 forEach() on Nodelist
@@ -46,7 +46,7 @@ export default function EditSearch(props) {
               : 
               (
                 <Link key={originTable[origin].city_name} to={`/result/${origin}`}>
-                  <OriginCity name="origin" id={origin} className="origin-city">{originTable[origin].city_name}</OriginCity>
+                  <OriginCity onClick={()=> setFilteredDestinations(null)} name="origin" id={origin} className="origin-city">{originTable[origin].city_name}</OriginCity>
                 </Link>
               )
             ))
