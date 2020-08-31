@@ -151,7 +151,6 @@ export default function FlightSelection(props) {
                       filteredDestinations.dictionaries.locations[flight.destination]
                         .detailedName
                     }
-                    {" " + index}
                   </h4>
                 </div>
 

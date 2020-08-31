@@ -107,7 +107,7 @@ const Map = (props) => {
       let i = 0;
       let newCoordinates = false;
       let newNonValidDestinations = [];
-      destinations.data.forEach(async (flight, index) => {
+      destinations.data.forEach(async (flight) => {
         const destination =
           destinations.dictionaries.locations[flight.destination].detailedName;
         // the destination is not in state yet. And it is not in the
@@ -116,6 +116,7 @@ const Map = (props) => {
           !(destination in coordinates) &&
           !nonValidDestinations.includes(destination)
         ) {
+
           newCoordinates = true;
           // we make call to API to get the coordinate
           const markerCoordinate = await getDestinationGeocode(destination);
