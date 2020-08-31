@@ -111,8 +111,7 @@ export default function FlightSelection(props) {
         <div className="result-list-container">
           {errorMessage && <div className="flight-item">{errorMessage}</div>}
           {filteredDestinations ? (
-            filteredDestinations.data.map((flight, index) => (
-              
+            filteredDestinations.data.map((flight) => (
               <div
                 key={flight.origin + flight.destination}
                 className="flight-item"
@@ -122,6 +121,9 @@ export default function FlightSelection(props) {
                       .detailedName
                   );
                 }}
+                onMouseLeave={() => {
+                  setDestination(null);
+                }}                
               >
                 <div>
                   <h4 className="destination-name">
