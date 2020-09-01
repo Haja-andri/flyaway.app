@@ -30,6 +30,7 @@ const Map = (props) => {
   const [markerInstance, setMarkerInstance] = useState(null);
   const [polyLineInstance, setPolyLineInstance] = useState(null);
   const [ currentOrigin , setCurrentOrigin] = useState(null);
+  const [ destinationsLength , setDestinationsLength] = useState(0);
   const [coordinates, setCoordinates] = useState(
     getLocalState("coordinates") || {}
   );
@@ -92,6 +93,7 @@ const Map = (props) => {
   const memoizedBuildMarkers = useCallback(
     (destinations) => {
       const buildMarkers = () => {
+        console.log("calling buildMarkers");
         // if we have an empty object in the state
         // we run the API request to
         // 1. get the coordinates
@@ -107,11 +109,11 @@ const Map = (props) => {
         // Amadeus can send thousands of destinations
         // to prevent exceeding google map limit, we splice the destination array 
         // to maximum 50 destinations
-        if(dataLength > 50){
-          destinations.data = destinations.data.slice(0,51);
-          dataLength = 50;
+        if(dataLength > 5){
+          destinations.data = destinations.data.slice(0,6);
+          dataLength = 5;
         }
-        destinations.data.forEach(async (flight) => {
+        destinations.data.forEach(async (flight, index) => {
           const destination =
             destinations.dictionaries.locations[flight.destination]
               .detailedName;
@@ -124,6 +126,7 @@ const Map = (props) => {
             newCoordinates = true;
             // we make call to API to get the coordinate
             const markerCoordinate = await getDestinationGeocode(destination);
+            console.log(index)
             if (markerCoordinate) {
               // add the markers on the map
               new googleMap.Marker({
@@ -173,7 +176,7 @@ const Map = (props) => {
           if (i === dataLength - 1) {
             // we ran through the entire array
             // we mutate destination.data
-            destinations.data = filteredFlights;
+            //destinations.data = filteredFlights;
             //then push the filtered data to the parent component
             // to render the side list synched with the markers
             setFilteredDestinations(destinations);
@@ -224,10 +227,12 @@ const Map = (props) => {
    * to render the markers on the Map
    */
   useEffect(() => {
-    if (destinations) {
+    if (destinations && destinationsLength !== destinations.data.length) {
+      console.dir(destinations.data)
+      setDestinationsLength(destinations.data.length);
       memoizedBuildMarkers(destinations);
     }
-  }, [destinations, memoizedBuildMarkers]);
+  }, [destinations, memoizedBuildMarkers, destinationsLength]);
 
   // Effect that update local storage with new data
   // (coordinates)
