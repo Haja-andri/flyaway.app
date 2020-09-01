@@ -104,7 +104,15 @@ const Map = (props) => {
         let i = 0;
         let newCoordinates = false;
         let newNonValidDestinations = [];
-        destinations.data.forEach(async (flight) => {
+        // Amadeus can send thousands of destinations
+        // to prevent exceeding google map limit, we splice the destination array 
+        // to maximum 50 destinations
+        if(dataLength > 50){
+          destinations.data = destinations.data.slice(0,51);
+          dataLength = 50;
+        }
+        destinations.data.forEach(async (flight, index) => {
+          console.log(index)
           const destination =
             destinations.dictionaries.locations[flight.destination]
               .detailedName;
