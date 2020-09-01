@@ -38,52 +38,40 @@ const Map = (props) => {
   );
   const [newCoordinates, setNewCoordinates] = useState(false);
 
-  const memoizedMapDefaultView = useCallback((mapAPI)=>{
-    const mapDefaultView = async (mapAPI) => {
-      setGoogleMap(mapAPI);
-      setmapLoaded(true);
-      // setCurrentCityCenter(originTable[origin].city_name)
-      // we get the map centered on the current origin by default
-      const center = await getDestinationGeocode(originTable[origin].city_name);
-  
-      const currentMapInstance = new mapAPI.Map(document.getElementById("map"), {
-        zoom: defaultZoom,
-        scrollwheel: false,
-        center,
-        styles: mapStyles,
-      });
-      // add the marker to the center
-      const marker = new mapAPI.Marker({
-        map: currentMapInstance,
-        position: center,
-        styles: mapStyles,
-      });
-      // keep instance of Map available to the component life cycle
-      setMapInstance(currentMapInstance);
-      setMarkerInstance(marker);
-    };
-    mapDefaultView(mapAPI);
-  },[origin, originTable, defaultZoom]
+  const memoizedMapDefaultView = useCallback(
+    (mapAPI) => {
+      const mapDefaultView = async (mapAPI) => {
+        setGoogleMap(mapAPI);
+        // setCurrentCityCenter(originTable[origin].city_name)
+        // we get the map centered on the current origin by default
+        const center = await getDestinationGeocode(
+          originTable[origin].city_name
+        );
 
-  )
-
-
-  const updateMapCenter = async (newCenter) => {
-    const center = await getDestinationGeocode(
-      originTable[newCenter].city_name
-    );
-    mapInstance.setCenter(center);
-    // reset current marker
-    markerInstance.setMap(null);
-    // create a new one with the new center
-    const newMarker = new googleMap.Marker({
-      map: mapInstance,
-      position: center,
-      styles: mapStyles,
-    });
-    // update the marker instance
-    setMarkerInstance(newMarker);
-  };
+        const currentMapInstance = new mapAPI.Map(
+          document.getElementById("map"),
+          {
+            zoom: defaultZoom,
+            scrollwheel: false,
+            center,
+            styles: mapStyles,
+          }
+        );
+        // add the marker to the center
+        const marker = new mapAPI.Marker({
+          map: currentMapInstance,
+          position: center,
+          styles: mapStyles,
+        });
+        // keep instance of Map available to the component life cycle
+        setMapInstance(currentMapInstance);
+        setMarkerInstance(marker);
+        setmapLoaded(true);
+      };
+      mapDefaultView(mapAPI);
+    },
+    [origin, originTable, defaultZoom]
+  );
 
   const memoizedRemoveRoute = React.useCallback(() => {
     /**
@@ -99,8 +87,7 @@ const Map = (props) => {
       path.clear();
     };
     removeRoute();
-  },[polyLineInstance]
-  );
+  }, [polyLineInstance]);
 
   const memoizedBuildMarkers = useCallback(
     (destinations) => {
@@ -164,10 +151,13 @@ const Map = (props) => {
               styles: mapStyles,
             });
             // we add to the filtered data to be rendered
-            // on the side list, only if 
+            // on the side list, only if
             // #1 it was not in the list yet (avoiding duplication --- Amadeus issue)
             // #2 Not listed in non valid destination (no coordinates)
-            if (!destinationList.includes(destination) && !nonValidDestinations.includes(destination)) {
+            if (
+              !destinationList.includes(destination) &&
+              !nonValidDestinations.includes(destination)
+            ) {
               filteredFlights.push(flight);
             }
             // maintain current list of destinations (local loop)
@@ -210,14 +200,13 @@ const Map = (props) => {
    */
   useEffect(
     () => {
-      if(!mapLoaded){
-        console.log("called")
+      if (!mapLoaded) {
         const getMapAPI = async () => {
-          memoizedMapDefaultView(await loadMap())
+          memoizedMapDefaultView(await loadMap());
           // will get the MAP js API loaded
           // and pass it to default view
         };
-        getMapAPI();  
+        getMapAPI();
       }
     },
     [mapLoaded, memoizedMapDefaultView] // Nothing in the array means the use effect will run only once
@@ -320,13 +309,36 @@ const Map = (props) => {
    * change in the destination will trigger the effect
    */
   useEffect(() => {
-    if(!destination){
+    if (!destination) {
       memoizedRemoveRoute();
-    }
-    else if (mapLoaded && destination) {
+    } else if (mapLoaded && destination) {
       memoizedShowRouteOnMap(destination);
     }
   }, [destination, memoizedShowRouteOnMap, memoizedRemoveRoute, mapLoaded]);
+
+  const memoizedUpdateMapCenter = useCallback(
+    (newCenter) => {
+      const updateMapCenter = async (newCenter) => {
+        const center = await getDestinationGeocode(
+          originTable[newCenter].city_name
+        );
+        mapInstance.setCenter(center);
+        // reset current marker
+        markerInstance.setMap(null);
+        // create a new one with the new center
+        const newMarker = new googleMap.Marker({
+          map: mapInstance,
+          position: center,
+          styles: mapStyles,
+        });
+        // update the marker instance
+        setMarkerInstance(newMarker);
+      };
+
+      updateMapCenter(newCenter);
+    },
+    [googleMap, mapInstance, markerInstance, originTable]
+  );
 
   /**
    * Use effect to update the map when origin is changed
@@ -334,9 +346,9 @@ const Map = (props) => {
    */
   useEffect(() => {
     if (mapLoaded) {
-      updateMapCenter(origin);
+      memoizedUpdateMapCenter(origin);
     }
-  }, [origin]);
+  }, [origin, mapLoaded, memoizedUpdateMapCenter]);
 
   /**
    * This effect will clear current route (if any)
