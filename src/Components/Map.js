@@ -29,6 +29,7 @@ const Map = (props) => {
   const [mapInstance, setMapInstance] = useState(null);
   const [markerInstance, setMarkerInstance] = useState(null);
   const [polyLineInstance, setPolyLineInstance] = useState(null);
+  const [ currentOrigin , setCurrentOrigin] = useState(null);
   const [coordinates, setCoordinates] = useState(
     getLocalState("coordinates") || {}
   );
@@ -65,6 +66,7 @@ const Map = (props) => {
         // keep instance of Map available to the component life cycle
         setMarkerInstance(marker);
         setMapInstance(currentMapInstance);
+        setCurrentOrigin(origin);
       };
       mapDefaultView(mapAPI);
     },
@@ -331,6 +333,7 @@ const Map = (props) => {
         });
         // update the marker instance
         setMarkerInstance(newMarker);
+        setCurrentOrigin(newCenter)
       };
 
       updateMapCenter(newCenter);
@@ -343,10 +346,10 @@ const Map = (props) => {
    * to recenter the map on the new origin
    */
   useEffect(() => {
-    if (mapInstance) {
+    if (mapInstance && (origin !== currentOrigin) ) {
       memoizedUpdateMapCenter(origin);
     }
-  }, [origin, mapInstance, memoizedUpdateMapCenter]);
+  }, [origin, currentOrigin, mapInstance, memoizedUpdateMapCenter]);
 
   /**
    * This effect will clear current route (if any)
