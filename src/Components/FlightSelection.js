@@ -100,13 +100,13 @@ export default function FlightSelection(props) {
         <div className="result-list-container">
           {errorMessage && <div className="flight-item">{errorMessage}</div>}
           {filteredDestinations ? (
-            filteredDestinations.data.map((flight) => (
+            filteredDestinations.map((flight) => (
               <div
                 key={flight.origin + flight.destination}
                 className="flight-item"
                 onMouseEnter={() => {
                   setDestination(
-                    filteredDestinations.dictionaries.locations[flight.destination]
+                    destinations.dictionaries.locations[flight.destination]
                       .detailedName
                   );
                 }}
@@ -117,7 +117,7 @@ export default function FlightSelection(props) {
                 <div>
                   <h4 className="destination-name">
                     {
-                      filteredDestinations.dictionaries.locations[flight.destination]
+                      destinations.dictionaries.locations[flight.destination]
                         .detailedName
                     }
                   </h4>
@@ -135,7 +135,7 @@ export default function FlightSelection(props) {
                   <div className="large-display">
                     {flight.price.total}{" "}
                     <span className="small-display">
-                      {filteredDestinations.meta.currency}
+                      {destinations.meta.currency}
                     </span>
                   </div>
                 </div>

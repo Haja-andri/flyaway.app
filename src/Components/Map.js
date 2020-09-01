@@ -104,16 +104,18 @@ const Map = (props) => {
         let filteredFlights = [];
         let destinationList = [];
         let i = 0;
+        let flights;
         let newCoordinates = false;
         let newNonValidDestinations = [];
         // Amadeus can send thousands of destinations
         // to prevent exceeding google map limit, we splice the destination array 
         // to maximum 50 destinations
         if(dataLength > 5){
-          destinations.data = destinations.data.slice(0,6);
+          flights = destinations.data.slice(0,6);
           dataLength = 5;
         }
-        destinations.data.forEach(async (flight, index) => {
+        flights.forEach(async (flight, index) => {
+          console.log(index)
           const destination =
             destinations.dictionaries.locations[flight.destination]
               .detailedName;
@@ -126,7 +128,6 @@ const Map = (props) => {
             newCoordinates = true;
             // we make call to API to get the coordinate
             const markerCoordinate = await getDestinationGeocode(destination);
-            console.log(index)
             if (markerCoordinate) {
               // add the markers on the map
               new googleMap.Marker({
@@ -179,7 +180,7 @@ const Map = (props) => {
             //destinations.data = filteredFlights;
             //then push the filtered data to the parent component
             // to render the side list synched with the markers
-            setFilteredDestinations(destinations);
+            setFilteredDestinations(filteredFlights);
             if (newCoordinates) {
               setNewCoordinates(true);
             }
