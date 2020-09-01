@@ -26,7 +26,6 @@ const Map = (props) => {
   // google map
   const [defaultZoom] = useState(4);
   const [googleMap, setGoogleMap] = useState(null);
-  const [mapLoaded, setmapLoaded] = useState(false);
   const [mapInstance, setMapInstance] = useState(null);
   const [markerInstance, setMarkerInstance] = useState(null);
   const [polyLineInstance, setPolyLineInstance] = useState(null);
@@ -64,9 +63,8 @@ const Map = (props) => {
           styles: mapStyles,
         });
         // keep instance of Map available to the component life cycle
-        setMapInstance(currentMapInstance);
         setMarkerInstance(marker);
-        setmapLoaded(true);
+        setMapInstance(currentMapInstance);
       };
       mapDefaultView(mapAPI);
     },
@@ -200,7 +198,7 @@ const Map = (props) => {
    */
   useEffect(
     () => {
-      if (!mapLoaded) {
+      if (!mapInstance) {
         const getMapAPI = async () => {
           memoizedMapDefaultView(await loadMap());
           // will get the MAP js API loaded
@@ -209,7 +207,7 @@ const Map = (props) => {
         getMapAPI();
       }
     },
-    [mapLoaded, memoizedMapDefaultView] // Nothing in the array means the use effect will run only once
+    [mapInstance, memoizedMapDefaultView] // Nothing in the array means the use effect will run only once
   );
 
   /**
@@ -311,10 +309,10 @@ const Map = (props) => {
   useEffect(() => {
     if (!destination) {
       memoizedRemoveRoute();
-    } else if (mapLoaded && destination) {
+    } else if (mapInstance && destination) {
       memoizedShowRouteOnMap(destination);
     }
-  }, [destination, memoizedShowRouteOnMap, memoizedRemoveRoute, mapLoaded]);
+  }, [destination, memoizedShowRouteOnMap, memoizedRemoveRoute, mapInstance]);
 
   const memoizedUpdateMapCenter = useCallback(
     (newCenter) => {
@@ -345,10 +343,10 @@ const Map = (props) => {
    * to recenter the map on the new origin
    */
   useEffect(() => {
-    if (mapLoaded) {
+    if (mapInstance) {
       memoizedUpdateMapCenter(origin);
     }
-  }, [origin, mapLoaded, memoizedUpdateMapCenter]);
+  }, [origin, mapInstance, memoizedUpdateMapCenter]);
 
   /**
    * This effect will clear current route (if any)
