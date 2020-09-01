@@ -111,8 +111,7 @@ const Map = (props) => {
           destinations.data = destinations.data.slice(0,51);
           dataLength = 50;
         }
-        destinations.data.forEach(async (flight, index) => {
-          console.log(index)
+        destinations.data.forEach(async (flight) => {
           const destination =
             destinations.dictionaries.locations[flight.destination]
               .detailedName;
