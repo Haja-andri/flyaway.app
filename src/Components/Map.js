@@ -28,7 +28,6 @@ const Map = (props) => {
   const [googleMap, setGoogleMap] = useState(null);
   const [mapInstance, setMapInstance] = useState(null);
   const [polyLineInstance, setPolyLineInstance] = useState(null);
-  const [currentOrigin , setCurrentOrigin] = useState(null);
   const [destinationsLength , setDestinationsLength] = useState(0);
   const [markersList, setMarkersList ] =  useState([]);
   const [coordinates, setCoordinates] = useState(
@@ -68,7 +67,6 @@ const Map = (props) => {
         // so it can be removed later
         setMarkersList(markersList => [...markersList, marker])
         setMapInstance(currentMapInstance);
-        setCurrentOrigin(origin);
       };
       mapDefaultView(mapAPI);
     },
@@ -91,6 +89,33 @@ const Map = (props) => {
     removeRoute();
   }, [polyLineInstance]);
 
+
+  const memoizedUpdateMapCenter = useCallback(
+    (newCenter) => {
+      const updateMapCenter = async (newCenter) => {
+        const center = await getDestinationGeocode(
+          originTable[newCenter].city_name
+        );
+        mapInstance.setCenter(center);
+        // reset current marker
+        // if (currentCenter){
+        //   currentCenter.setMap(null);
+        // }
+        // create a new one with the new center
+        const newMarker = new googleMap.Marker({
+          map: mapInstance,
+          position: center,
+          styles: mapStyles,
+        });
+        setMarkersList(markersList => [...markersList, newMarker])
+        // update the marker instance
+      };
+
+      updateMapCenter(newCenter);
+    },
+    [googleMap, mapInstance, originTable]
+  );
+
   const memoizedBuildMarkers = useCallback(
     (destinations, center) => {
       const buildMarkers = () => {
@@ -108,9 +133,6 @@ const Map = (props) => {
         let newCoordinates = false;
         let newNonValidDestinations = [];
         if(markersList.length > 0) {
-          markersList.forEach((marker)=>{
-            marker.setMap(null);
-          });
           markersList.forEach((marker)=>{
             marker.setMap(null);
           });
@@ -218,6 +240,7 @@ const Map = (props) => {
       mapInstance,
       nonValidDestinations,
       setFilteredDestinations,
+      memoizedUpdateMapCenter
     ]
   );
 
@@ -343,43 +366,6 @@ const Map = (props) => {
       memoizedShowRouteOnMap(destination);
     }
   }, [destination, memoizedShowRouteOnMap, memoizedRemoveRoute, mapInstance]);
-
-  const memoizedUpdateMapCenter = useCallback(
-    (newCenter) => {
-      const updateMapCenter = async (newCenter) => {
-        const center = await getDestinationGeocode(
-          originTable[newCenter].city_name
-        );
-        mapInstance.setCenter(center);
-        // reset current marker
-        // if (currentCenter){
-        //   currentCenter.setMap(null);
-        // }
-        // create a new one with the new center
-        const newMarker = new googleMap.Marker({
-          map: mapInstance,
-          position: center,
-          styles: mapStyles,
-        });
-        setMarkersList(markersList => [...markersList, newMarker])
-        // update the marker instance
-        setCurrentOrigin(newCenter)
-      };
-
-      updateMapCenter(newCenter);
-    },
-    [googleMap, mapInstance, originTable]
-  );
-
-  /**
-   * Use effect to update the map when origin is changed
-   * to recenter the map on the new origin
-   */
-  // useEffect(() => {
-  //   if (mapInstance && (origin !== currentOrigin) ) {
-  //     memoizedUpdateMapCenter(origin);
-  //   }
-  // }, [origin, currentOrigin, mapInstance, memoizedUpdateMapCenter]);
 
   /**
    * This effect will clear current route (if any)
