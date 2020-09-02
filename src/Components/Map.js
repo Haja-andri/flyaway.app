@@ -92,9 +92,8 @@ const Map = (props) => {
   }, [polyLineInstance]);
 
   const memoizedBuildMarkers = useCallback(
-    (destinations) => {
+    (destinations, center) => {
       const buildMarkers = () => {
-        console.log("calling buildMarkers");
         // if we have an empty object in the state
         // we run the API request to
         // 1. get the coordinates
@@ -117,6 +116,8 @@ const Map = (props) => {
           });
           setMarkersList([])
         }
+        // set the new center
+        memoizedUpdateMapCenter(center)
         // Amadeus can send thousands of destinations
         // to prevent exceeding google map limit, we splice the destination array 
         // to maximum 50 destinations
@@ -244,11 +245,10 @@ const Map = (props) => {
    */
   useEffect(() => {
     if (destinations && destinationsLength !== destinations.data.length) {
-      console.dir(destinations.data)
       setDestinationsLength(destinations.data.length);
-      memoizedBuildMarkers(destinations);
+      memoizedBuildMarkers(destinations, origin);
     }
-  }, [destinations, memoizedBuildMarkers, destinationsLength]);
+  }, [destinations, origin, memoizedBuildMarkers, destinationsLength]);
 
   // Effect that update local storage with new data
   // (coordinates)
@@ -375,11 +375,11 @@ const Map = (props) => {
    * Use effect to update the map when origin is changed
    * to recenter the map on the new origin
    */
-  useEffect(() => {
-    if (mapInstance && (origin !== currentOrigin) ) {
-      memoizedUpdateMapCenter(origin);
-    }
-  }, [origin, currentOrigin, mapInstance, memoizedUpdateMapCenter]);
+  // useEffect(() => {
+  //   if (mapInstance && (origin !== currentOrigin) ) {
+  //     memoizedUpdateMapCenter(origin);
+  //   }
+  // }, [origin, currentOrigin, mapInstance, memoizedUpdateMapCenter]);
 
   /**
    * This effect will clear current route (if any)
