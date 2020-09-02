@@ -43,6 +43,7 @@ export const fetchAirportList =  (query) => {
 }
 
 export const fetchDestinationGeocode =  (address) => {
+  //console.log("fetching " + address)
   const API_KEY = process.env.REACT_APP_GOOGLE_API_KEY;
   return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${API_KEY}`)
   .then(response => {
