@@ -132,6 +132,8 @@ const Map = (props) => {
         let flights;
         let newCoordinates = false;
         let newNonValidDestinations = [];
+        // clear the current markers on the map
+        // before loading the new ones
         if(markersList.length > 0) {
           markersList.forEach((marker)=>{
             marker.setMap(null);
@@ -143,9 +145,10 @@ const Map = (props) => {
         // Amadeus can send thousands of destinations
         // to prevent exceeding google map limit, we splice the destination array 
         // to maximum 50 destinations
-        if(dataLength > 5){
-          flights = destinations.data.slice(0,6);
-          dataLength = 5;
+        let maxDestinations = parseInt(process.env.REACT_APP_MAX_DESTINATIONS, 10);
+        if(dataLength > maxDestinations){
+          flights = destinations.data.slice(0,++maxDestinations);
+          dataLength = maxDestinations;
         }
         flights.forEach(async (flight, index) => {
           const destination =
