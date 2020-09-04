@@ -7,7 +7,7 @@ export default function LandingHeader(props) {
     return(
         <MainContainer>
             <MainTittle>
-                <h1>Get travel inspiration </h1><h3>Tell us where you are. <br/>We'll you where you can go next</h3>
+                <h1>Get travel inspirations </h1><h3>Tell us where you are. <br/>We'll tell you where to go next.</h3>
             </MainTittle>
             <CardContainer>
                 <DestinationCard>
